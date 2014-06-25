@@ -1,0 +1,482 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C9D55F5195A5FAB00588507 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D55F4195A5FAB00588507 /* Cocoa.framework */; };
+		2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D55FD195A5FAB00588507 /* InfoPlist.strings */; };
+		2C9D5601195A5FAB00588507 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D5600195A5FAB00588507 /* main.m */; };
+		2C9D5605195A5FAB00588507 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D5603195A5FAB00588507 /* Credits.rtf */; };
+		2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D5607195A5FAB00588507 /* GDAppDelegate.m */; };
+		2C9D560B195A5FAB00588507 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D5609195A5FAB00588507 /* MainMenu.xib */; };
+		2C9D560D195A5FAB00588507 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D560C195A5FAB00588507 /* Images.xcassets */; };
+		2C9D5614195A5FAB00588507 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D5613195A5FAB00588507 /* XCTest.framework */; };
+		2C9D5615195A5FAB00588507 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D55F4195A5FAB00588507 /* Cocoa.framework */; };
+		2C9D561D195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D561B195A5FAB00588507 /* InfoPlist.strings */; };
+		2C9D561F195A5FAB00588507 /* GriddyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D561E195A5FAB00588507 /* GriddyTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2C9D5616195A5FAB00588507 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C9D55E9195A5FAB00588507 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C9D55F0195A5FAB00588507;
+			remoteInfo = Griddy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2C9D55F1195A5FAB00588507 /* Griddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Griddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C9D55F4195A5FAB00588507 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		2C9D55F7195A5FAB00588507 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		2C9D55F8195A5FAB00588507 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		2C9D55F9195A5FAB00588507 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2C9D55FC195A5FAB00588507 /* Griddy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Griddy-Info.plist"; sourceTree = "<group>"; };
+		2C9D55FE195A5FAB00588507 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2C9D5600195A5FAB00588507 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2C9D5602195A5FAB00588507 /* Griddy-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Griddy-Prefix.pch"; sourceTree = "<group>"; };
+		2C9D5604195A5FAB00588507 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2C9D5606195A5FAB00588507 /* GDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GDAppDelegate.h; sourceTree = "<group>"; };
+		2C9D5607195A5FAB00588507 /* GDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GDAppDelegate.m; sourceTree = "<group>"; };
+		2C9D560A195A5FAB00588507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2C9D560C195A5FAB00588507 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2C9D5612195A5FAB00588507 /* GriddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GriddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C9D5613195A5FAB00588507 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		2C9D561A195A5FAB00588507 /* GriddyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GriddyTests-Info.plist"; sourceTree = "<group>"; };
+		2C9D561C195A5FAB00588507 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2C9D561E195A5FAB00588507 /* GriddyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GriddyTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2C9D55EE195A5FAB00588507 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C9D55F5195A5FAB00588507 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C9D560F195A5FAB00588507 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C9D5615195A5FAB00588507 /* Cocoa.framework in Frameworks */,
+				2C9D5614195A5FAB00588507 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C9D55E8195A5FAB00588507 = {
+			isa = PBXGroup;
+			children = (
+				2C9D55FA195A5FAB00588507 /* Griddy */,
+				2C9D5618195A5FAB00588507 /* GriddyTests */,
+				2C9D55F3195A5FAB00588507 /* Frameworks */,
+				2C9D55F2195A5FAB00588507 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2C9D55F2195A5FAB00588507 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D55F1195A5FAB00588507 /* Griddy.app */,
+				2C9D5612195A5FAB00588507 /* GriddyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2C9D55F3195A5FAB00588507 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D55F4195A5FAB00588507 /* Cocoa.framework */,
+				2C9D5613195A5FAB00588507 /* XCTest.framework */,
+				2C9D55F6195A5FAB00588507 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C9D55F6195A5FAB00588507 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D55F7195A5FAB00588507 /* AppKit.framework */,
+				2C9D55F8195A5FAB00588507 /* CoreData.framework */,
+				2C9D55F9195A5FAB00588507 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		2C9D55FA195A5FAB00588507 /* Griddy */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D5606195A5FAB00588507 /* GDAppDelegate.h */,
+				2C9D5607195A5FAB00588507 /* GDAppDelegate.m */,
+				2C9D5609195A5FAB00588507 /* MainMenu.xib */,
+				2C9D560C195A5FAB00588507 /* Images.xcassets */,
+				2C9D55FB195A5FAB00588507 /* Supporting Files */,
+			);
+			path = Griddy;
+			sourceTree = "<group>";
+		};
+		2C9D55FB195A5FAB00588507 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D55FC195A5FAB00588507 /* Griddy-Info.plist */,
+				2C9D55FD195A5FAB00588507 /* InfoPlist.strings */,
+				2C9D5600195A5FAB00588507 /* main.m */,
+				2C9D5602195A5FAB00588507 /* Griddy-Prefix.pch */,
+				2C9D5603195A5FAB00588507 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2C9D5618195A5FAB00588507 /* GriddyTests */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D561E195A5FAB00588507 /* GriddyTests.m */,
+				2C9D5619195A5FAB00588507 /* Supporting Files */,
+			);
+			path = GriddyTests;
+			sourceTree = "<group>";
+		};
+		2C9D5619195A5FAB00588507 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D561A195A5FAB00588507 /* GriddyTests-Info.plist */,
+				2C9D561B195A5FAB00588507 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2C9D55F0195A5FAB00588507 /* Griddy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C9D5622195A5FAB00588507 /* Build configuration list for PBXNativeTarget "Griddy" */;
+			buildPhases = (
+				2C9D55ED195A5FAB00588507 /* Sources */,
+				2C9D55EE195A5FAB00588507 /* Frameworks */,
+				2C9D55EF195A5FAB00588507 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Griddy;
+			productName = Griddy;
+			productReference = 2C9D55F1195A5FAB00588507 /* Griddy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2C9D5611195A5FAB00588507 /* GriddyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C9D5625195A5FAB00588507 /* Build configuration list for PBXNativeTarget "GriddyTests" */;
+			buildPhases = (
+				2C9D560E195A5FAB00588507 /* Sources */,
+				2C9D560F195A5FAB00588507 /* Frameworks */,
+				2C9D5610195A5FAB00588507 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C9D5617195A5FAB00588507 /* PBXTargetDependency */,
+			);
+			name = GriddyTests;
+			productName = GriddyTests;
+			productReference = 2C9D5612195A5FAB00588507 /* GriddyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2C9D55E9195A5FAB00588507 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = GD;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Sunnay;
+				TargetAttributes = {
+					2C9D5611195A5FAB00588507 = {
+						TestTargetID = 2C9D55F0195A5FAB00588507;
+					};
+				};
+			};
+			buildConfigurationList = 2C9D55EC195A5FAB00588507 /* Build configuration list for PBXProject "Griddy" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2C9D55E8195A5FAB00588507;
+			productRefGroup = 2C9D55F2195A5FAB00588507 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2C9D55F0195A5FAB00588507 /* Griddy */,
+				2C9D5611195A5FAB00588507 /* GriddyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C9D55EF195A5FAB00588507 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */,
+				2C9D560D195A5FAB00588507 /* Images.xcassets in Resources */,
+				2C9D5605195A5FAB00588507 /* Credits.rtf in Resources */,
+				2C9D560B195A5FAB00588507 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C9D5610195A5FAB00588507 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C9D561D195A5FAB00588507 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2C9D55ED195A5FAB00588507 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C9D5601195A5FAB00588507 /* main.m in Sources */,
+				2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C9D560E195A5FAB00588507 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C9D561F195A5FAB00588507 /* GriddyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2C9D5617195A5FAB00588507 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C9D55F0195A5FAB00588507 /* Griddy */;
+			targetProxy = 2C9D5616195A5FAB00588507 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2C9D55FD195A5FAB00588507 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C9D55FE195A5FAB00588507 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2C9D5603195A5FAB00588507 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C9D5604195A5FAB00588507 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		2C9D5609195A5FAB00588507 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C9D560A195A5FAB00588507 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		2C9D561B195A5FAB00588507 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C9D561C195A5FAB00588507 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2C9D5620195A5FAB00588507 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2C9D5621195A5FAB00588507 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2C9D5623195A5FAB00588507 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Griddy/Griddy-Prefix.pch";
+				INFOPLIST_FILE = "Griddy/Griddy-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2C9D5624195A5FAB00588507 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Griddy/Griddy-Prefix.pch";
+				INFOPLIST_FILE = "Griddy/Griddy-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		2C9D5626195A5FAB00588507 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Griddy.app/Contents/MacOS/Griddy";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Griddy/Griddy-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GriddyTests/GriddyTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		2C9D5627195A5FAB00588507 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Griddy.app/Contents/MacOS/Griddy";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Griddy/Griddy-Prefix.pch";
+				INFOPLIST_FILE = "GriddyTests/GriddyTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C9D55EC195A5FAB00588507 /* Build configuration list for PBXProject "Griddy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C9D5620195A5FAB00588507 /* Debug */,
+				2C9D5621195A5FAB00588507 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C9D5622195A5FAB00588507 /* Build configuration list for PBXNativeTarget "Griddy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C9D5623195A5FAB00588507 /* Debug */,
+				2C9D5624195A5FAB00588507 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2C9D5625195A5FAB00588507 /* Build configuration list for PBXNativeTarget "GriddyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C9D5626195A5FAB00588507 /* Debug */,
+				2C9D5627195A5FAB00588507 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2C9D55E9195A5FAB00588507 /* Project object */;
+}
