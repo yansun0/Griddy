@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GDAppDelegate.h"
 
-int main(int argc, const char * argv[])
-{
-    return NSApplicationMain(argc, argv);
+int main(int argc, const char * argv[]) {
+    GDAppDelegate *delegate = [[GDAppDelegate alloc] init];
+    [[NSApplication sharedApplication] setDelegate: delegate];
+    [NSApp setActivationPolicy: NSApplicationActivationPolicyAccessory];
+    [NSApp run];
 }

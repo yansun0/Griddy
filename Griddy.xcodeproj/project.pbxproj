@@ -7,17 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C1BC28619689B2100125DAB /* GDScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BC28519689B2100125DAB /* GDScreen.m */; };
+		2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */; };
+		2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C49CDF719A8780D003E0FB6 /* GDPreferences.m */; };
+		2C49CDFB19A8790D003E0FB6 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CDFA19A8790D003E0FB6 /* Preferences.xib */; };
+		2C4B5E8C1966553D001398D9 /* GDMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8B1966553D001398D9 /* GDMainWindowController.m */; };
+		2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8E19665662001398D9 /* GDGrid.m */; };
+		2C68D96619A419BC0095C7D8 /* GDStatusPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */; };
+		2C68D97019A471850095C7D8 /* GDStatusPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */; };
 		2C9D55F5195A5FAB00588507 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D55F4195A5FAB00588507 /* Cocoa.framework */; };
 		2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D55FD195A5FAB00588507 /* InfoPlist.strings */; };
 		2C9D5601195A5FAB00588507 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D5600195A5FAB00588507 /* main.m */; };
 		2C9D5605195A5FAB00588507 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D5603195A5FAB00588507 /* Credits.rtf */; };
 		2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D5607195A5FAB00588507 /* GDAppDelegate.m */; };
-		2C9D560B195A5FAB00588507 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D5609195A5FAB00588507 /* MainMenu.xib */; };
 		2C9D560D195A5FAB00588507 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D560C195A5FAB00588507 /* Images.xcassets */; };
 		2C9D5614195A5FAB00588507 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D5613195A5FAB00588507 /* XCTest.framework */; };
 		2C9D5615195A5FAB00588507 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D55F4195A5FAB00588507 /* Cocoa.framework */; };
 		2C9D561D195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D561B195A5FAB00588507 /* InfoPlist.strings */; };
 		2C9D561F195A5FAB00588507 /* GriddyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D561E195A5FAB00588507 /* GriddyTests.m */; };
+		2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9765119A5B2EB000AA486 /* GDAssets.m */; };
+		2CC8E0E219761037007C8165 /* GDCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC8E0E119761037007C8165 /* GDCellView.m */; };
+		2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4C55519A3046700A0528D /* GDStatusItem.m */; };
+		2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08E6199F138C00433AF3 /* MASShortcut.m */; };
+		2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */; };
+		2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */; };
+		2CDC90B1196BA30A002F1433 /* GDMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC90B0196BA30A002F1433 /* GDMainWindow.m */; };
+		2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +46,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C1BC28419689B2100125DAB /* GDScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDScreen.h; path = Models/GDScreen.h; sourceTree = "<group>"; };
+		2C1BC28519689B2100125DAB /* GDScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDScreen.m; path = Models/GDScreen.m; sourceTree = "<group>"; };
+		2C3E4A0D198DA35F00489600 /* GDOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDOverlayWindow.h; path = OverlayWindow/GDOverlayWindow.h; sourceTree = "<group>"; };
+		2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDOverlayWindow.m; path = OverlayWindow/GDOverlayWindow.m; sourceTree = "<group>"; };
+		2C49CDF619A8780D003E0FB6 /* GDPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDPreferences.h; path = StatusItem/GDPreferences.h; sourceTree = "<group>"; };
+		2C49CDF719A8780D003E0FB6 /* GDPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDPreferences.m; path = StatusItem/GDPreferences.m; sourceTree = "<group>"; };
+		2C49CDFA19A8790D003E0FB6 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		2C4B5E8A1966553D001398D9 /* GDMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowController.h; path = MainWindow/GDMainWindowController.h; sourceTree = "<group>"; };
+		2C4B5E8B1966553D001398D9 /* GDMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowController.m; path = MainWindow/GDMainWindowController.m; sourceTree = "<group>"; };
+		2C4B5E8D19665662001398D9 /* GDGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDGrid.h; path = Models/GDGrid.h; sourceTree = "<group>"; };
+		2C4B5E8E19665662001398D9 /* GDGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDGrid.m; path = Models/GDGrid.m; sourceTree = "<group>"; };
+		2C68D96419A419BC0095C7D8 /* GDStatusPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverView.h; path = StatusItem/GDStatusPopoverView.h; sourceTree = "<group>"; };
+		2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverView.m; path = StatusItem/GDStatusPopoverView.m; sourceTree = "<group>"; };
+		2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDStatusPopover.xib; sourceTree = "<group>"; };
 		2C9D55F1195A5FAB00588507 /* Griddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Griddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9D55F4195A5FAB00588507 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2C9D55F7195A5FAB00588507 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -43,13 +72,28 @@
 		2C9D5604195A5FAB00588507 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2C9D5606195A5FAB00588507 /* GDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GDAppDelegate.h; sourceTree = "<group>"; };
 		2C9D5607195A5FAB00588507 /* GDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GDAppDelegate.m; sourceTree = "<group>"; };
-		2C9D560A195A5FAB00588507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2C9D560C195A5FAB00588507 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2C9D5612195A5FAB00588507 /* GriddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GriddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9D5613195A5FAB00588507 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2C9D561A195A5FAB00588507 /* GriddyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GriddyTests-Info.plist"; sourceTree = "<group>"; };
 		2C9D561C195A5FAB00588507 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2C9D561E195A5FAB00588507 /* GriddyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GriddyTests.m; sourceTree = "<group>"; };
+		2CA9765019A5B2EB000AA486 /* GDAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDAssets.h; path = assets/GDAssets.h; sourceTree = "<group>"; };
+		2CA9765119A5B2EB000AA486 /* GDAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDAssets.m; path = assets/GDAssets.m; sourceTree = "<group>"; };
+		2CC8E0E019761037007C8165 /* GDCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDCellView.h; path = MainWindow/GDCellView.h; sourceTree = "<group>"; };
+		2CC8E0E119761037007C8165 /* GDCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDCellView.m; path = MainWindow/GDCellView.m; sourceTree = "<group>"; };
+		2CD4C55419A3046700A0528D /* GDStatusItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusItem.h; path = StatusItem/GDStatusItem.h; sourceTree = "<group>"; };
+		2CD4C55519A3046700A0528D /* GDStatusItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusItem.m; path = StatusItem/GDStatusItem.m; sourceTree = "<group>"; };
+		2CDA08E5199F138C00433AF3 /* MASShortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASShortcut.h; path = MASShortcut/MASShortcut.h; sourceTree = "<group>"; };
+		2CDA08E6199F138C00433AF3 /* MASShortcut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASShortcut.m; path = MASShortcut/MASShortcut.m; sourceTree = "<group>"; };
+		2CDA08E9199F138C00433AF3 /* MASShortcut+UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MASShortcut+UserDefaults.h"; path = "MASShortcut/MASShortcut+UserDefaults.h"; sourceTree = "<group>"; };
+		2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+UserDefaults.m"; path = "MASShortcut/MASShortcut+UserDefaults.m"; sourceTree = "<group>"; };
+		2CDA08F5199F184B00433AF3 /* MASShortcut+Monitoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MASShortcut+Monitoring.h"; path = "MASShortcut/MASShortcut+Monitoring.h"; sourceTree = "<group>"; };
+		2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+Monitoring.m"; path = "MASShortcut/MASShortcut+Monitoring.m"; sourceTree = "<group>"; };
+		2CDC90AF196BA30A002F1433 /* GDMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindow.h; path = MainWindow/GDMainWindow.h; sourceTree = "<group>"; };
+		2CDC90B0196BA30A002F1433 /* GDMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindow.m; path = MainWindow/GDMainWindow.m; sourceTree = "<group>"; };
+		2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowView.h; path = MainWindow/GDMainWindowView.h; sourceTree = "<group>"; };
+		2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowView.m; path = MainWindow/GDMainWindowView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,11 +117,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C1BC28719689B8A00125DAB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2C4B5E8D19665662001398D9 /* GDGrid.h */,
+				2C4B5E8E19665662001398D9 /* GDGrid.m */,
+				2C1BC28419689B2100125DAB /* GDScreen.h */,
+				2C1BC28519689B2100125DAB /* GDScreen.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		2C36298419A07D5600C93AD5 /* Main WIndow */ = {
+			isa = PBXGroup;
+			children = (
+				2CDA08E3199F135700433AF3 /* Overlay Window */,
+				2CDC90B2196BA316002F1433 /* Grid Window */,
+				2CC8E0E019761037007C8165 /* GDCellView.h */,
+				2CC8E0E119761037007C8165 /* GDCellView.m */,
+			);
+			name = "Main WIndow";
+			sourceTree = "<group>";
+		};
+		2C49CDF919A878BE003E0FB6 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				2C49CDF619A8780D003E0FB6 /* GDPreferences.h */,
+				2C49CDF719A8780D003E0FB6 /* GDPreferences.m */,
+				2C49CDFA19A8790D003E0FB6 /* Preferences.xib */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		2C68D96A19A46C4B0095C7D8 /* MASShortcut */ = {
+			isa = PBXGroup;
+			children = (
+				2CDA08E5199F138C00433AF3 /* MASShortcut.h */,
+				2CDA08E6199F138C00433AF3 /* MASShortcut.m */,
+				2CDA08E9199F138C00433AF3 /* MASShortcut+UserDefaults.h */,
+				2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */,
+				2CDA08F5199F184B00433AF3 /* MASShortcut+Monitoring.h */,
+				2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */,
+			);
+			name = MASShortcut;
+			sourceTree = "<group>";
+		};
 		2C9D55E8195A5FAB00588507 = {
 			isa = PBXGroup;
 			children = (
 				2C9D55FA195A5FAB00588507 /* Griddy */,
 				2C9D5618195A5FAB00588507 /* GriddyTests */,
+				2CDA08F4199F139100433AF3 /* Vendor */,
 				2C9D55F3195A5FAB00588507 /* Frameworks */,
 				2C9D55F2195A5FAB00588507 /* Products */,
 			);
@@ -115,9 +205,9 @@
 		2C9D55FA195A5FAB00588507 /* Griddy */ = {
 			isa = PBXGroup;
 			children = (
-				2C9D5606195A5FAB00588507 /* GDAppDelegate.h */,
-				2C9D5607195A5FAB00588507 /* GDAppDelegate.m */,
-				2C9D5609195A5FAB00588507 /* MainMenu.xib */,
+				2CDA08E4199F137300433AF3 /* Controllers */,
+				2CC8E0E319761049007C8165 /* Views */,
+				2C1BC28719689B8A00125DAB /* Models */,
 				2C9D560C195A5FAB00588507 /* Images.xcassets */,
 				2C9D55FB195A5FAB00588507 /* Supporting Files */,
 			);
@@ -152,6 +242,69 @@
 				2C9D561B195A5FAB00588507 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2CC8E0E319761049007C8165 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C36298419A07D5600C93AD5 /* Main WIndow */,
+				2CD4C55719A3047500A0528D /* Status Item */,
+				2C49CDF919A878BE003E0FB6 /* Preferences */,
+				2CA9765019A5B2EB000AA486 /* GDAssets.h */,
+				2CA9765119A5B2EB000AA486 /* GDAssets.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		2CD4C55719A3047500A0528D /* Status Item */ = {
+			isa = PBXGroup;
+			children = (
+				2CD4C55419A3046700A0528D /* GDStatusItem.h */,
+				2CD4C55519A3046700A0528D /* GDStatusItem.m */,
+				2C68D96419A419BC0095C7D8 /* GDStatusPopoverView.h */,
+				2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */,
+				2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */,
+			);
+			name = "Status Item";
+			sourceTree = "<group>";
+		};
+		2CDA08E3199F135700433AF3 /* Overlay Window */ = {
+			isa = PBXGroup;
+			children = (
+				2C3E4A0D198DA35F00489600 /* GDOverlayWindow.h */,
+				2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */,
+			);
+			name = "Overlay Window";
+			sourceTree = "<group>";
+		};
+		2CDA08E4199F137300433AF3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D5606195A5FAB00588507 /* GDAppDelegate.h */,
+				2C9D5607195A5FAB00588507 /* GDAppDelegate.m */,
+				2C4B5E8A1966553D001398D9 /* GDMainWindowController.h */,
+				2C4B5E8B1966553D001398D9 /* GDMainWindowController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		2CDA08F4199F139100433AF3 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				2C68D96A19A46C4B0095C7D8 /* MASShortcut */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		2CDC90B2196BA316002F1433 /* Grid Window */ = {
+			isa = PBXGroup;
+			children = (
+				2CDC90AF196BA30A002F1433 /* GDMainWindow.h */,
+				2CDC90B0196BA30A002F1433 /* GDMainWindow.m */,
+				2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */,
+				2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */,
+			);
+			name = "Grid Window";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,9 +385,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */,
+				2C68D97019A471850095C7D8 /* GDStatusPopover.xib in Resources */,
 				2C9D560D195A5FAB00588507 /* Images.xcassets in Resources */,
 				2C9D5605195A5FAB00588507 /* Credits.rtf in Resources */,
-				2C9D560B195A5FAB00588507 /* MainMenu.xib in Resources */,
+				2C49CDFB19A8790D003E0FB6 /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,8 +407,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */,
+				2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */,
+				2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */,
 				2C9D5601195A5FAB00588507 /* main.m in Sources */,
+				2C1BC28619689B2100125DAB /* GDScreen.m in Sources */,
+				2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */,
+				2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */,
+				2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */,
 				2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */,
+				2C4B5E8C1966553D001398D9 /* GDMainWindowController.m in Sources */,
+				2CC8E0E219761037007C8165 /* GDCellView.m in Sources */,
+				2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */,
+				2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */,
+				2CDC90B1196BA30A002F1433 /* GDMainWindow.m in Sources */,
+				2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */,
+				2C68D96619A419BC0095C7D8 /* GDStatusPopoverView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,14 +459,6 @@
 				2C9D5604195A5FAB00588507 /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		2C9D5609195A5FAB00588507 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2C9D560A195A5FAB00588507 /* Base */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		2C9D561B195A5FAB00588507 /* InfoPlist.strings */ = {
@@ -467,6 +627,7 @@
 				2C9D5624195A5FAB00588507 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C9D5625195A5FAB00588507 /* Build configuration list for PBXNativeTarget "GriddyTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +636,7 @@
 				2C9D5627195A5FAB00588507 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

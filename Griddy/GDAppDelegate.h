@@ -8,8 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+
+
 @interface GDAppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
+//@property (strong, nonatomic) IBOutlet NSMenu *GDStatusMenu;
 
+- (void) showHoverWindowWithFrame: (NSRect) newFrame
+                 BehindMainWindow: (NSWindow *) mainWindow;
+- (void) hideHoverWindow;
+- (void) moveAppWithResultRect: (NSString *) resultRect;
+- (void) closeAllUnfocusedWindowsIncluding: (NSWindow *) curWindow;
+- (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow;
+- (void) openPreferences;
 @end
