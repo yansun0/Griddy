@@ -5,7 +5,7 @@
 //  Created by Yan Sun on 2014-07-13.
 //  Copyright (c) 2014 Sunnay. All rights reserved.
 //
-#import "GDMainWindowController.h"
+#import "GDMainWindow.h"
 #import "GDMainWindowView.h"
 #import "GDScreen.h"
 #import "GDGrid.h"

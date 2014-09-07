@@ -8,7 +8,7 @@
 
 #import "GDAppDelegate.h"
 #import "GDOverlayWindow.h"
-#import "GDMainWindowController.h"
+#import "GDMainWindow.h"
 #import "GDGrid.h"
 #import "GDScreen.h"
 #import "GDStatusItem.h"
@@ -69,6 +69,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - INITIALIZATION
+
 + (void) initialize {
     [GDPreferenceController setUserDefaults];
 }
@@ -97,6 +98,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - NOTIFICATIONS
+
 - (void) notificationSetup {
     // register global notifications
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
@@ -110,7 +112,12 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
            selector: @selector(onStatusItemMenuOpened:)
                name: StatusItemMenuOpened
              object: nil];
-
+    
+    [nc addObserver: self
+           selector: @selector(onGDStatusItemVisibilityChanged:)
+               name: GDStatusItemVisibilityChanged
+             object: nil];
+    
     [nc addObserver: self
            selector: @selector(onGDDockIconVisibilityChanged:)
                name: GDDockIconVisibilityChanged
@@ -121,6 +128,11 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [self hideWindows];
 }
 
+- (void) onGDStatusItemVisibilityChanged: (NSNotification *) note {
+	BOOL newVisibility = [[[note userInfo] objectForKey:@"info"] boolValue];
+    [self changeStatusItemState: newVisibility];
+}
+
 - (void) onGDDockIconVisibilityChanged: (NSNotification *) note {
 	BOOL newVisibility = [[[note userInfo] objectForKey:@"info"] boolValue];
     [self transformApp: newVisibility];
@@ -129,11 +141,11 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - WINDOW FUNCTIONS
+
 - (void) launchWindows {
     _isVisible = YES;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         [[_windowControllers objectAtIndex: i] showWindow: nil];
-        [[_windowControllers objectAtIndex: i] setFrontApp: [_frontApp localizedName]];
     }
 }
 
@@ -194,6 +206,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - DOCK
+
 // started from the dock and now i'm here
 - (BOOL) applicationShouldHandleReopen: (NSApplication *) sender
                     hasVisibleWindows: (BOOL) flag {
@@ -204,6 +217,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - STATUS BAR
+
 - (void) setupStatusItem {
     SEL toggleWindowStateSel = @selector(toggleWindowState);
     _GDStatusItemController = [[GDStatusItemController alloc] initWithAction: toggleWindowStateSel
@@ -224,6 +238,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - CUSTOM KEY
+
 // started from the some keys and now i'm here
 - (void) setupHotkey {
     // Cmd + G to activate
@@ -266,6 +281,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - TRANSFORM APP TYPE
+
 - (void) transformApp: (BOOL) toShow {
     if (toShow == _dockIconVisible) {
         return;
@@ -311,6 +327,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - WINDOW CONTROLLER CALLBACKS
+
 - (void) moveAppWithResultRect: (NSString *)resultRect {
     NSDictionary* errorDict;
     NSAppleEventDescriptor* returnDescriptor = NULL;
@@ -380,6 +397,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - APP
+
 - (void) someAppDeactivated: (NSNotification *)note {
     NSRunningApplication *relinquishedApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
     _frontApp = relinquishedApp;
@@ -388,6 +406,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - SCREENS
+
 - (void) applicationDidChangeScreenParameters:(NSNotification *)aNotification {
     [self updateAvaliableScreens];
 }
@@ -470,6 +489,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 #pragma mark - PREFERENCES
+
 - (void) openPreferences {
     if (_preferenceController == nil) {
         _preferenceController = [[GDPreferenceController alloc] init];

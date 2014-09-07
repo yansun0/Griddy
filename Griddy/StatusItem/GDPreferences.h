@@ -15,7 +15,9 @@
     IBOutlet NSView *appearancesView;
     IBOutlet NSMatrix *mainWindowSizeChoiceMatrix;
     IBOutlet NSTextField *widthInputBox;
+    IBOutlet NSTextField *widthInputBoxSuffix;
     IBOutlet NSTextField *heightInputBox;
+    IBOutlet NSTextField *heightInputBoxSuffix;
 
     // functionality view outlets
     IBOutlet NSView *functionalityView;
@@ -27,9 +29,9 @@
     NSUInteger currentViewTag;
 }
 // appearance tab
-- (IBAction) changeMainWindowSizeChoiceMatrix:(id)sender;
-- (IBAction) changeWidthInputBox:(id)sender;
-- (IBAction) changeHeightInputBox:(id)sender;
+- (IBAction) changeMainWindowSizeChoiceMatrix: (id)sender;
+- (IBAction) changeWidthInputBox: (id)sender;
+- (IBAction) changeHeightInputBox: (id)sender;
 
 // misc tab
 - (IBAction) changeStatusItemCheckBox: (id)sender;

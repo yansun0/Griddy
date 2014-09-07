@@ -10,10 +10,12 @@
                 <outlet property="dockIconCheckBox" destination="cMW-xM-cXe" id="4XV-qf-fS2"/>
                 <outlet property="functionalityView" destination="ZwU-to-T61" id="nTE-ao-uEG"/>
                 <outlet property="heightInputBox" destination="jVn-X4-o3K" id="vEl-hL-pfV"/>
+                <outlet property="heightInputBoxSuffix" destination="9zP-fd-XfE" id="4nW-ic-BZA"/>
                 <outlet property="mainWindowSizeChoiceMatrix" destination="IZf-yf-hBD" id="5Es-35-T74"/>
                 <outlet property="miscView" destination="uSB-O0-q9K" id="6Td-bz-3cy"/>
                 <outlet property="statusItemCheckBox" destination="7do-aX-8UP" id="lEN-88-0Fs"/>
                 <outlet property="widthInputBox" destination="S3s-NX-jIf" id="bzt-zu-Xch"/>
+                <outlet property="widthInputBoxSuffix" destination="1jU-qW-OqS" id="jsW-1k-cxN"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="vZw-Ty-L0w"/>
             </connections>
         </customObject>
@@ -159,6 +161,24 @@
                     <connections>
                         <action selector="changeHeightInputBox:" target="-2" id="GZU-aY-oQJ"/>
                     </connections>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="1jU-qW-OqS">
+                    <rect key="frame" x="154" y="185" width="20" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="?" id="Hdz-Nd-gjU">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9zP-fd-XfE">
+                    <rect key="frame" x="154" y="160" width="20" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="?" id="RE1-Wf-Z5M">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
                 </textField>
             </subviews>
         </customView>

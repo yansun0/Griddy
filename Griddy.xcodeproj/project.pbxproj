@@ -11,7 +11,7 @@
 		2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */; };
 		2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C49CDF719A8780D003E0FB6 /* GDPreferences.m */; };
 		2C49CDFB19A8790D003E0FB6 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CDFA19A8790D003E0FB6 /* Preferences.xib */; };
-		2C4B5E8C1966553D001398D9 /* GDMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8B1966553D001398D9 /* GDMainWindowController.m */; };
+		2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8B1966553D001398D9 /* GDMainWindow.m */; };
 		2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8E19665662001398D9 /* GDGrid.m */; };
 		2C68D96619A419BC0095C7D8 /* GDStatusPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */; };
 		2C68D97019A471850095C7D8 /* GDStatusPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */; };
@@ -31,7 +31,6 @@
 		2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08E6199F138C00433AF3 /* MASShortcut.m */; };
 		2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */; };
 		2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */; };
-		2CDC90B1196BA30A002F1433 /* GDMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC90B0196BA30A002F1433 /* GDMainWindow.m */; };
 		2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */; };
 /* End PBXBuildFile section */
 
@@ -53,8 +52,8 @@
 		2C49CDF619A8780D003E0FB6 /* GDPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDPreferences.h; path = StatusItem/GDPreferences.h; sourceTree = "<group>"; };
 		2C49CDF719A8780D003E0FB6 /* GDPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDPreferences.m; path = StatusItem/GDPreferences.m; sourceTree = "<group>"; };
 		2C49CDFA19A8790D003E0FB6 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
-		2C4B5E8A1966553D001398D9 /* GDMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowController.h; path = MainWindow/GDMainWindowController.h; sourceTree = "<group>"; };
-		2C4B5E8B1966553D001398D9 /* GDMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowController.m; path = MainWindow/GDMainWindowController.m; sourceTree = "<group>"; };
+		2C4B5E8A1966553D001398D9 /* GDMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindow.h; path = MainWindow/GDMainWindow.h; sourceTree = "<group>"; };
+		2C4B5E8B1966553D001398D9 /* GDMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindow.m; path = MainWindow/GDMainWindow.m; sourceTree = "<group>"; };
 		2C4B5E8D19665662001398D9 /* GDGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDGrid.h; path = Models/GDGrid.h; sourceTree = "<group>"; };
 		2C4B5E8E19665662001398D9 /* GDGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDGrid.m; path = Models/GDGrid.m; sourceTree = "<group>"; };
 		2C68D96419A419BC0095C7D8 /* GDStatusPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverView.h; path = StatusItem/GDStatusPopoverView.h; sourceTree = "<group>"; };
@@ -90,8 +89,6 @@
 		2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+UserDefaults.m"; path = "MASShortcut/MASShortcut+UserDefaults.m"; sourceTree = "<group>"; };
 		2CDA08F5199F184B00433AF3 /* MASShortcut+Monitoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MASShortcut+Monitoring.h"; path = "MASShortcut/MASShortcut+Monitoring.h"; sourceTree = "<group>"; };
 		2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+Monitoring.m"; path = "MASShortcut/MASShortcut+Monitoring.m"; sourceTree = "<group>"; };
-		2CDC90AF196BA30A002F1433 /* GDMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindow.h; path = MainWindow/GDMainWindow.h; sourceTree = "<group>"; };
-		2CDC90B0196BA30A002F1433 /* GDMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindow.m; path = MainWindow/GDMainWindow.m; sourceTree = "<group>"; };
 		2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowView.h; path = MainWindow/GDMainWindowView.h; sourceTree = "<group>"; };
 		2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowView.m; path = MainWindow/GDMainWindowView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -282,8 +279,8 @@
 			children = (
 				2C9D5606195A5FAB00588507 /* GDAppDelegate.h */,
 				2C9D5607195A5FAB00588507 /* GDAppDelegate.m */,
-				2C4B5E8A1966553D001398D9 /* GDMainWindowController.h */,
-				2C4B5E8B1966553D001398D9 /* GDMainWindowController.m */,
+				2C4B5E8A1966553D001398D9 /* GDMainWindow.h */,
+				2C4B5E8B1966553D001398D9 /* GDMainWindow.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -299,8 +296,6 @@
 		2CDC90B2196BA316002F1433 /* Grid Window */ = {
 			isa = PBXGroup;
 			children = (
-				2CDC90AF196BA30A002F1433 /* GDMainWindow.h */,
-				2CDC90B0196BA30A002F1433 /* GDMainWindow.m */,
 				2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */,
 				2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */,
 			);
@@ -416,11 +411,10 @@
 				2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */,
 				2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */,
 				2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */,
-				2C4B5E8C1966553D001398D9 /* GDMainWindowController.m in Sources */,
+				2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */,
 				2CC8E0E219761037007C8165 /* GDCellView.m in Sources */,
 				2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */,
 				2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */,
-				2CDC90B1196BA30A002F1433 /* GDMainWindow.m in Sources */,
 				2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */,
 				2C68D96619A419BC0095C7D8 /* GDStatusPopoverView.m in Sources */,
 			);

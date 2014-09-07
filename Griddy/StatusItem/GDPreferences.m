@@ -24,8 +24,8 @@ NSString * const GDMainWindowAbsoluteGridUniversalSizeKey = @"GDMainWindowAbsolu
 NSString * const GDMainWindowRelativeGridSpecifiedSizeKey = @"GDMainWindowRelativeGridSpecifiedSizeKey";
 NSString * const GDMainWindowAbsoluteGridSpecifiedSizeKey = @"GDMainWindowAbsoluteGridSpecifiedSizeKey";
 NSString * const GDShortcutKey = @"GDShortcutKey";
-NSString * const GDDockIconVisibilityKey = @"GDDockIconVisibilityKey";
 NSString * const GDStatusItemVisibilityKey = @"GDStatusItemVisibilityKey";
+NSString * const GDDockIconVisibilityKey = @"GDDockIconVisibilityKey";
 NSString * const GDAutoLaunchOnLoginKey = @"GDAutoLaunchOnLoginKey";
 
 
@@ -34,8 +34,8 @@ NSString * const GDAutoLaunchOnLoginKey = @"GDAutoLaunchOnLoginKey";
 NSString * const GDMainWindowTypeChanged = @"GDMainWindowTypeChanged";
 NSString * const GDMainWindowAbsoluteSizeChanged = @"GDMainWindowAbsoluteSizeChanged";
 NSString * const GDMainWindowRelativeSizeChanged = @"GDMainWindowRelativeSizeChanged";
-NSString * const GDDockIconVisibilityChanged = @"GDDockIconVisibilityChanged";
 NSString * const GDStatusItemVisibilityChanged = @"GDStatusItemVisibilityChanged";
+NSString * const GDDockIconVisibilityChanged = @"GDDockIconVisibilityChanged";
 NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
@@ -49,7 +49,10 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 @implementation GDPreferenceController
 
+
+
 # pragma mark - BASE UI
+
 - (id) init {
     self = [super initWithWindowNibName:@"Preferences"];
     if (self) {
@@ -145,6 +148,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 # pragma mark - INTERFACE
+
 - (void) setPreferenceUI {
     // appearence
     NSUInteger windowChoice = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
@@ -157,16 +161,20 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
         NSUInteger windowHeight = ceilf(windowSize.height);
         // NSLog(@"abs w: %lu", (unsigned long)windowWidth);
         // NSLog(@"abs h: %lu", (unsigned long)windowHeight);
-        [widthInputBox setStringValue: [NSString stringWithFormat:@"%lu px", windowWidth]];
-        [heightInputBox setStringValue: [NSString stringWithFormat:@"%lu px", windowHeight]];
+        [widthInputBox setStringValue: [NSString stringWithFormat:@"%lu", windowWidth]];
+        [heightInputBox setStringValue: [NSString stringWithFormat:@"%lu", windowHeight]];
+        [widthInputBoxSuffix setStringValue: @"px"];
+        [heightInputBoxSuffix setStringValue: @"px"];
         
     } else {
         NSData *sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
         NSSize windowSize = [[NSKeyedUnarchiver unarchiveObjectWithData: sizeData] sizeValue];
         // NSLog(@"relative w: %f", windowSize.height);
         // NSLog(@"relative h: %f", windowSize.width);
-        [widthInputBox setStringValue: [NSString stringWithFormat:@"%.2f %%", windowSize.width * 100]];
-        [heightInputBox setStringValue: [NSString stringWithFormat:@"%.2f %%", windowSize.height * 100]];
+        [widthInputBox setStringValue: [NSString stringWithFormat:@"%.2f", windowSize.width * 100]];
+        [heightInputBox setStringValue: [NSString stringWithFormat:@"%.2f", windowSize.height * 100]];
+        [widthInputBoxSuffix setStringValue: @"%"];
+        [heightInputBoxSuffix setStringValue: @"%"];
     }
     
     // misc
@@ -204,6 +212,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 # pragma mark - USER DEFAULTS
+
 + (void) setUserDefaults {
     // archive necessary data
     NSSize mainWindowAbsSize = NSMakeSize(500, 400);
@@ -233,17 +242,29 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 }
 
 + (void) setMainWindowType: (NSUInteger) newType {
+    // update user defaults
     [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithInteger: newType]
                                               forKey: GDMainWindowTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    // send notification
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDMainWindowTypeChanged
+                      object: self
+                    userInfo: @{ @"info": [NSNumber numberWithBool: newType] }];
 }
 
-
 + (void) setStatusItemVisibility: (BOOL) showItem {
+    // update user defaults
     [[NSUserDefaults standardUserDefaults] setBool: showItem
                                             forKey: GDStatusItemVisibilityKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
+    // send notification
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDStatusItemVisibilityChanged
+                      object: self
+                    userInfo: @{ @"info": [NSNumber numberWithBool: showItem] }];
 }
 
 + (void) setDockIconVisibility: (BOOL) showIcon {
@@ -258,6 +279,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
                       object: self
                     userInfo: @{ @"info": [NSNumber numberWithBool: showIcon] }];
 }
+
 
 
 @end

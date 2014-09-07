@@ -7,7 +7,7 @@
 //
 
 #import "GDCellView.h"
-#import "GDMainWindowController.h"
+#import "GDMainWindow.h"
 
 
 
