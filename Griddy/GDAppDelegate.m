@@ -54,6 +54,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 @implementation GDAppDelegate
 
+
 @synthesize frontApp = _frontApp;
 @synthesize avaliableScreens = _avaliableScreens;
 @synthesize windowControllers = _windowControllers;
@@ -71,6 +72,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [GDPreferenceController setUserDefaults];
 }
 
+
 - (void) applicationWillFinishLaunching: (NSNotification *) note {
     [self notificationSetup];
     [self windowControllers];
@@ -84,6 +86,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
         [self setupStatusItem];
     }
 }
+
 
 - (void) applicationWillTerminate: (NSNotification *) note {
     [self hideWindows];
@@ -121,14 +124,17 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
              object: nil];
 }
 
+
 - (void) onStatusItemMenuOpened: (NSNotification *) note {
     [self hideWindows];
 }
+
 
 - (void) onGDStatusItemVisibilityChanged: (NSNotification *) note {
 	BOOL newVisibility = [[[note userInfo] objectForKey:@"info"] boolValue];
     [self changeStatusItemState: newVisibility];
 }
+
 
 - (void) onGDDockIconVisibilityChanged: (NSNotification *) note {
 	BOOL newVisibility = [[[note userInfo] objectForKey:@"info"] boolValue];
@@ -153,6 +159,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     }
 }
 
+
 - (void) hideWindows {
     _isVisible = NO;
 
@@ -170,6 +177,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     }
 }
 
+
 - (void) toggleWindowState {
     if (_isVisible == YES) {
         [self hideWindows];
@@ -177,6 +185,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
         [self launchWindows];
     }
 }
+
 
 - (void) showHoverWindowWithFrame: (NSRect) newFrame
                  BehindMainWindow: (NSWindow *) mainWindow {
@@ -187,9 +196,11 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
                      withFrame: newFrame];
 }
 
+
 - (void) hideHoverWindow {
     [_overlayWindow orderOut: nil];
 }
+
 
 - (void) preventAllWindowHiding {
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
@@ -198,6 +209,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [_preferenceController preventHideWindow];
     [_overlayWindow preventHideWindow];
 }
+
 
 - (void) enableAllWindowHiding {
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
@@ -306,6 +318,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     }
 }
 
+
 - (void) transformAppToHideStep2 {
     [self preventAllWindowHiding];
     ProcessSerialNumber psn = { 0, kCurrentProcess };
@@ -315,6 +328,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
                afterDelay: 0.1];
 }
 
+
 - (void) transformAppToShowStep2 {
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     (void) TransformProcessType(&psn, kProcessTransformToForegroundApplication);
@@ -322,6 +336,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
                withObject: nil
                afterDelay: 0.1];
 }
+
 
 - (void) transformAppToStep3 {
     [[NSRunningApplication currentApplication] activateWithOptions: NSApplicationActivateIgnoringOtherApps];
@@ -374,6 +389,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [self hideWindows];
 }
 
+
 - (void) closeAllUnfocusedWindowsIncluding: (NSWindow *) curWindow {
     NSUInteger numClosed = 0;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
@@ -388,6 +404,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
         [self hideWindows]; // properly shutdown
     }
 }
+
 
 - (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow {
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
@@ -415,6 +432,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [self updateAvaliableScreens];
 }
 
+
 - (NSMutableArray *) windowControllers {
     if (!_windowControllers) {
         _windowControllers = [[NSMutableArray alloc] initWithCapacity:1];
@@ -429,6 +447,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     return _windowControllers;
 }
 
+
 - (NSMutableArray *) avaliableScreens {
     if (!_avaliableScreens) {
         _avaliableScreens = [[NSMutableArray alloc] initWithCapacity:1];
@@ -436,6 +455,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [self updateAvaliableScreens];
     return _avaliableScreens;
 }
+
 
 - (void) updateAvaliableScreens {
     NSArray *screenArray = [NSScreen screens];
@@ -503,4 +523,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     [[_GDStatusItemController statusItemView] hidePopover];
     [_preferenceController showWindow: nil];
 }
+
+
 @end

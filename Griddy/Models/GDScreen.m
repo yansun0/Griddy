@@ -8,6 +8,8 @@
 
 #import "GDScreen.h"
 
+
+
 @interface GDScreen()
 
 @property (nonatomic) NSRect screenInfoFlipped;
@@ -20,11 +22,13 @@
 
 @implementation GDScreen
 
+
 @synthesize screenID = _screenID;
 @synthesize screenInfo = _screenInfo;
 @synthesize screenInfoFlipped = _screenInfoFlipped;
 @synthesize gridPixelSize = _gridPixelSize; // dimension of cell in pixels
 @synthesize gridCellSize = _gridCellSize; // number of cells
+
 
 - (id) initWithScreen: (NSScreen *) screen {
     self = [super init];
@@ -33,6 +37,7 @@
     }
     return self;
 }
+
 
 - (void) updateScreen: (NSScreen *)newScreen {
     _screenInfo = [newScreen visibleFrame];
@@ -45,6 +50,7 @@
     _screenID = [[newScreen deviceDescription] objectForKey: @"NSScreenNumber"];
 }
 
+
 - (BOOL) isSameNSScreen:(NSScreen *)otherScreen {
     NSNumber *otherScreenID = [[otherScreen deviceDescription] objectForKey: @"NSScreenNumber"];
     NSRect otherScreenInfo = [otherScreen visibleFrame];
@@ -55,6 +61,7 @@
     return NO;
 }
 
+
 - (BOOL) isSameGDScreen:(GDScreen *)otherScreen {
     if ([_screenID intValue] == [otherScreen.screenID intValue]
         && NSEqualRects(otherScreen.screenInfo, _screenInfo) == YES) {
@@ -62,6 +69,7 @@
     }
     return NO;
 }
+
 
 - (void) setNumWidth: (NSInteger) numCellHorizontal
            NumHeight: (NSInteger) numCellVertical {
@@ -87,6 +95,7 @@
     return result;
 }
 
+
 - (NSRect) getScreenFrameForGridRect: (NSRect) gridRect {
 //    NSLog(@"\n  screen:\n    w: %f  h: %f\n    x: %f   y: %f", _screenInfo.size.width, _screenInfo.size.height, _screenInfo.origin.x, _screenInfo.origin.y);
 //    NSLog(@"\n  rect:\n    w: %f  h: %f\n    x: %f   y: %f", gridRect.size.width, gridRect.size.height, gridRect.origin.x, gridRect.origin.y);
@@ -99,9 +108,11 @@
     return newFrame;
 }
 
+
 - (NSSize) getMainWindowSizeForScreenPercentageSize: (NSSize) sizeP {
     NSSize newSize = NSMakeSize(sizeP.width * _screenInfo.size.width, sizeP.height * _screenInfo.size.height);
     return newSize;
 }
+
 
 @end

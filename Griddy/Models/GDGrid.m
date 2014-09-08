@@ -30,10 +30,12 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
 
 @implementation GDGrid
 
+
 @synthesize thisGDScreen = _thisGDScreen;
 @synthesize numCell = _numCell;
 @synthesize gridInfo = _gridInfo; // stores info of the grid (its dimensions and location in screen)
 @synthesize cellSize = _cellSize;
+
 
 - (id) initWithGDScreen: (GDScreen *)screen {
     self = [super init];
@@ -44,10 +46,12 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
     return self;
 }
 
+
 - (void) reinitWithGDScreen: (GDScreen *)newScreen {
     _thisGDScreen = newScreen;
     [self setupGridParams];
 }
+
 
 - (void) setupGridParams {
     [self setupGridInfo];
@@ -56,7 +60,9 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
 }
 
 
+
 #pragma mark - WINDOW POSITION LOGIC
+
 // TODO: find grid size based on user preferences/defaults
 - (void) setupGridInfo {
     NSUInteger isWindowAbsSize = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
@@ -82,6 +88,7 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
 
 
 #pragma mark - CELL SIZE LOGIC
+
 - (void) setupCellSize {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteGridUniversalSizeKey];
     NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
@@ -98,10 +105,12 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
 
 
 #pragma mark - calculations
+
 - (NSRect) getMainWindowFrame {
     return NSMakeRect(_gridInfo.origin.x, _gridInfo.origin.y,
                       _gridInfo.size.width, _gridInfo.size.height);
 }
+
 
 - (NSRect) getContentRectFrame {
     return NSMakeRect(_gridInfo.origin.x + _cellOutterMargin,
@@ -110,12 +119,14 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
                       _gridInfo.size.height - 2*_cellOutterMargin);
 }
 
+
 - (NSRect) getCellViewFrameForCellX: (NSInteger)x
                                   Y: (NSInteger)y {
     return NSMakeRect(_cellOutterMargin + x*(_cellInnerMargin + _cellSize.width),
                       _cellOutterMargin + y*(_cellInnerMargin + _cellSize.height),
                       _cellSize.width, _cellSize.height);
 }
+
 
 - (NSRect) getRectFromPoint1: (NSPoint)p1
                       Point2: (NSPoint)p2 {
@@ -126,6 +137,7 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
     newPosRect.size.height = ABS(p1.y - p2.y) + 1;
     return newPosRect;
 }
+
 
 - (NSString *) getNewWindowBoundsStringFromCell1: (NSPoint)cell1
                                          ToCell2: (NSPoint)cell2 {
@@ -148,4 +160,6 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
                                          Point2: cell2];
     return [_thisGDScreen getScreenFrameForGridRect: newPosRect];
 }
+
+
 @end

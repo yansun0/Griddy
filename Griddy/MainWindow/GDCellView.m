@@ -13,7 +13,9 @@
 
 @implementation GDCellView
 
+
 @synthesize viewPosition = _viewPosition;
+
 
 - (id)initWithFrame: (NSRect)frame
        andPositionX: (NSInteger)x
@@ -21,6 +23,7 @@
     _viewPosition = NSMakePoint(x, y);
     return [self initWithFrame: frame];
 }
+
 
 - (id)initWithFrame: (NSRect)frame {
     self = [super initWithFrame:frame];
@@ -34,6 +37,7 @@
     return self;
 }
 
+
 - (void)drawRect:(NSRect)dirtyRect {
     [[NSColor colorWithCalibratedRed: 1.0
                                green: 0.5
@@ -45,6 +49,7 @@
 
 
 #pragma mark - EVENTS
+
 - (void) mouseEntered: (NSEvent *) theEvent {
     [[self.window windowController] setCurCellPosition: _viewPosition];
     
@@ -54,22 +59,27 @@
                                            WithMouseDown: leftMouseDown];
 }
 
+
 - (void) mouseDown: (NSEvent *) theEvent {
     [[self.window windowController] setStartCellPosition: _viewPosition];
     [super mouseDown: theEvent];
 }
+
 
 - (void) mouseUp: (NSEvent *) theEvent {
     [[self.window windowController] setEndCellPosition: _viewPosition];
     [super mouseUp: theEvent];
 }
 
+
 - (void) mouseExited: (NSEvent *)theEvent {
     [super mouseExited: theEvent];
 }
 
+
 - (BOOL) acceptsFirstMouse: (NSEvent *)theEvent {
     return YES;
 }
+
 
 @end

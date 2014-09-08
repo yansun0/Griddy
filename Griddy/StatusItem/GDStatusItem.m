@@ -36,6 +36,7 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
 
 @implementation GDStatusItemView
 
+
 - (id) initWithViewController: (NSViewController *)controller {
     
     CGFloat height = [NSStatusBar systemStatusBar].thickness;
@@ -75,9 +76,11 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     _imageView.image = image;
 }
 
+
 - (void) setContentSize:(CGSize)size {
     _popover.contentSize = size;
 }
+
 
 - (void) mouseDown: (NSEvent *)theEvent {
     self.active = YES;
@@ -85,6 +88,7 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
         [NSApp sendAction: _actionL to: _targetL from: self];
     }
 }
+
 
 - (void) rightMouseDown: (NSEvent *)theEvent {
     self.active = YES;
@@ -95,11 +99,13 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     }
 }
 
+
 - (void) mouseUp: (NSEvent *) theEvent {
     if (!_popover || !_popover.isShown) {
         self.active = NO;
     }
 }
+
 
 - (void) setAction: (SEL) action
            toTarget: (id) target {
@@ -107,15 +113,18 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     _targetL = target;
 }
 
+
 - (void) setActive:(BOOL)active {
     _active = active;
     [self setNeedsDisplay: YES];
 }
 
+
 - (void) setImage:(NSImage *)image {
     _image = image;
     [self updateViewFrame];
 }
+
 
 - (void) setAlternateImage:(NSImage *)image {
     _alternateImage = image;
@@ -124,6 +133,7 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     }
     [self updateViewFrame];
 }
+
 
 - (void) updateViewFrame {
     CGFloat width = MAX(MAX(kMinViewWidth, self.alternateImage.size.width), self.image.size.width);
@@ -136,9 +146,11 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     [self setNeedsDisplay:YES];
 }
 
+
 - (void) showPopover {
     [self showPopoverAnimated: _animated];
 }
+
 
 - (void) showPopoverAnimated: (BOOL)animated {
     self.active = YES;
@@ -163,6 +175,7 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     }
 }
 
+
 - (void) hidePopover {
     self.active = NO;
     if (_popover && _popover.isShown) {
@@ -174,11 +187,13 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     }
 }
 
+
 - (void) removeStatusItem {
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
     [bar removeStatusItem: _statusItem];
     _statusItem = nil;
 }
+
 
 @end
 
@@ -188,8 +203,10 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
 
 @implementation GDStatusItemController
 
+
 @synthesize statusItemView = _statusItemView;
 @synthesize statusPanelController = _statusPanelController;
+
 
 - (id) initWithAction: (SEL) action
             andTarget: (id) target {
@@ -205,15 +222,18 @@ NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
     return self;
 }
 
+
 - (BOOL) isStatusItemMenuOpen {
     return _statusItemView.active;
 }
+
 
 - (void) hideStatusItem {
     [_statusItemView removeStatusItem];
     _statusItemView = nil;
     _statusPanelController = nil;
 }
+
 
 @end
 

@@ -261,7 +261,6 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
         NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
         newSize = NSMakeSize(widthVal, oldSize.height);
         if (NSEqualSizes(newSize, oldSize)) {
-            NSLog(@"same");
             return;
         }
         

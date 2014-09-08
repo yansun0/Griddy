@@ -109,11 +109,13 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
 
 @implementation GDMainWindowController
 
+
 @synthesize thisGrid = _thisGrid;
 @synthesize startCell = _startCell;
 @synthesize curCell = _curCell;
 @synthesize endCell = _endCell;
 @synthesize appDelegate = _appDelegate;
+
 
 - (id) initWithGrid: (GDGrid *)grid {
     _thisGrid = grid;
@@ -129,6 +131,7 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
     
     return self;
 }
+
 
 - (void) reinitWindowWithNewParam: (NSNotification *)note {
     // destroy previous window
@@ -183,12 +186,14 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
     
 }
 
+
 - (void) showWindow: (id) sender
   BehindWindowLevel: (NSInteger) topWindowLevel {
     [self.window display];
     [self.window orderWindow: NSWindowBelow relativeTo: topWindowLevel];
     [NSApp activateIgnoringOtherApps: YES];
 }
+
 
 - (void) showWindow: (id) sender
       AtWindowLevel: (NSInteger) prevWindowLevel {
@@ -198,17 +203,21 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
     [NSApp activateIgnoringOtherApps: YES];
 }
 
+
 - (void) hideWindow {
     [self.window orderOut: nil];
 }
+
 
 - (BOOL) isWindowFocused {
     return [self.window isMainWindow] || [self.window isKeyWindow];
 }
 
+
 - (void) preventHideWindow {
     [self.window setCanHide: NO];
 }
+
 
 - (void) enableHideWindow {
     [self.window setCanHide: YES];
@@ -222,6 +231,7 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
     // close other none focus windows, including one
     [_appDelegate closeAllUnfocusedWindowsIncluding: self.window];
 }
+
 
 - (void) windowFocused: (NSNotification *)note {
     // close other windows, except for this one
@@ -245,18 +255,22 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
                           BehindMainWindow: self.window];
 }
 
+
 - (void) setStartCellPosition: (NSPoint) pos {
     _startCell = NSMakePoint(pos.x, pos.y);
 }
+
 
 - (void) setCurCellPosition: (NSPoint )pos {
     _curCell = NSMakePoint(pos.x, pos.y);
 }
 
+
 - (void) clearCurCellPosition {
     _curCell = CGPointZero; // reset
     [_appDelegate hideHoverWindow];
 }
+
 
 - (void) setEndCellPosition: (NSPoint) pos {
     // down + up from the same cell, sanity check
@@ -268,5 +282,6 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
         [_appDelegate moveAppWithResultRect: result];
     }
 }
+
 
 @end

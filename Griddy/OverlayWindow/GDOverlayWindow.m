@@ -20,6 +20,7 @@ extern CGSConnection CGSDefaultConnectionForThread();
 
 @implementation GDOverlayWindow
 
+
 - (id) initWithRect: (NSRect)contentRect {
     self = [self initWithContentRect: contentRect
                            styleMask: NSBorderlessWindowMask
@@ -27,6 +28,7 @@ extern CGSConnection CGSDefaultConnectionForThread();
                                defer: NO];
     return self;
 }
+
 
 - (id) initWithContentRect: (NSRect)contentRect
                  styleMask: (NSUInteger)aStyle
@@ -46,6 +48,7 @@ extern CGSConnection CGSDefaultConnectionForThread();
     return self;
 }
 
+
 - (void) enableBlurForWindow: (NSWindow *)window {
     [window setOpaque:NO];
     window.backgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.5];
@@ -53,6 +56,7 @@ extern CGSConnection CGSDefaultConnectionForThread();
     CGSConnection connection = CGSDefaultConnectionForThread();
     CGSSetWindowBackgroundBlurRadius(connection, [window windowNumber], 20);
 }
+
 
 - (void) setContentView: (NSView *)aView {
     aView.wantsLayer = YES;
@@ -63,6 +67,7 @@ extern CGSConnection CGSDefaultConnectionForThread();
     [super setContentView: aView];
 }
 
+
 - (void) showWindow: (id) sender
           withFrame: (NSRect) frame {
     [self setFrame: frame display: YES];
@@ -70,18 +75,20 @@ extern CGSConnection CGSDefaultConnectionForThread();
     [NSApp activateIgnoringOtherApps: YES];
 }
 
+
 - (BOOL) canBecomeKeyWindow {
     return NO;
 }
+
 
 - (void) preventHideWindow {
     [self setCanHide: NO];
 }
 
+
 - (void) enableHideWindow {
     [self setCanHide: YES];
 }
-
 
 
 @end

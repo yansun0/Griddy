@@ -31,6 +31,7 @@
     return [self initWithFrame: contentFrame];
 }
 
+
 - (id) initWithFrame: (NSRect)frame {
     self = [super initWithFrame: frame];
     
@@ -50,6 +51,7 @@
     return self;
 }
 
+
 - (void) drawRect: (NSRect)dirtyRect {
     [[NSColor colorWithCalibratedRed: 0.0
                                green: 0.5
@@ -58,14 +60,17 @@
     NSRectFill(dirtyRect);
 }
 
+
 - (void) mouseDown: (NSEvent *) theEvent {
     isMouseDown = YES;
     [self.window mouseDown: theEvent];
 }
 
+
 - (void) mouseUp: (NSEvent *) theEvent {
     isMouseDown = NO;
 }
+
 
 - (void) mouseExited: (NSEvent *) theEvent {
     NSPoint mousePos = [NSEvent mouseLocation];
@@ -75,6 +80,7 @@
         [[self.window windowController] clearCurCellPosition];
     }
 }
+
 
 - (void) mouseDragged: (NSEvent *) theEvent {
     if (isMouseDown == NO) {    // don't care if mouse didn't come down
