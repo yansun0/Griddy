@@ -7,6 +7,7 @@
 //
 
 #import "GDPreferences.h"
+#import "GDAppDelegate.h"
 
 
 
@@ -40,7 +41,10 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 
-@interface GDPreferenceController()
+@interface GDPreferenceController() {
+    GDAppDelegate *_appDelegate;
+}
+
 - (NSView *) viewForTag: (NSUInteger) tag;
 - (NSRect) getFrameForNewView: (NSView *) view;
 @end
@@ -51,39 +55,59 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 
-# pragma mark - BASE UI
+# pragma mark - INIT
 
 - (id) init {
     self = [super initWithWindowNibName:@"Preferences"];
     if (self) {
-        // Initialization code here.
+        _appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
     }
     return self;
 }
 
+
 - (void) awakeFromNib {
-    [[self window] setContentSize: [appearancesView frame].size];
-    [[[self window] contentView] setAutoresizesSubviews: NO];
-    [[[self window] contentView] addSubview: appearancesView];
-    [[[self window] contentView] setWantsLayer: YES];
+    [self.window setContentSize: [appearancesView frame].size];
+    [[self.window contentView] setAutoresizesSubviews: NO];
+    [[self.window contentView] addSubview: appearancesView];
+    [[self.window contentView] setWantsLayer: YES];
 }
+
 
 - (void) windowDidLoad {
     [super windowDidLoad];
+    [self listenToNotifications];
     [self setPreferenceUI];
+    [self shouldShowMainWindowsByTag: 0];
 }
+
+
+- (void) listenToNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(windowTypeChanged:)
+                                                 name: GDMainWindowTypeChanged
+                                               object: nil];
+}
+
+
+
+
+# pragma mark - BASE UI
 
 - (BOOL) isWindowFocused {
-    return [[self window] isMainWindow] || [[self window] isKeyWindow];
+    return [self.window isMainWindow] || [self.window isKeyWindow];
 }
+
 
 - (void) preventHideWindow {
-    [[self window] setCanHide: NO];
+    [self.window setCanHide: NO];
 }
 
+
 - (void) enableHideWindow {
-    [[self window] setCanHide: YES];
+    [self.window setCanHide: YES];
 }
+
 
 - (IBAction) switchView: (id)sender {
     NSUInteger tag = [sender tag];
@@ -96,17 +120,27 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
     if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) {
         [[NSAnimationContext currentContext] setDuration: 1.0];
     }
-    [[[[self window] contentView] animator] replaceSubview: previousView
+    [[[self.window contentView] animator] replaceSubview: previousView
                                                       with: view];
-    [[[self window] animator] setFrame: newFrame
+    [[self.window animator] setFrame: newFrame
                                display: YES];
     [NSAnimationContext endGrouping];
-
+    [self shouldShowMainWindowsByTag: tag];
     currentViewTag = tag;
 }
 
+
+- (void) shouldShowMainWindowsByTag: (NSUInteger) tag {
+    if (tag == 0) {
+        [_appDelegate launchWindowsBehindWindowLevel: self.window.level];
+    } else {
+        [_appDelegate hideWindows];
+    }
+}
+
+
 - (NSRect) getFrameForNewView: (NSView *) view {
-    NSWindow *prefWindow = [self window];
+    NSWindow *prefWindow = self.window;
     NSRect newFrameRect = [prefWindow frameRectForContentRect: [view frame]];
     NSRect oldFrameRect = [prefWindow frame];
     NSSize newSize = newFrameRect.size;
@@ -118,6 +152,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
     
     return frame;
 }
+
 
 - (NSView *) viewForTag: (NSUInteger) tag {
     NSView *view = nil;
@@ -137,6 +172,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
     return view;
 }
 
+
 - (BOOL) validateToolbarItem: (NSToolbarItem *)theItem {
     if ([theItem tag] == currentViewTag) {
         return NO;
@@ -147,61 +183,172 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 
-# pragma mark - INTERFACE
+# pragma mark - INTERFACE callbacks
 
 - (void) setPreferenceUI {
-    // appearence
-    NSUInteger windowChoice = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
-    [mainWindowSizeChoiceMatrix selectCellWithTag: windowChoice];
+    // appearence tab
+    NSUInteger windowType = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
+    [mainWindowSizeChoiceMatrix selectCellWithTag: windowType];
+    [self setPreferenceUIDimensionsWithWindowType: windowType];
     
-    if (windowChoice == 1) {
-        NSData *sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
-        NSSize windowSize = [[NSKeyedUnarchiver unarchiveObjectWithData: sizeData] sizeValue];
-        NSUInteger windowWidth = ceilf(windowSize.width);
-        NSUInteger windowHeight = ceilf(windowSize.height);
-        // NSLog(@"abs w: %lu", (unsigned long)windowWidth);
-        // NSLog(@"abs h: %lu", (unsigned long)windowHeight);
-        [widthInputBox setStringValue: [NSString stringWithFormat:@"%lu", windowWidth]];
-        [heightInputBox setStringValue: [NSString stringWithFormat:@"%lu", windowHeight]];
-        [widthInputBoxSuffix setStringValue: @"px"];
-        [heightInputBoxSuffix setStringValue: @"px"];
-        
-    } else {
-        NSData *sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
-        NSSize windowSize = [[NSKeyedUnarchiver unarchiveObjectWithData: sizeData] sizeValue];
-        // NSLog(@"relative w: %f", windowSize.height);
-        // NSLog(@"relative h: %f", windowSize.width);
-        [widthInputBox setStringValue: [NSString stringWithFormat:@"%.2f", windowSize.width * 100]];
-        [heightInputBox setStringValue: [NSString stringWithFormat:@"%.2f", windowSize.height * 100]];
-        [widthInputBoxSuffix setStringValue: @"%"];
-        [heightInputBoxSuffix setStringValue: @"%"];
-    }
-    
-    // misc
+    // misc tab
     // NSLog(@"dock icon visibility: %hhd", [[[NSUserDefaults standardUserDefaults] objectForKey: GDDockIconVisibilityKey] boolValue]);
     dockIconCheckBox.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDDockIconVisibilityKey] boolValue];
     // NSLog(@"status item visibility: %hhd", [[[NSUserDefaults standardUserDefaults] objectForKey: GDStatusItemVisibilityKey] boolValue]);
     statusItemCheckBox.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDStatusItemVisibilityKey] boolValue];
 }
 
-// appearence
+
+- (void) setPreferenceUIDimensionsWithWindowType: (NSUInteger) windowType {
+    NSData *sizeData;
+    if (windowType == 1) {
+        sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
+    } else {
+        sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
+    }
+    NSSize windowSize = [[NSKeyedUnarchiver unarchiveObjectWithData: sizeData] sizeValue];
+    [self setWidthInputBoxValue: windowSize.width
+                   asWindowType: windowType];
+    [self setHeightInputBoxValue: windowSize.height
+                    asWindowType: windowType];
+}
+
+
+- (void) windowTypeChanged: (NSNotification *) note {
+    NSUInteger newWindowType = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
+    [self setPreferenceUIDimensionsWithWindowType: newWindowType];
+}
+
+
+
+// appearence tab callbacks
 - (IBAction) changeMainWindowSizeChoiceMatrix: (id)sender {
     NSUInteger selectedTag = [[sender selectedCell] tag];
     [GDPreferenceController setMainWindowType: selectedTag];
 }
 
+
 - (IBAction) changeWidthInputBox: (id)sender {
+	NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
+    NSUInteger windowType = [[defaultValues objectForKey: GDMainWindowTypeKey] integerValue];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    [formatter setRoundingMode: NSNumberFormatterRoundUp];
+    
+    CGFloat widthVal;
+    NSSize newSize;
+    if (windowType == 1) { // abs
+        [formatter setMaximumFractionDigits: 0];
+        widthVal = [[formatter numberFromString: widthInputBox.stringValue] integerValue];
+        widthVal = floor((ABS(widthVal) / 5) + 0.5) * 5; // round up to nearest 5
+        
+        // save it
+        NSData *data = [defaultValues objectForKey: GDMainWindowAbsoluteSizeKey];
+        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
+        newSize = NSMakeSize(widthVal, oldSize.height);
+        if (NSEqualSizes(newSize, oldSize)) {
+            return;
+        }
+        
+        [GDPreferenceController setMainWindowAbsoluteSize: newSize];
+        
+    } else { // relative
+        [formatter setMaximumFractionDigits: 2];
+        widthVal = [[formatter numberFromString: widthInputBox.stringValue] floatValue] / 100;
+        
+        // save it
+        NSData *data = [defaultValues objectForKey: GDMainWindowRelativeSizeKey];
+        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
+        newSize = NSMakeSize(widthVal, oldSize.height);
+        if (NSEqualSizes(newSize, oldSize)) {
+            NSLog(@"same");
+            return;
+        }
+        
+        [GDPreferenceController setMainWindowRelativeSize: newSize];
+    }
+    
+    [self setWidthInputBoxValue: widthVal
+                   asWindowType: windowType];
 }
 
-- (IBAction) changeHeightInputBox: (id)sender {
+
+- (IBAction) changeHeightInputBox: (id) sender {
+	NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
+    NSUInteger windowType = [[defaultValues objectForKey: GDMainWindowTypeKey] integerValue];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    [formatter setRoundingMode: NSNumberFormatterRoundUp];
+    
+    CGFloat heightVal;
+    NSSize newSize;
+    if (windowType == 1) { // abs
+        [formatter setMaximumFractionDigits: 0];
+        heightVal = [[formatter numberFromString: heightInputBox.stringValue] integerValue];
+        heightVal = floor((ABS(heightVal) / 5) + 0.5) * 5; // round up to nearest 5
+        
+        // save it
+        NSData *data = [defaultValues objectForKey: GDMainWindowAbsoluteSizeKey];
+        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
+        newSize = NSMakeSize(oldSize.width, heightVal);
+        if (NSEqualSizes(newSize, oldSize)) {
+            return;
+        }
+        
+        [GDPreferenceController setMainWindowAbsoluteSize: newSize];
+
+        
+    } else { // relative
+        [formatter setMaximumFractionDigits: 2];
+        heightVal = [[formatter numberFromString: heightInputBox.stringValue] floatValue] / 100;
+        
+        // save it
+        NSData *data = [defaultValues objectForKey: GDMainWindowRelativeSizeKey];
+        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
+        newSize = NSMakeSize(oldSize.width, heightVal);
+        if (NSEqualSizes(newSize, oldSize)) {
+            return;
+        }
+      
+        [GDPreferenceController setMainWindowRelativeSize: newSize];
+    }
+    
+    [self setHeightInputBoxValue: heightVal
+                    asWindowType: windowType];
 }
 
 
-// misc
+- (void) setWidthInputBoxValue: (CGFloat) widthVal
+                  asWindowType: (NSUInteger) windowType {
+    if (windowType == 1) { // abs
+        [widthInputBox setStringValue: [NSString stringWithFormat:@"%lu", (NSInteger)ceilf(widthVal)]];
+        [widthInputBoxSuffix setStringValue: @"px"];
+    } else {
+        [widthInputBox setStringValue: [NSString stringWithFormat:@"%.2f", widthVal * 100]];
+        [widthInputBoxSuffix setStringValue: @"%"];
+    }
+}
+
+
+- (void) setHeightInputBoxValue: (CGFloat) heightVal
+                   asWindowType: (NSUInteger) windowType {
+    if (windowType == 1) { // abs
+        [heightInputBox setStringValue: [NSString stringWithFormat:@"%lu", (NSInteger)ceilf(heightVal)]];
+        [heightInputBoxSuffix setStringValue: @"px"];
+    } else {
+        [heightInputBox setStringValue: [NSString stringWithFormat:@"%.2f", heightVal * 100]];
+        [heightInputBoxSuffix setStringValue: @"%"];
+    }
+}
+
+
+
+// misc tab callbacks
 - (IBAction) changeStatusItemCheckBox: (id)sender {
     NSInteger state = [statusItemCheckBox state];
     [GDPreferenceController setStatusItemVisibility: state];
 }
+
 
 - (IBAction) changeDockIconCheckBox: (id)sender {
     NSInteger state = [dockIconCheckBox state];
@@ -241,6 +388,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 	[[NSUserDefaults standardUserDefaults] registerDefaults: defaultValues];
 }
 
+
 + (void) setMainWindowType: (NSUInteger) newType {
     // update user defaults
     [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithInteger: newType]
@@ -253,6 +401,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
                       object: self
                     userInfo: @{ @"info": [NSNumber numberWithBool: newType] }];
 }
+
 
 + (void) setStatusItemVisibility: (BOOL) showItem {
     // update user defaults
@@ -267,6 +416,7 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
                     userInfo: @{ @"info": [NSNumber numberWithBool: showItem] }];
 }
 
+
 + (void) setDockIconVisibility: (BOOL) showIcon {
     // update user defaults
     [[NSUserDefaults standardUserDefaults] setBool: showIcon
@@ -280,6 +430,35 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
                     userInfo: @{ @"info": [NSNumber numberWithBool: showIcon] }];
 }
 
+
++ (void) setMainWindowRelativeSize: (NSSize) newSize {
+    // update user defaults
+    NSData *newRelativeSizeData = [NSKeyedArchiver archivedDataWithRootObject: [NSValue valueWithSize: newSize]];
+    [[NSUserDefaults standardUserDefaults] setObject: newRelativeSizeData
+                                              forKey: GDMainWindowRelativeSizeKey];
+    
+    // send notification
+    NSValue *sizeValue = [NSValue valueWithSize: newSize];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDMainWindowRelativeSizeChanged
+                      object: self
+                    userInfo: @{ @"info": sizeValue }];
+}
+
+
++ (void) setMainWindowAbsoluteSize: (NSSize) newSize {
+    // update user defaults
+    NSData *newAbsSizeData = [NSKeyedArchiver archivedDataWithRootObject: [NSValue valueWithSize: newSize]];
+    [[NSUserDefaults standardUserDefaults] setObject: newAbsSizeData
+                                              forKey: GDMainWindowAbsoluteSizeKey];
+    
+    // send notification
+    NSValue *sizeValue = [NSValue valueWithSize: newSize];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDMainWindowAbsoluteSizeChanged
+                      object: self
+                    userInfo: @{ @"info": sizeValue }];
+}
 
 
 @end

@@ -14,6 +14,8 @@
 
 //@property (strong, nonatomic) IBOutlet NSMenu *GDStatusMenu;
 
+- (void) launchWindowsBehindWindowLevel: (NSInteger) topWindowLevel;
+- (void) hideWindows;
 - (void) showHoverWindowWithFrame: (NSRect) newFrame
                  BehindMainWindow: (NSWindow *) mainWindow;
 - (void) hideHoverWindow;

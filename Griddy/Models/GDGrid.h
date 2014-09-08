@@ -16,6 +16,8 @@
 
 - (id) initWithGDScreen: (GDScreen *)screen;
 - (void) reinitWithGDScreen: (GDScreen *)newScreen;
+- (void) setupGridParams;
+
 - (NSRect) getMainWindowFrame;
 - (NSRect) getContentRectFrame;
 - (NSRect) getCellViewFrameForCellX: (NSInteger)x

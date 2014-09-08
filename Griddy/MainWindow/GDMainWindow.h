@@ -10,7 +10,6 @@
 @class GDMainWindow;
 @class GDAppDelegate;
 @class GDGrid;
-@class GDScreen;
 
 
 
@@ -35,15 +34,16 @@
 
 @interface GDMainWindowController : NSWindowController
 
-@property GDGrid *thisGrid;
-@property GDScreen *thisScreen;
-@property GDMainWindow *thisWindow;
+@property (strong, nonatomic) GDGrid *thisGrid;
 
-- (id) initWithGDScreen: (GDScreen *)screen;
+- (id) initWithGrid: (GDGrid *)grid;
 
 // app delegate callbacks
-- (BOOL) isWindowFocused;
+- (void) showWindow: (id) sender;
+- (void) showWindow: (id) sender
+  BehindWindowLevel: (NSInteger) topWindowNumber;
 - (void) hideWindow;
+- (BOOL) isWindowFocused;
 - (void) preventHideWindow;
 - (void) enableHideWindow;
 

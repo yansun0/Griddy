@@ -29,9 +29,6 @@ extern NSString * const GDStatusItemVisibilityKey;
 
 // notifications names
 extern NSString * const StatusItemMenuOpened;
-extern NSString * const GDMainWindowTypeChanged;
-extern NSString * const GDMainWindowAbsoluteSizeChanged;
-extern NSString * const GDMainWindowRelativeSizeChanged;
 extern NSString * const GDDockIconVisibilityChanged;
 extern NSString * const GDStatusItemVisibilityChanged;
 extern NSString * const GDAutoLaunchOnLoginChanged;
@@ -146,6 +143,13 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     _isVisible = YES;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         [[_windowControllers objectAtIndex: i] showWindow: nil];
+    }
+}
+
+
+- (void) launchWindowsBehindWindowLevel: (NSInteger) topWindowLevel {
+    for (NSUInteger i = 0; i < _windowControllers.count; i++) {
+        [[_windowControllers objectAtIndex: i] showWindow: nil BehindWindowLevel: topWindowLevel];
     }
 }
 
@@ -388,7 +392,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 - (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow {
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         GDMainWindowController *curWC = [_windowControllers objectAtIndex: i];
-        if ([curWC thisWindow] != (GDMainWindow *)curWindow) {
+        if ([curWC window] != (GDMainWindow *)curWindow) {
             [curWC hideWindow];
         }
     }
@@ -417,7 +421,8 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
         for (int i = 0; i < _avaliableScreens.count; i++) {
             GDScreen *curScreen = [_avaliableScreens objectAtIndex: i];
-            GDMainWindowController *curWC = [[GDMainWindowController alloc] initWithGDScreen: curScreen];
+            GDGrid *curGrid = [[GDGrid alloc] initWithGDScreen: curScreen];
+            GDMainWindowController *curWC = [[GDMainWindowController alloc] initWithGrid: curGrid];
             [_windowControllers addObject: curWC];
         }
     }
@@ -453,8 +458,9 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
             [_avaliableScreens addObject:newGDScreen];
             
             // make a new window controller
-            GDMainWindowController *newWC = [[GDMainWindowController alloc] initWithGDScreen: newGDScreen];
-            [_windowControllers addObject:newWC];
+            GDGrid *newGrid = [[GDGrid alloc] initWithGDScreen: newGDScreen];
+            GDMainWindowController *newWC = [[GDMainWindowController alloc] initWithGrid: newGrid];
+            [_windowControllers addObject: newWC];
         }
     }
 

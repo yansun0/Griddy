@@ -10,7 +10,14 @@
 #import "GDMainWindowView.h"
 #import "GDAppDelegate.h"
 #import "GDGrid.h"
-#import "GDScreen.h"
+
+
+
+// notifications names
+extern NSString * const GDMainWindowTypeChanged;
+extern NSString * const GDMainWindowAbsoluteSizeChanged;
+extern NSString * const GDMainWindowRelativeSizeChanged;
+
 
 
 // ----------------------------------
@@ -67,7 +74,7 @@
 }
 
 - (void) mouseDown: (NSEvent *) theEvent {
-    [[self windowController] windowFocused: nil];
+    [self.windowController windowFocused: nil];
 }
 
 - (BOOL) canBecomeKeyWindow {
@@ -103,80 +110,128 @@
 @implementation GDMainWindowController
 
 @synthesize thisGrid = _thisGrid;
-@synthesize thisScreen = _thisScreen;
-@synthesize thisWindow = _thisWindow;
 @synthesize startCell = _startCell;
 @synthesize curCell = _curCell;
 @synthesize endCell = _endCell;
 @synthesize appDelegate = _appDelegate;
 
-- (id) init {
-    // no GD screen given, return nil
-    return nil;
-}
-
-- (id) initWithGDScreen:(GDScreen *)screen {
-    _thisScreen = screen;
-    _thisGrid = [[GDGrid alloc] initWithGDScreen: screen];
+- (id) initWithGrid: (GDGrid *)grid {
+    _thisGrid = grid;
     _appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
-    
 
-    NSRect someFrame = [_thisGrid getMainWindowFrame];
-    _thisWindow = [[GDMainWindow alloc] initWithRect: someFrame
-                                          andGDGrid: _thisGrid];
-    [_thisWindow setWindowController: self];
+    NSRect someFrame = [grid getMainWindowFrame];
+    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithRect: someFrame
+                                          andGDGrid: grid];
+    [thisWindow setWindowController: self];
+    self = [super initWithWindow: thisWindow];
     
-    // register for window events
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(windowUnfocused:)
-                                                 name: NSWindowDidResignMainNotification
-                                               object: _thisWindow];
-    
-    self = [super initWithWindow: _thisWindow];
+    [self listenToNotifications];
     
     return self;
 }
 
-- (void) showWindow: (id) sender {
-    [super showWindow: sender];
-    [_thisWindow makeKeyAndOrderFront: sender];
-    [NSApp activateIgnoringOtherApps: YES];
+- (void) reinitWindowWithNewParam: (NSNotification *)note {
+    // destroy previous window
+    self.window = nil; // release last window
+    NSInteger windowLevel = self.window.level;
 
+    // make new window
+    [_thisGrid setupGridParams];
+    NSRect someFrame = [_thisGrid getMainWindowFrame];
+    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithRect: someFrame
+                                                        andGDGrid: _thisGrid];
+    [thisWindow setWindowController: self];
+    self.window = thisWindow;
+
+    [self showWindow: nil AtWindowLevel: windowLevel];
 }
 
-- (void) windowUnfocused: (NSNotification *)note {
-    // close other none focus windows, including one
-    [_appDelegate closeAllUnfocusedWindowsIncluding: _thisWindow];
-}
 
-- (void) windowFocused: (NSNotification *)note {
-    // close other windows, except for this one
-    [_appDelegate closeAllOtherWindowsExcluding: _thisWindow];
+#pragma mark - notifications
+
+- (void) listenToNotifications {
+    // register for window events
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(windowUnfocused:)
+                                                 name: NSWindowDidResignMainNotification
+                                               object: self.window];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(reinitWindowWithNewParam:)
+                                                 name: GDMainWindowTypeChanged
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(reinitWindowWithNewParam:)
+                                                 name: GDMainWindowAbsoluteSizeChanged
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(reinitWindowWithNewParam:)
+                                                 name: GDMainWindowRelativeSizeChanged
+                                               object: nil];
 }
 
 
 
 #pragma mark - app delegate callbacks
 
+- (void) showWindow: (id) sender {
+    [super showWindow: sender];
+    [self.window makeKeyAndOrderFront: sender];
+    [NSApp activateIgnoringOtherApps: YES];
+    
+}
+
+- (void) showWindow: (id) sender
+  BehindWindowLevel: (NSInteger) topWindowLevel {
+    [self.window display];
+    [self.window orderWindow: NSWindowBelow relativeTo: topWindowLevel];
+    [NSApp activateIgnoringOtherApps: YES];
+}
+
+- (void) showWindow: (id) sender
+      AtWindowLevel: (NSInteger) prevWindowLevel {
+    [self.window setLevel: prevWindowLevel];
+    [self.window display];
+    [self.window orderFront: sender];
+    [NSApp activateIgnoringOtherApps: YES];
+}
+
 - (void) hideWindow {
-    [_thisWindow orderOut: nil];
+    [self.window orderOut: nil];
 }
 
 - (BOOL) isWindowFocused {
-    return [_thisWindow isMainWindow] || [_thisWindow isKeyWindow];
+    return [self.window isMainWindow] || [self.window isKeyWindow];
 }
 
 - (void) preventHideWindow {
-    [_thisWindow setCanHide: NO];
+    [self.window setCanHide: NO];
 }
 
 - (void) enableHideWindow {
-    [_thisWindow setCanHide: YES];
+    [self.window setCanHide: YES];
+}
+
+
+
+#pragma mark - window callbacks
+
+- (void) windowUnfocused: (NSNotification *)note {
+    // close other none focus windows, including one
+    [_appDelegate closeAllUnfocusedWindowsIncluding: self.window];
+}
+
+- (void) windowFocused: (NSNotification *)note {
+    // close other windows, except for this one
+    [_appDelegate closeAllOtherWindowsExcluding: self.window];
 }
 
 
 
 #pragma mark - cell callbacks
+
 - (void) setHoverCellPosition: (NSPoint)pos
                 WithMouseDown: (BOOL)isDown {
     NSRect newHoverPos;
@@ -187,7 +242,7 @@
         newHoverPos = [_thisGrid getOverlayWindowFrameFromCell1: _curCell];
     }
     [_appDelegate showHoverWindowWithFrame: newHoverPos
-                          BehindMainWindow: _thisWindow];
+                          BehindMainWindow: self.window];
 }
 
 - (void) setStartCellPosition: (NSPoint) pos {

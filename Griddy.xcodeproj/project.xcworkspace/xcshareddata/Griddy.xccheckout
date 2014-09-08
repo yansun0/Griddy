@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DC852CBE-256F-4194-80FC-6C88E770157C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Griddy</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E958C360-4103-46CF-BCA0-1615CEC1B4C0</key>
+		<string>ssh://github.com/yansun0/Griddy.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Griddy.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E958C360-4103-46CF-BCA0-1615CEC1B4C0</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/yansun0/Griddy.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E958C360-4103-46CF-BCA0-1615CEC1B4C0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E958C360-4103-46CF-BCA0-1615CEC1B4C0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Griddy</string>
+		</dict>
+	</array>
+</dict>
+</plist>

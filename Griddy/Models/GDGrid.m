@@ -39,19 +39,21 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
     self = [super init];
     if (self != nil) {
         _thisGDScreen = screen;
-        [self setupGridInfo];
-        [self setupCellSize];
-        [_thisGDScreen setNumWidth: _numCell.width NumHeight: _numCell.height];
+        [self setupGridParams];
     }
     return self;
 }
 
 - (void) reinitWithGDScreen: (GDScreen *)newScreen {
     _thisGDScreen = newScreen;
-    [self setupCellSize];
-    [self setupGridInfo];
+    [self setupGridParams];
 }
 
+- (void) setupGridParams {
+    [self setupGridInfo];
+    [self setupCellSize];
+    [_thisGDScreen setNumWidth: _numCell.width NumHeight: _numCell.height];
+}
 
 
 #pragma mark - WINDOW POSITION LOGIC
@@ -59,7 +61,7 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
 - (void) setupGridInfo {
     NSUInteger isWindowAbsSize = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
     
-    // relative, need to ask for help
+    // relative, need to ask for help from GDScreen
     if (isWindowAbsSize == 0) {
         NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
         NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];

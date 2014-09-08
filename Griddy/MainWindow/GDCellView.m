@@ -46,21 +46,21 @@
 
 #pragma mark - EVENTS
 - (void) mouseEntered: (NSEvent *) theEvent {
-    [[[self window] windowController] setCurCellPosition: _viewPosition];
+    [[self.window windowController] setCurCellPosition: _viewPosition];
     
     // show the hover window
     BOOL leftMouseDown = (([NSEvent pressedMouseButtons] & (1 << 0))) != 0;
-    [[[self window] windowController] setHoverCellPosition: _viewPosition
-                                         WithMouseDown: leftMouseDown];
+    [[self.window windowController] setHoverCellPosition: _viewPosition
+                                           WithMouseDown: leftMouseDown];
 }
 
 - (void) mouseDown: (NSEvent *) theEvent {
-    [[[self window] windowController] setStartCellPosition: _viewPosition];
+    [[self.window windowController] setStartCellPosition: _viewPosition];
     [super mouseDown: theEvent];
 }
 
 - (void) mouseUp: (NSEvent *) theEvent {
-    [[[self window] windowController] setEndCellPosition: _viewPosition];
+    [[self.window windowController] setEndCellPosition: _viewPosition];
     [super mouseUp: theEvent];
 }
 

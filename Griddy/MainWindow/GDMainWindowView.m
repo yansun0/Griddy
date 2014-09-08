@@ -60,7 +60,7 @@
 
 - (void) mouseDown: (NSEvent *) theEvent {
     isMouseDown = YES;
-    [[self window] mouseDown: theEvent];
+    [self.window mouseDown: theEvent];
 }
 
 - (void) mouseUp: (NSEvent *) theEvent {
@@ -71,8 +71,8 @@
     NSPoint mousePos = [NSEvent mouseLocation];
     
     // TODO: change this to bounds w.r.t to window frame
-    if (CGRectContainsPoint([[self window] frame], mousePos) == NO) {
-        [[[self window] windowController] clearCurCellPosition];
+    if (CGRectContainsPoint([self.window frame], mousePos) == NO) {
+        [[self.window windowController] clearCurCellPosition];
     }
 }
 
@@ -84,7 +84,7 @@
     NSPoint mousePos = [NSEvent mouseLocation];
 
     // TODO: change this to bounds w.r.t to window frame
-    if (CGRectContainsPoint([[self window] frame], mousePos)) {     // don't care if its inside
+    if (CGRectContainsPoint([self.window frame], mousePos)) {     // don't care if its inside
         return;                                                     // the window
     }
     
