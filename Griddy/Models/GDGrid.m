@@ -14,7 +14,7 @@
 extern NSString * const GDMainWindowTypeKey;
 extern NSString * const GDMainWindowAbsoluteSizeKey;
 extern NSString * const GDMainWindowRelativeSizeKey;
-extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
+extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 
 @interface GDGrid() {
     CGFloat _cellOutterMargin;
@@ -79,7 +79,7 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
         NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
         _gridInfo.size = [unarchived sizeValue];
     }
-    
+
     // center the grid
     _gridInfo.origin.x = (_thisGDScreen.screenInfo.size.width - _gridInfo.size.width) * 0.5 + _thisGDScreen.screenInfo.origin.x;
     _gridInfo.origin.y = (_thisGDScreen.screenInfo.size.height - _gridInfo.size.height) * 0.5 + _thisGDScreen.screenInfo.origin.y;
@@ -90,7 +90,7 @@ extern NSString * const GDMainWindowAbsoluteGridUniversalSizeKey;
 #pragma mark - CELL SIZE LOGIC
 
 - (void) setupCellSize {
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteGridUniversalSizeKey];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowGridUniversalDimensionsKey];
     NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     _numCell = [unarchived sizeValue];
     

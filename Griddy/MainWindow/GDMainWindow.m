@@ -17,6 +17,7 @@
 extern NSString * const GDMainWindowTypeChanged;
 extern NSString * const GDMainWindowAbsoluteSizeChanged;
 extern NSString * const GDMainWindowRelativeSizeChanged;
+extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 
 
 
@@ -25,6 +26,7 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
 // ----------------------------------
 
 @implementation GDMainWindow
+
 
 - (id) initWithRect: (NSRect)contentRect
           andGDGrid: (GDGrid *)grid {
@@ -133,7 +135,7 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
 }
 
 
-- (void) reinitWindowWithNewParam: (NSNotification *)note {
+- (void) reinitWindow: (NSNotification *) note {
     // destroy previous window
     self.window = nil; // release last window
     NSInteger windowLevel = self.window.level;
@@ -150,29 +152,36 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
 }
 
 
+
 #pragma mark - notifications
 
 - (void) listenToNotifications {
     // register for window events
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(windowUnfocused:)
-                                                 name: NSWindowDidResignMainNotification
-                                               object: self.window];
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver: self
+                      selector: @selector(windowUnfocused:)
+                          name: NSWindowDidResignMainNotification
+                        object: self.window];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(reinitWindowWithNewParam:)
-                                                 name: GDMainWindowTypeChanged
-                                               object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(reinitWindow:)
+                          name: GDMainWindowTypeChanged
+                        object: nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(reinitWindowWithNewParam:)
-                                                 name: GDMainWindowAbsoluteSizeChanged
-                                               object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(reinitWindow:)
+                          name: GDMainWindowAbsoluteSizeChanged
+                        object: nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(reinitWindowWithNewParam:)
-                                                 name: GDMainWindowRelativeSizeChanged
-                                               object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(reinitWindow:)
+                          name: GDMainWindowRelativeSizeChanged
+                        object: nil];
+    
+     [defaultCenter addObserver: self
+                      selector: @selector(reinitWindow:)
+                          name: GDMainWindowGridUniversalDimensionsChanged
+                        object: nil];
 }
 
 
@@ -282,6 +291,7 @@ extern NSString * const GDMainWindowRelativeSizeChanged;
         [_appDelegate moveAppWithResultRect: result];
     }
 }
+
 
 
 @end
