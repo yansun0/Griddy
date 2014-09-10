@@ -154,7 +154,7 @@
 @interface GDMainWindowAppInfoView() {
     GDGrid *_grid;
     NSImageView *_appIconView;
-    NSView *_appNameView;
+    NSTextField *_appNameView;
     NSRunningApplication *_curApp;
 }
 @end
@@ -176,12 +176,12 @@
                                                                  object: nil];
         _appIconView = [[NSImageView alloc] initWithFrame: [_grid getAppIconFrame]];
         [_appIconView setImageScaling: NSImageScaleAxesIndependently];
-        [_appIconView setWantsLayer: YES];
-        _appIconView.layer.backgroundColor = [NSColor whiteColor].CGColor;
         
-        _appNameView = [[NSView alloc] initWithFrame: [_grid getAppNameFrame]];
-        [_appNameView setWantsLayer: YES];
-        _appNameView.layer.backgroundColor = [NSColor whiteColor].CGColor;
+        _appNameView = [[NSTextField alloc] initWithFrame: [_grid getAppNameFrame]];
+        [_appNameView setBezeled:NO];
+        [_appNameView setDrawsBackground:NO];
+        [_appNameView setEditable:NO];
+        [_appNameView setSelectable:NO];
         
         [self addSubview: _appIconView];
         [self addSubview: _appNameView];
@@ -195,6 +195,7 @@
     NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
     if (![_curApp isEqualTo: newApp]) {
         [_appIconView setImage: newApp.icon];
+        [_appNameView setStringValue: newApp.localizedName];
         _curApp = newApp;
     }
 }
