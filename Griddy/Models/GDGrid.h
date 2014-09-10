@@ -19,6 +19,9 @@
 - (void) setupGridParams;
 
 - (NSRect) getMainWindowFrame;
+- (NSRect) getAppInfoFrame;
+- (NSRect) getAppIconFrame;
+- (NSRect) getAppNameFrame;
 - (NSRect) getContentRectFrame;
 - (NSRect) getCellViewFrameForCellX: (NSInteger)x
                                   Y: (NSInteger)y;

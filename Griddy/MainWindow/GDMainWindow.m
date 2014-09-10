@@ -37,13 +37,11 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
                                defer: NO];
     
     // set content view
-    NSRect viewRect = [grid getContentRectFrame];
-    [self setContentView: [[GDMainWindowView alloc] initWithFrame: viewRect
-                                                        andGDGrid: grid]];
+    [self setContentView: [[GDMainWindowMainView alloc] initWithFrame: contentRect
+                                                            andGDGrid: grid]];
     
     // set level
     [self setLevel: NSFloatingWindowLevel];
-    
     
     // prevent hide
     return self;

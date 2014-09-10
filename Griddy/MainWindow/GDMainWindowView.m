@@ -13,33 +13,48 @@
 
 
 
-@interface GDMainWindowView() {
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowMainView
+// ----------------------------------
+
+@interface GDMainWindowMainView() {
     GDGrid *_grid;
     BOOL isMouseDown;
     NSTrackingArea *_trackingArea;
+    GDMainWindowAppInfoView *_appInfoView;
 }
 @end
 
 
 
-@implementation GDMainWindowView
+@implementation GDMainWindowMainView
+
+
+
+#pragma mark - INITIALIZATION
 
 - (id) initWithFrame: (NSRect)contentFrame
-          andGDGrid: (GDGrid *)grid {
+           andGDGrid: (GDGrid *)grid {
     _grid = grid;
     isMouseDown = NO;
-    return [self initWithFrame: contentFrame];
-}
-
-
-- (id) initWithFrame: (NSRect)frame {
-    self = [super initWithFrame: frame];
+    
+    NSRect cellCollectionViewRect = [grid getContentRectFrame];
+    NSRect appInfoViewRect = [grid getAppInfoFrame];
+    
+    self = [super initWithFrame: contentFrame];
     
     if (self != nil) {
+        // init app info view
+        _appInfoView = [[GDMainWindowAppInfoView alloc] initWithFrame: appInfoViewRect
+                                                            andGDGrid: _grid];
+        [self addSubview: _appInfoView];
+        
+        // init cell views
         for (NSInteger i = 0; i < (NSUInteger)_grid.numCell.width; i++) {
             for (NSInteger j = 0; j < (NSUInteger)_grid.numCell.height; j++) {
                 NSRect cellFrame = [_grid getCellViewFrameForCellX:i Y:j];
-                // NSLog(@"%@", CGRectCreateDictionaryRepresentation(cellFrame));
                 NSView *cellFrameView = [[GDCellView alloc] initWithFrame: cellFrame
                                                              andPositionX: i
                                                              andPositionY: j];
@@ -52,14 +67,17 @@
 }
 
 
-- (void) drawRect: (NSRect)dirtyRect {
+- (void) drawRect: (NSRect) dirtyRect {
     [[NSColor colorWithCalibratedRed: 0.0
                                green: 0.5
-                                blue: 1
+                                blue: 1.0
                                alpha: 0.5] set];
     NSRectFill(dirtyRect);
 }
 
+
+
+#pragma mark - EVENTS
 
 - (void) mouseDown: (NSEvent *) theEvent {
     isMouseDown = YES;
@@ -124,3 +142,63 @@
 
 
 @end
+
+
+
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowAppInfoView
+// ----------------------------------
+
+@interface GDMainWindowAppInfoView() {
+    GDGrid *_grid;
+    NSImageView *_appIconView;
+    NSView *_appNameView;
+    NSRunningApplication *_curApp;
+}
+@end
+
+
+
+@implementation GDMainWindowAppInfoView
+
+
+- (id) initWithFrame: (NSRect) contentFrame
+           andGDGrid: (GDGrid *) grid {
+    _grid = grid;
+    self = [super initWithFrame: contentFrame];
+    
+    if (self != nil) {
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
+                                                               selector: @selector(newApp:)
+                                                                   name: NSWorkspaceDidDeactivateApplicationNotification
+                                                                 object: nil];
+        _appIconView = [[NSImageView alloc] initWithFrame: [_grid getAppIconFrame]];
+        [_appIconView setImageScaling: NSImageScaleAxesIndependently];
+        [_appIconView setWantsLayer: YES];
+        _appIconView.layer.backgroundColor = [NSColor whiteColor].CGColor;
+        
+        _appNameView = [[NSView alloc] initWithFrame: [_grid getAppNameFrame]];
+        [_appNameView setWantsLayer: YES];
+        _appNameView.layer.backgroundColor = [NSColor whiteColor].CGColor;
+        
+        [self addSubview: _appIconView];
+        [self addSubview: _appNameView];
+    }
+    
+    return self;
+}
+
+
+- (void) newApp: (NSNotification *) note {
+    NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
+    if (![_curApp isEqualTo: newApp]) {
+        [_appIconView setImage: newApp.icon];
+        _curApp = newApp;
+    }
+}
+
+
+@end
+

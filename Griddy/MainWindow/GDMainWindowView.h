@@ -9,10 +9,30 @@
 #import <Cocoa/Cocoa.h>
 @class GDGrid;
 
-@interface GDMainWindowView : NSView
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowMainView
+// ----------------------------------
+
+@interface GDMainWindowMainView : NSView
 
 - (id) initWithFrame: (NSRect)contentFrame
           andGDGrid: (GDGrid *)grid;
+
+
+@end
+
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowAppInfoView
+// ----------------------------------
+
+@interface GDMainWindowAppInfoView : NSView
+
+- (id) initWithFrame: (NSRect)contentFrame
+           andGDGrid: (GDGrid *)grid;
 
 
 @end

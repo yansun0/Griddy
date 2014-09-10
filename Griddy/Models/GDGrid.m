@@ -17,8 +17,10 @@ extern NSString * const GDMainWindowRelativeSizeKey;
 extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 
 @interface GDGrid() {
-    CGFloat _cellOutterMargin;
-    CGFloat _cellInnerMargin;
+    CGFloat _innerMargin;
+    CGFloat _outterMargin;
+    CGFloat _appViewSize;
+    CGFloat _cellMarginTop;
 }
 
 @property (nonatomic) NSRect gridInfo;
@@ -55,6 +57,7 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 
 - (void) setupGridParams {
     [self setupGridInfo];
+    [self setupGridMeasurements];
     [self setupCellSize];
     [_thisGDScreen setNumWidth: _numCell.width NumHeight: _numCell.height];
 }
@@ -89,17 +92,23 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 
 #pragma mark - CELL SIZE LOGIC
 
+- (void) setupGridMeasurements {
+    _innerMargin = 5.0;
+    _outterMargin = 15.0;
+    _appViewSize = 48.0;
+}
+
+
 - (void) setupCellSize {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowGridUniversalDimensionsKey];
     NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     _numCell = [unarchived sizeValue];
     
-    _cellOutterMargin = 10.0;
-    _cellInnerMargin = 5.0;
+    _cellMarginTop = _appViewSize + _outterMargin;
     
     // calculate cell size
-    _cellSize.width = (_gridInfo.size.width - 2*_cellOutterMargin - (_numCell.width - 1)*_cellInnerMargin)/_numCell.width;
-    _cellSize.height = (_gridInfo.size.height - 2*_cellOutterMargin - (_numCell.height - 1)*_cellInnerMargin)/_numCell.height;
+    _cellSize.width = (_gridInfo.size.width - 2*_outterMargin - (_numCell.width - 1)*_innerMargin)/_numCell.width;
+    _cellSize.height = (_gridInfo.size.height - _cellMarginTop - 2*_outterMargin - (_numCell.height - 1)*_innerMargin)/_numCell.height;
 }
 
 
@@ -112,18 +121,39 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 }
 
 
-- (NSRect) getContentRectFrame {
-    return NSMakeRect(_gridInfo.origin.x + _cellOutterMargin,
-                      _gridInfo.origin.y + _cellOutterMargin,
-                      _gridInfo.size.width - 2*_cellOutterMargin,
-                      _gridInfo.size.height - 2*_cellOutterMargin);
+- (NSRect) getAppInfoFrame { // relative to mainWindowFrame
+    return NSMakeRect(_outterMargin,
+                      _gridInfo.size.height - _outterMargin - _appViewSize,
+                      _gridInfo.size.width - 2*_outterMargin,
+                      _appViewSize);
 }
 
 
-- (NSRect) getCellViewFrameForCellX: (NSInteger)x
+- (NSRect) getAppIconFrame { // relative to appInfoFrame
+    return NSMakeRect(0, 0, _appViewSize, _appViewSize);
+}
+
+
+- (NSRect) getAppNameFrame { // relative to appInfoFrame
+    CGFloat iconViewWidth = _appViewSize + _innerMargin;
+    return NSMakeRect(iconViewWidth, 0,
+                      _gridInfo.size.width - 2*_outterMargin - iconViewWidth,
+                      _appViewSize);
+}
+
+
+- (NSRect) getContentRectFrame { // relative to mainWindowFrame
+    return NSMakeRect(_outterMargin,
+                      _outterMargin,
+                      _gridInfo.size.width - 2*_outterMargin,
+                      _gridInfo.size.height - 2*_outterMargin);
+}
+
+
+- (NSRect) getCellViewFrameForCellX: (NSInteger)x // relative to mainWindowFrame
                                   Y: (NSInteger)y {
-    return NSMakeRect(_cellOutterMargin + x*(_cellInnerMargin + _cellSize.width),
-                      _cellOutterMargin + y*(_cellInnerMargin + _cellSize.height),
+    return NSMakeRect(_outterMargin + x*(_innerMargin + _cellSize.width),
+                      _outterMargin + y*(_innerMargin + _cellSize.height),
                       _cellSize.width, _cellSize.height);
 }
 
