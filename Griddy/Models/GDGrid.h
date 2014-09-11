@@ -22,7 +22,7 @@
 - (NSRect) getAppInfoFrame;
 - (NSRect) getAppIconFrame;
 - (NSRect) getAppNameFrame;
-- (NSRect) getContentRectFrame;
+- (NSRect) getCellCollectionRectFrame;
 - (NSRect) getCellViewFrameForCellX: (NSInteger)x
                                   Y: (NSInteger)y;
 - (NSString *) getNewWindowBoundsStringFromCell1: (NSPoint)cell1

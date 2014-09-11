@@ -17,9 +17,7 @@
 
 @interface GDMainWindowMainView : NSView
 
-- (id) initWithFrame: (NSRect)contentFrame
-          andGDGrid: (GDGrid *)grid;
-
+- (id) initWithGDGrid: (GDGrid *)grid;
 
 @end
 
@@ -31,8 +29,18 @@
 
 @interface GDMainWindowAppInfoView : NSView
 
-- (id) initWithFrame: (NSRect)contentFrame
-           andGDGrid: (GDGrid *)grid;
+- (id) initWithGDGrid: (GDGrid *)grid;
 
+@end
+
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowCellCollectionView
+// ----------------------------------
+
+@interface GDMainWindowCellCollectionView : NSView
+
+- (id) initWithGDGrid: (GDGrid *)grid;
 
 @end

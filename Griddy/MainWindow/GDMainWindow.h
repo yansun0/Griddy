@@ -14,21 +14,6 @@
 
 
 // ----------------------------------
-#pragma mark - GDMainWindow
-// ----------------------------------
-
-@interface GDMainWindow : NSWindow
-
-- (id) initWithRect: (NSRect)contentRect
-          andGDGrid: (GDGrid *)grid;
-
-@end
-
-
-
-
-
-// ----------------------------------
 #pragma mark - GDMainWindowController
 // ----------------------------------
 
@@ -58,4 +43,16 @@
 - (void) setEndCellPosition: (NSPoint)pos;
 - (void) setHoverCellPosition: (NSPoint)pos
                 WithMouseDown: (BOOL)isDown;
+@end
+
+
+
+// ----------------------------------
+#pragma mark - GDMainWindow
+// ----------------------------------
+
+@interface GDMainWindow : NSWindow
+
+- (id) initWithGDGrid: (GDGrid *)grid;
+
 @end

@@ -9,62 +9,49 @@
 #import "GDOverlayWindow.h"
 #import "GDGrid.h"
 
+
+
+
+
+// ----------------------------------
+#pragma mark - GDOverlayWindow
+// ----------------------------------
+
 @interface GDOverlayWindow()
+
 typedef void *CGSConnection;
-extern OSStatus CGSSetWindowBackgroundBlurRadius(CGSConnection connection,
-                                                 NSInteger windowNumber,
-                                                 int radius);
+extern OSStatus CGSSetWindowBackgroundBlurRadius(CGSConnection connection, NSInteger windowNumber, int radius);
 extern CGSConnection CGSDefaultConnectionForThread();
+
 @end
+
 
 
 @implementation GDOverlayWindow
 
 
-- (id) initWithRect: (NSRect)contentRect {
-    self = [self initWithContentRect: contentRect
+- (id) initWithRect: (NSRect) contentRect {
+    self = [super initWithContentRect: contentRect
                            styleMask: NSBorderlessWindowMask
                              backing: NSBackingStoreBuffered
                                defer: NO];
-    return self;
-}
-
-
-- (id) initWithContentRect: (NSRect)contentRect
-                 styleMask: (NSUInteger)aStyle
-                   backing: (NSBackingStoreType)bufferingType
-                     defer: (BOOL)flag {
-    self = [super initWithContentRect: contentRect
-                            styleMask: NSBorderlessWindowMask
-                              backing: NSBackingStoreBuffered
-                                defer: NO];
     if (self != nil) {
-        [self setStyleMask: NSBorderlessWindowMask];
-        [self setHasShadow: NO];
-        [self setOpaque: NO];
-        [self setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.5]];
-        [self enableBlurForWindow:self];
+        self.styleMask = NSBorderlessWindowMask;
+        self.hasShadow = NO;
+        self.opaque = NO;
+        [self setContentView: [[GDOverlayWindowView alloc] initWithFrame: contentRect]];
+        [self enableBlurForWindow: self];
     }
     return self;
 }
 
 
 - (void) enableBlurForWindow: (NSWindow *)window {
-    [window setOpaque:NO];
-    window.backgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.5];
+    window.opaque = NO;
+    window.backgroundColor = [NSColor colorWithCalibratedWhite: 0.9 alpha: 0.5];
     
     CGSConnection connection = CGSDefaultConnectionForThread();
     CGSSetWindowBackgroundBlurRadius(connection, [window windowNumber], 20);
-}
-
-
-- (void) setContentView: (NSView *)aView {
-    aView.wantsLayer = YES;
-    aView.layer.frame = aView.frame;
-    aView.layer.cornerRadius = 15.0;
-    aView.layer.masksToBounds = YES;
-    
-    [super setContentView: aView];
 }
 
 
@@ -90,5 +77,28 @@ extern CGSConnection CGSDefaultConnectionForThread();
     [self setCanHide: YES];
 }
 
+
+@end
+
+
+
+
+
+// ----------------------------------
+#pragma mark - GDOverlayWindowView
+// ----------------------------------
+
+@implementation GDOverlayWindowView
+
+- (id)initWithFrame: (NSRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.wantsLayer = YES;
+        self.layer.frame = self.frame;
+        self.layer.cornerRadius = 5.0;
+        self.layer.masksToBounds = YES;
+    }
+    return self;
+}
 
 @end

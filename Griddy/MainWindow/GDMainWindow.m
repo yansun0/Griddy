@@ -21,74 +21,6 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 
 
 
-// ----------------------------------
-#pragma mark - GDMainWindow
-// ----------------------------------
-
-@implementation GDMainWindow
-
-
-- (id) initWithRect: (NSRect)contentRect
-          andGDGrid: (GDGrid *)grid {
-    
-    self = [self initWithContentRect: contentRect
-                           styleMask: NSBorderlessWindowMask
-                             backing: NSBackingStoreBuffered
-                               defer: NO];
-    
-    // set content view
-    [self setContentView: [[GDMainWindowMainView alloc] initWithFrame: contentRect
-                                                            andGDGrid: grid]];
-    
-    // set level
-    [self setLevel: NSFloatingWindowLevel];
-    
-    // prevent hide
-    return self;
-}
-
-- (id) initWithContentRect: (NSRect)contentRect
-                 styleMask: (NSUInteger)aStyle
-                   backing: (NSBackingStoreType)bufferingType
-                     defer: (BOOL)flag {
-    self = [super initWithContentRect: contentRect
-                            styleMask: NSBorderlessWindowMask
-                              backing: NSBackingStoreBuffered
-                                defer: NO];
-    if (self != nil) {
-        [self setStyleMask: NSBorderlessWindowMask];
-        [self setHasShadow: NO];
-        [self setOpaque: NO];
-        [self setBackgroundColor: [NSColor clearColor]];
-    }
-    return self;
-}
-
-- (void) setContentView: (NSView *)aView {
-    aView.wantsLayer = YES;
-    aView.layer.frame = aView.frame;
-    aView.layer.cornerRadius = 15.0;
-    aView.layer.masksToBounds = YES;
-    
-    [super setContentView: aView];
-}
-
-- (void) mouseDown: (NSEvent *) theEvent {
-    [self.windowController windowFocused: nil];
-}
-
-- (BOOL) canBecomeKeyWindow {
-    return YES;
-}
-
-- (BOOL) canBecomeMainWindow {
-    return YES;
-}
-
-@end
-
-
-
 
 
 // ----------------------------------
@@ -117,13 +49,11 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 @synthesize appDelegate = _appDelegate;
 
 
-- (id) initWithGrid: (GDGrid *)grid {
+- (id) initWithGrid: (GDGrid *) grid {
     _thisGrid = grid;
     _appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
-
-    NSRect someFrame = [grid getMainWindowFrame];
-    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithRect: someFrame
-                                          andGDGrid: grid];
+    
+    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: grid];
     [thisWindow setWindowController: self];
     self = [super initWithWindow: thisWindow];
     
@@ -137,15 +67,13 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     // destroy previous window
     self.window = nil; // release last window
     NSInteger windowLevel = self.window.level;
-
+    
     // make new window
     [_thisGrid setupGridParams];
-    NSRect someFrame = [_thisGrid getMainWindowFrame];
-    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithRect: someFrame
-                                                        andGDGrid: _thisGrid];
+    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: _thisGrid];
     [thisWindow setWindowController: self];
     self.window = thisWindow;
-
+    
     [self showWindow: nil AtWindowLevel: windowLevel];
 }
 
@@ -176,7 +104,7 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
                           name: GDMainWindowRelativeSizeChanged
                         object: nil];
     
-     [defaultCenter addObserver: self
+    [defaultCenter addObserver: self
                       selector: @selector(reinitWindow:)
                           name: GDMainWindowGridUniversalDimensionsChanged
                         object: nil];
@@ -291,5 +219,56 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 }
 
 
+@end
+
+
+
+
+
+// ----------------------------------
+#pragma mark - GDMainWindow
+// ----------------------------------
+
+@implementation GDMainWindow
+
+
+- (id) initWithGDGrid: (GDGrid *)grid {
+    
+    NSRect contentFrame = [grid getMainWindowFrame];
+
+    self = [super initWithContentRect: contentFrame
+                            styleMask: NSBorderlessWindowMask
+                              backing: NSBackingStoreBuffered
+                                defer: NO];
+    if (self != nil) {
+        // window setup
+        [self setStyleMask: NSBorderlessWindowMask];
+        [self setHasShadow: NO];
+        [self setOpaque: NO];
+        [self setBackgroundColor: [NSColor clearColor]];
+        [self setLevel: NSFloatingWindowLevel];
+
+        [self setContentView: [[GDMainWindowMainView alloc] initWithGDGrid: grid]];
+    }
+
+    return self;
+}
+
+
+- (void) mouseDown: (NSEvent *) theEvent {
+    [self.windowController windowFocused: nil];
+}
+
+
+- (BOOL) canBecomeKeyWindow {
+    return YES;
+}
+
+
+- (BOOL) canBecomeMainWindow {
+    return YES;
+}
+
 
 @end
+

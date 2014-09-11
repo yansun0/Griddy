@@ -17,3 +17,11 @@
 - (void) enableHideWindow;
 
 @end
+
+
+
+@interface GDOverlayWindowView : NSView
+
+- (id) initWithFrame: (NSRect)frameRect;
+
+@end

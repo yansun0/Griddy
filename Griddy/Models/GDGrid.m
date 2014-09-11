@@ -142,18 +142,18 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 }
 
 
-- (NSRect) getContentRectFrame { // relative to mainWindowFrame
+- (NSRect) getCellCollectionRectFrame { // relative to mainWindowFrame
     return NSMakeRect(_outterMargin,
                       _outterMargin,
                       _gridInfo.size.width - 2*_outterMargin,
-                      _gridInfo.size.height - 2*_outterMargin);
+                      _gridInfo.size.height - 2*_outterMargin - _cellMarginTop);
 }
 
 
-- (NSRect) getCellViewFrameForCellX: (NSInteger)x // relative to mainWindowFrame
+- (NSRect) getCellViewFrameForCellX: (NSInteger)x // relative to getCellCollectionRectFrame
                                   Y: (NSInteger)y {
-    return NSMakeRect(_outterMargin + x*(_innerMargin + _cellSize.width),
-                      _outterMargin + y*(_innerMargin + _cellSize.height),
+    return NSMakeRect(x*(_innerMargin + _cellSize.width),
+                      y*(_innerMargin + _cellSize.height),
                       _cellSize.width, _cellSize.height);
 }
 
