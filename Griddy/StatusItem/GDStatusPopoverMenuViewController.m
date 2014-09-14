@@ -6,13 +6,19 @@
 //  Copyright (c) 2014 Sunnay. All rights reserved.
 //
 
-#import "GDStatusPopoverView.h"
+#import "GDStatusPopoverMenuViewController.h"
 #import "GDStatusItem.h"
 #import "GDAssets.h"
 
 
 
-@implementation GDStatusPopoverViewController
+// event notification keys
+NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettingsButtonSelected";
+
+
+
+
+@implementation GDStatusPopoverMenuViewController
 
 - (id)initWithNibName: (NSString *) nibNameOrNil
                bundle: (NSBundle *) nibBundleOrNil {
@@ -22,10 +28,6 @@
     }
     
     return self;
-}
-
-- (IBAction) closeButton:(id)sender {
-    [_statusItemView hidePopover];
 }
 
 @end
@@ -91,10 +93,13 @@
     [super drawRect: dirtyRect];
 }
 
+
 - (void) mouseUp: (NSEvent *) theEvent {
-    [NSApp sendAction: @selector(openPreferences)
-                   to: [[NSApplication sharedApplication] delegate]
-                 from: nil];
+    NSLog(@"mouse up");
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDStatusPopoverSettingsButtonSelected
+                      object: self
+                    userInfo: nil];
 }
 
 @end

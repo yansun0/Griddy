@@ -118,7 +118,6 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     [super showWindow: sender];
     [self.window makeKeyAndOrderFront: sender];
     [NSApp activateIgnoringOtherApps: YES];
-    
 }
 
 
@@ -171,6 +170,14 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 - (void) windowFocused: (NSNotification *)note {
     // close other windows, except for this one
     [_appDelegate closeAllOtherWindowsExcluding: self.window];
+}
+
+
+
+#pragma mark - window callbacks
+
+- (NSRunningApplication *) getCurrentApp {
+    return _appDelegate.frontApp;
 }
 
 

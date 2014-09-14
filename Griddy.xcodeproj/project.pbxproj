@@ -10,11 +10,10 @@
 		2C1BC28619689B2100125DAB /* GDScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BC28519689B2100125DAB /* GDScreen.m */; };
 		2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */; };
 		2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C49CDF719A8780D003E0FB6 /* GDPreferences.m */; };
-		2C49CDFB19A8790D003E0FB6 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CDFA19A8790D003E0FB6 /* Preferences.xib */; };
 		2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8B1966553D001398D9 /* GDMainWindow.m */; };
 		2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8E19665662001398D9 /* GDGrid.m */; };
-		2C68D96619A419BC0095C7D8 /* GDStatusPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */; };
-		2C68D97019A471850095C7D8 /* GDStatusPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */; };
+		2C68D96619A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C68D96519A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m */; };
+		2C68D97019A471850095C7D8 /* GDStatusPopoverMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C68D96F19A471850095C7D8 /* GDStatusPopoverMenuView.xib */; };
 		2C9D55F5195A5FAB00588507 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D55F4195A5FAB00588507 /* Cocoa.framework */; };
 		2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D55FD195A5FAB00588507 /* InfoPlist.strings */; };
 		2C9D5601195A5FAB00588507 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D5600195A5FAB00588507 /* main.m */; };
@@ -26,6 +25,9 @@
 		2C9D561D195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D561B195A5FAB00588507 /* InfoPlist.strings */; };
 		2C9D561F195A5FAB00588507 /* GriddyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D561E195A5FAB00588507 /* GriddyTests.m */; };
 		2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9765119A5B2EB000AA486 /* GDAssets.m */; };
+		2CAB25F919C421D5006AF78A /* NSWindow+canBecomeKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB25F819C421D5006AF78A /* NSWindow+canBecomeKeyWindow.m */; };
+		2CB4E00A19C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB4E00919C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m */; };
+		2CB4E00E19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CB4E00D19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib */; };
 		2CC8E0E219761037007C8165 /* GDCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC8E0E119761037007C8165 /* GDCellView.m */; };
 		2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4C55519A3046700A0528D /* GDStatusItem.m */; };
 		2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08E6199F138C00433AF3 /* MASShortcut.m */; };
@@ -51,14 +53,13 @@
 		2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDOverlayWindow.m; path = OverlayWindow/GDOverlayWindow.m; sourceTree = "<group>"; };
 		2C49CDF619A8780D003E0FB6 /* GDPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDPreferences.h; path = StatusItem/GDPreferences.h; sourceTree = "<group>"; };
 		2C49CDF719A8780D003E0FB6 /* GDPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDPreferences.m; path = StatusItem/GDPreferences.m; sourceTree = "<group>"; };
-		2C49CDFA19A8790D003E0FB6 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		2C4B5E8A1966553D001398D9 /* GDMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindow.h; path = MainWindow/GDMainWindow.h; sourceTree = "<group>"; };
 		2C4B5E8B1966553D001398D9 /* GDMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindow.m; path = MainWindow/GDMainWindow.m; sourceTree = "<group>"; };
 		2C4B5E8D19665662001398D9 /* GDGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDGrid.h; path = Models/GDGrid.h; sourceTree = "<group>"; };
 		2C4B5E8E19665662001398D9 /* GDGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDGrid.m; path = Models/GDGrid.m; sourceTree = "<group>"; };
-		2C68D96419A419BC0095C7D8 /* GDStatusPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverView.h; path = StatusItem/GDStatusPopoverView.h; sourceTree = "<group>"; };
-		2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverView.m; path = StatusItem/GDStatusPopoverView.m; sourceTree = "<group>"; };
-		2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDStatusPopover.xib; sourceTree = "<group>"; };
+		2C68D96419A419BC0095C7D8 /* GDStatusPopoverMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverMenuViewController.h; path = StatusItem/GDStatusPopoverMenuViewController.h; sourceTree = "<group>"; };
+		2C68D96519A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverMenuViewController.m; path = StatusItem/GDStatusPopoverMenuViewController.m; sourceTree = "<group>"; };
+		2C68D96F19A471850095C7D8 /* GDStatusPopoverMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDStatusPopoverMenuView.xib; sourceTree = "<group>"; };
 		2C9D55F1195A5FAB00588507 /* Griddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Griddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9D55F4195A5FAB00588507 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2C9D55F7195A5FAB00588507 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -79,6 +80,11 @@
 		2C9D561E195A5FAB00588507 /* GriddyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GriddyTests.m; sourceTree = "<group>"; };
 		2CA9765019A5B2EB000AA486 /* GDAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDAssets.h; path = assets/GDAssets.h; sourceTree = "<group>"; };
 		2CA9765119A5B2EB000AA486 /* GDAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDAssets.m; path = assets/GDAssets.m; sourceTree = "<group>"; };
+		2CAB25F719C421D5006AF78A /* NSWindow+canBecomeKeyWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+canBecomeKeyWindow.h"; sourceTree = "<group>"; };
+		2CAB25F819C421D5006AF78A /* NSWindow+canBecomeKeyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+canBecomeKeyWindow.m"; sourceTree = "<group>"; };
+		2CB4E00819C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverPreferenceViewController.h; path = StatusItem/GDStatusPopoverPreferenceViewController.h; sourceTree = "<group>"; };
+		2CB4E00919C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverPreferenceViewController.m; path = StatusItem/GDStatusPopoverPreferenceViewController.m; sourceTree = "<group>"; };
+		2CB4E00D19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GDStatusPopoverPreferenceView.xib; path = StatusItem/GDStatusPopoverPreferenceView.xib; sourceTree = "<group>"; };
 		2CC8E0E019761037007C8165 /* GDCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDCellView.h; path = MainWindow/GDCellView.h; sourceTree = "<group>"; };
 		2CC8E0E119761037007C8165 /* GDCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDCellView.m; path = MainWindow/GDCellView.m; sourceTree = "<group>"; };
 		2CD4C55419A3046700A0528D /* GDStatusItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusItem.h; path = StatusItem/GDStatusItem.h; sourceTree = "<group>"; };
@@ -141,7 +147,6 @@
 			children = (
 				2C49CDF619A8780D003E0FB6 /* GDPreferences.h */,
 				2C49CDF719A8780D003E0FB6 /* GDPreferences.m */,
-				2C49CDFA19A8790D003E0FB6 /* Preferences.xib */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 				2CDA08E4199F137300433AF3 /* Controllers */,
 				2CC8E0E319761049007C8165 /* Views */,
 				2C1BC28719689B8A00125DAB /* Models */,
+				2C49CDF919A878BE003E0FB6 /* Preferences */,
 				2C9D560C195A5FAB00588507 /* Images.xcassets */,
 				2C9D55FB195A5FAB00588507 /* Supporting Files */,
 			);
@@ -246,7 +252,6 @@
 			children = (
 				2C36298419A07D5600C93AD5 /* Main WIndow */,
 				2CD4C55719A3047500A0528D /* Status Item */,
-				2C49CDF919A878BE003E0FB6 /* Preferences */,
 				2CA9765019A5B2EB000AA486 /* GDAssets.h */,
 				2CA9765119A5B2EB000AA486 /* GDAssets.m */,
 			);
@@ -257,10 +262,15 @@
 			isa = PBXGroup;
 			children = (
 				2CD4C55419A3046700A0528D /* GDStatusItem.h */,
+				2CAB25F719C421D5006AF78A /* NSWindow+canBecomeKeyWindow.h */,
+				2CAB25F819C421D5006AF78A /* NSWindow+canBecomeKeyWindow.m */,
 				2CD4C55519A3046700A0528D /* GDStatusItem.m */,
-				2C68D96419A419BC0095C7D8 /* GDStatusPopoverView.h */,
-				2C68D96519A419BC0095C7D8 /* GDStatusPopoverView.m */,
-				2C68D96F19A471850095C7D8 /* GDStatusPopover.xib */,
+				2C68D96419A419BC0095C7D8 /* GDStatusPopoverMenuViewController.h */,
+				2C68D96519A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m */,
+				2C68D96F19A471850095C7D8 /* GDStatusPopoverMenuView.xib */,
+				2CB4E00819C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.h */,
+				2CB4E00919C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m */,
+				2CB4E00D19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib */,
 			);
 			name = "Status Item";
 			sourceTree = "<group>";
@@ -380,10 +390,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */,
-				2C68D97019A471850095C7D8 /* GDStatusPopover.xib in Resources */,
+				2C68D97019A471850095C7D8 /* GDStatusPopoverMenuView.xib in Resources */,
 				2C9D560D195A5FAB00588507 /* Images.xcassets in Resources */,
 				2C9D5605195A5FAB00588507 /* Credits.rtf in Resources */,
-				2C49CDFB19A8790D003E0FB6 /* Preferences.xib in Resources */,
+				2CB4E00E19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +416,7 @@
 				2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */,
 				2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */,
 				2C9D5601195A5FAB00588507 /* main.m in Sources */,
+				2CAB25F919C421D5006AF78A /* NSWindow+canBecomeKeyWindow.m in Sources */,
 				2C1BC28619689B2100125DAB /* GDScreen.m in Sources */,
 				2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */,
 				2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */,
@@ -414,9 +425,10 @@
 				2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */,
 				2CC8E0E219761037007C8165 /* GDCellView.m in Sources */,
 				2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */,
+				2CB4E00A19C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m in Sources */,
 				2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */,
 				2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */,
-				2C68D96619A419BC0095C7D8 /* GDStatusPopoverView.m in Sources */,
+				2C68D96619A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

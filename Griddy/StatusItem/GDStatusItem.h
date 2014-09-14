@@ -10,7 +10,9 @@
 
 
 
-#pragma mark - STATUS ITEM VIEW
+// ----------------------------------
+#pragma mark - GDStatusItemView
+// ----------------------------------
 
 @interface GDStatusItemView : NSView
 
@@ -29,9 +31,10 @@
 - (void) showPopover;
 - (void) showPopoverAnimated:(BOOL)animated;
 - (void) hidePopover;
+- (void) transitionToNewView: (NSViewController *) newViewController;
 
 // view size
-- (void)setContentSize:(CGSize)size;
+- (void) setContentSize:(CGSize)size;
 
 // events
 - (void) setAction: (SEL) action
@@ -42,21 +45,25 @@
 
 
 
-#pragma mark - STATUS ITEM CONTROLLER
+// ----------------------------------
+#pragma mark - GDStatusItemController
+// ----------------------------------
 
-@class GDStatusPopoverViewController;
-
+@class GDStatusPopoverMenuViewController;
+@class GDStatusPopoverPreferenceViewController;
 @interface GDStatusItemController : NSObject
 
 @property (nonatomic, strong) GDStatusItemView *statusItemView;
-@property (nonatomic, strong) GDStatusPopoverViewController *statusPanelController;
+@property (nonatomic, strong) GDStatusPopoverMenuViewController *menuViewController;
+@property (nonatomic, strong) GDStatusPopoverPreferenceViewController *preferenceViewController;
+@property (nonatomic, strong) NSViewController *curViewController;
+@property (nonatomic) NSUInteger curViewTag;
 @property (nonatomic) BOOL isVisible;
 
 - (id) initWithAction: (SEL) action
             andTarget: (id) target;
 - (BOOL) isStatusItemMenuOpen;
 - (void) hideStatusItem;
+
 @end
-
-
 

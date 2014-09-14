@@ -32,18 +32,14 @@ extern NSString * const StatusItemMenuOpened;
 extern NSString * const GDDockIconVisibilityChanged;
 extern NSString * const GDStatusItemVisibilityChanged;
 extern NSString * const GDAutoLaunchOnLoginChanged;
+extern NSString * const GDStatusPopoverPreferenceViewChange;
 
 
-@interface GDAppDelegate() {
-    NSTimer *checkAppIntervalTimer;
-}
 
-@property (strong, nonatomic) NSRunningApplication *frontApp;
-@property (strong, nonatomic) NSMutableArray *avaliableScreens;
-@property (strong, nonatomic) NSMutableArray *windowControllers;
+@interface GDAppDelegate()
+
 @property (strong, nonatomic) GDOverlayWindow *overlayWindow;
 @property (strong, nonatomic) GDStatusItemController *GDStatusItemController;
-@property (strong, nonatomic) GDPreferenceController *preferenceController;
 @property (nonatomic) BOOL isVisible;
 @property (nonatomic) BOOL dockIconVisible;
 @property (nonatomic) BOOL statusVisible;
@@ -69,12 +65,12 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 #pragma mark - INITIALIZATION
 
 + (void) initialize {
-    [GDPreferenceController setUserDefaults];
+    [GDPreferences setUserDefaults];
 }
 
 
 - (void) applicationWillFinishLaunching: (NSNotification *) note {
-    [self notificationSetup];
+    [self setupNotifications];
     [self windowControllers];
     [self avaliableScreens];
     [self setupHotkey];
@@ -99,7 +95,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 #pragma mark - NOTIFICATIONS
 
-- (void) notificationSetup {
+- (void) setupNotifications {
     // register global notifications
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
                                                            selector: @selector(someAppDeactivated:)
@@ -114,6 +110,11 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
              object: nil];
     
     [nc addObserver: self
+           selector: @selector(onStatusPopoverPreferenceViewChange:)
+               name: GDStatusPopoverPreferenceViewChange
+             object: nil];
+    
+    [nc addObserver: self
            selector: @selector(onGDStatusItemVisibilityChanged:)
                name: GDStatusItemVisibilityChanged
              object: nil];
@@ -122,6 +123,16 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
            selector: @selector(onGDDockIconVisibilityChanged:)
                name: GDDockIconVisibilityChanged
              object: nil];
+}
+
+
+- (void) onStatusPopoverPreferenceViewChange: (NSNotification *) note {
+    BOOL shouldShowWindow = [[[note userInfo] objectForKey:@"info"] boolValue];
+    if (shouldShowWindow) {
+        [self launchWindows];
+    } else {
+        [self hideWindows];
+    }
 }
 
 
@@ -140,6 +151,8 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 	BOOL newVisibility = [[[note userInfo] objectForKey:@"info"] boolValue];
     [self transformApp: newVisibility];
 }
+
+
 
 
 
@@ -172,7 +185,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
         [curWC hideWindow];
     }
     
-    if (![_GDStatusItemController isStatusItemMenuOpen] && ![_preferenceController isWindowFocused]) {
+    if (![_GDStatusItemController isStatusItemMenuOpen]) {
         [_frontApp activateWithOptions: 0]; // default option
     }
 }
@@ -206,7 +219,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         [[_windowControllers objectAtIndex: i] preventHideWindow];
     }
-    [_preferenceController preventHideWindow];
     [_overlayWindow preventHideWindow];
 }
 
@@ -215,7 +227,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         [[_windowControllers objectAtIndex: i] enableHideWindow];
     }
-    [_preferenceController enableHideWindow];
     [_overlayWindow enableHideWindow];
 }
 
@@ -512,17 +523,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     }
 }
 
-
-
-#pragma mark - PREFERENCES
-
-- (void) openPreferences {
-    if (_preferenceController == nil) {
-        _preferenceController = [[GDPreferenceController alloc] init];
-    }
-    [[_GDStatusItemController statusItemView] hidePopover];
-    [_preferenceController showWindow: nil];
-}
 
 
 @end

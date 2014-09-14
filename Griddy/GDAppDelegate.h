@@ -12,7 +12,11 @@
 
 @interface GDAppDelegate : NSObject <NSApplicationDelegate>
 
-//@property (strong, nonatomic) IBOutlet NSMenu *GDStatusMenu;
+
+@property (strong, nonatomic) NSRunningApplication *frontApp;
+@property (strong, nonatomic) NSMutableArray *avaliableScreens;
+@property (strong, nonatomic) NSMutableArray *windowControllers;
+
 
 - (void) launchWindowsBehindWindowLevel: (NSInteger) topWindowLevel;
 - (void) hideWindows;
@@ -22,5 +26,5 @@
 - (void) moveAppWithResultRect: (NSString *) resultRect;
 - (void) closeAllUnfocusedWindowsIncluding: (NSWindow *) curWindow;
 - (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow;
-- (void) openPreferences;
+
 @end
