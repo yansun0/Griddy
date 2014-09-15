@@ -56,9 +56,9 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: grid];
     [thisWindow setWindowController: self];
     self = [super initWithWindow: thisWindow];
-    
-    [self listenToNotifications];
-    
+    if (self != nil) {
+        [self listenToNotifications];
+    }
     return self;
 }
 
@@ -88,7 +88,6 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
                       selector: @selector(windowUnfocused:)
                           name: NSWindowDidResignMainNotification
                         object: self.window];
-    
     [defaultCenter addObserver: self
                       selector: @selector(reinitWindow:)
                           name: GDMainWindowTypeChanged
@@ -111,6 +110,11 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 }
 
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
 
 #pragma mark - app delegate callbacks
 
@@ -118,7 +122,6 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     [super showWindow: sender];
     [self.window makeKeyAndOrderFront: sender];
     [NSApp activateIgnoringOtherApps: YES];
-    
 }
 
 
@@ -171,6 +174,14 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 - (void) windowFocused: (NSNotification *)note {
     // close other windows, except for this one
     [_appDelegate closeAllOtherWindowsExcluding: self.window];
+}
+
+
+
+#pragma mark - window callbacks
+
+- (NSRunningApplication *) getCurrentApp {
+    return _appDelegate.frontApp;
 }
 
 

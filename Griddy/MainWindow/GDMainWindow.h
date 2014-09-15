@@ -36,6 +36,9 @@
 - (void) windowFocused: (NSNotification *)note;
 - (void) windowUnfocused: (NSNotification *)note;
 
+// app view callbacks
+- (NSRunningApplication *) getCurrentApp;
+
 // cell view callbacks
 - (void) setStartCellPosition: (NSPoint)pos;
 - (void) setCurCellPosition: (NSPoint)pos;

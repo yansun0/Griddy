@@ -12,15 +12,8 @@
 
 
 
-@interface GDStatusPopoverViewController : NSViewController
-
-@property(weak, nonatomic) GDStatusItemView *statusItemView;
-
-- (IBAction) closeButton:(id)sender;
-
+@interface GDStatusPopoverMenuViewController : NSViewController
 @end
-
-
 
 @interface GDStatusPopoverActivateButton : NSView
 @end

@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface GDAssets : NSObject
+// light
+// background: 233 231 235
+// text:       97 97 100
+
+// dark
+// background: 155 155 155
+// text:       255 255 255
 
 + (NSBezierPath *) getPathForGridNineIcon;
 + (NSBezierPath *) getPathForGridFourIcon;

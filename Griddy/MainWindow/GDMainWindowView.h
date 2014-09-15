@@ -26,10 +26,17 @@
 // ----------------------------------
 #pragma mark - GDMainWindowAppInfoView
 // ----------------------------------
+@interface GDMainWindowAppInfoViewController : NSViewController
+
+- (id) initWithGDGrid: (GDGrid *)grid;
+
+@end
+
 
 @interface GDMainWindowAppInfoView : NSView
 
 - (id) initWithGDGrid: (GDGrid *)grid;
+- (void) newApp: (NSRunningApplication *) newApp;
 
 @end
 

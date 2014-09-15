@@ -7,6 +7,7 @@
 //
 #import "GDMainWindow.h"
 #import "GDMainWindowView.h"
+#import "GDAppDelegate.h"
 #import "GDScreen.h"
 #import "GDGrid.h"
 #import "GDCellView.h"
@@ -20,7 +21,7 @@
 // ----------------------------------
 
 @interface GDMainWindowMainView() {
-    GDMainWindowAppInfoView *_appInfoView;
+    GDMainWindowAppInfoViewController *_appInfoViewController;
     GDMainWindowCellCollectionView *_cellCollectionView;
 }
 @end
@@ -29,9 +30,6 @@
 
 @implementation GDMainWindowMainView
 
-
-
-#pragma mark - INITIALIZATION
 
 - (id) initWithGDGrid: (GDGrid *) grid {
     self = [super initWithFrame: [grid getMainWindowFrame]];
@@ -44,8 +42,8 @@
         self.layer.masksToBounds = YES;
         
         // setup app info view
-        _appInfoView = [[GDMainWindowAppInfoView alloc] initWithGDGrid: grid];
-        [self addSubview: _appInfoView];
+        _appInfoViewController = [[GDMainWindowAppInfoViewController alloc] initWithGDGrid: grid];
+        [self addSubview: _appInfoViewController.view];
         
         // setup cell views
         _cellCollectionView = [[GDMainWindowCellCollectionView alloc] initWithGDGrid: grid];
@@ -65,7 +63,6 @@
 }
 
 
-
 @end
 
 
@@ -75,6 +72,41 @@
 // ----------------------------------
 #pragma mark - GDMainWindowAppInfoView
 // ----------------------------------
+
+@implementation GDMainWindowAppInfoViewController
+
+
+- (id) initWithGDGrid: (GDGrid *) grid {
+    self = [super initWithNibName: nil bundle: nil];
+    
+    if (self != nil) {
+        GDMainWindowAppInfoView *appInfoView = [[GDMainWindowAppInfoView alloc] initWithGDGrid: grid];
+        self.view = appInfoView;
+    }
+    // register global notifications
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
+                                                           selector: @selector(setAppInfo:)
+                                                               name: NSWorkspaceDidDeactivateApplicationNotification
+                                                             object: nil];
+    return self;
+}
+
+
+- (void) setAppInfo: (NSNotification *) note {
+    GDMainWindowAppInfoView *appInfoView = (GDMainWindowAppInfoView *)self.view;
+    NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
+    [appInfoView newApp: newApp];
+}
+
+
+- (void) dealloc {
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self];
+}
+
+
+@end
+
+
 
 @interface GDMainWindowAppInfoView() {
     NSImageView *_appIconView;
@@ -92,20 +124,16 @@
     self = [super initWithFrame: [grid getAppInfoFrame]];
     
     if (self != nil) {
-        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
-                                                               selector: @selector(newApp:)
-                                                                   name: NSWorkspaceDidDeactivateApplicationNotification
-                                                                 object: nil];
         _appIconView = [[NSImageView alloc] initWithFrame: [grid getAppIconFrame]];
-        [_appIconView setImageScaling: NSImageScaleAxesIndependently];
+        _appIconView.imageScaling = NSImageScaleAxesIndependently;
+        [self addSubview: _appIconView];
         
         _appNameView = [[NSTextField alloc] initWithFrame: [grid getAppNameFrame]];
-        [_appNameView setBezeled: NO];
-        [_appNameView setDrawsBackground: NO];
-        [_appNameView setEditable: NO];
-        [_appNameView setSelectable: NO];
-        
-        [self addSubview: _appIconView];
+        _appNameView.bezeled = NO;
+        _appNameView.drawsBackground = NO;
+        _appNameView.editable = NO;
+        _appNameView.selectable = NO;
+        _appNameView.textColor = [NSColor whiteColor];
         [self addSubview: _appNameView];
     }
     
@@ -113,11 +141,14 @@
 }
 
 
-- (void) newApp: (NSNotification *) note {
-    NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
+- (void) newApp: (NSRunningApplication *) newApp {
     if (![_curApp isEqualTo: newApp]) {
-        [_appIconView setImage: newApp.icon];
-        [_appNameView setStringValue: newApp.localizedName];
+        // icon
+        _appIconView.image = newApp.icon;
+        
+        // name
+        _appNameView.stringValue = newApp.localizedName;
+        [_appNameView sizeToFit];
         _curApp = newApp;
     }
 }
@@ -143,6 +174,8 @@
 
 @implementation GDMainWindowCellCollectionView
 
+
+#pragma mark - INITIALIZATION
 
 - (id) initWithGDGrid: (GDGrid *) grid {
     isMouseDown = NO;
@@ -189,7 +222,6 @@
 - (void) mouseExited: (NSEvent *) theEvent {
     NSPoint mousePos = [NSEvent mouseLocation];
     
-    // TODO: change this to bounds w.r.t to window frame
     NSRect frameRelativeToWindow = [self convertRect:self.bounds toView:nil];
     NSRect frameRelativeToScreen = [self.window convertRectToScreen: frameRelativeToWindow];
     if (CGRectContainsPoint(frameRelativeToScreen, mousePos) == NO) {
@@ -204,10 +236,10 @@
     }
     
     NSPoint mousePos = [NSEvent mouseLocation];
-    
-    // TODO: change this to bounds w.r.t to window frame
-    if (CGRectContainsPoint([self.window frame], mousePos)) {     // don't care if its inside
-        return;                                                     // the window
+    NSRect frameRelativeToWindow = [self convertRect:self.bounds toView: nil];
+    NSRect frameRelativeToScreen = [self.window convertRectToScreen: frameRelativeToWindow];
+    if (CGRectContainsPoint(frameRelativeToScreen, mousePos)) {
+        return;
     }
     
     NSArray *cellSubViews = [self subviews];
