@@ -10,29 +10,29 @@
 	<string>Griddy</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E958C360-4103-46CF-BCA0-1615CEC1B4C0</key>
-		<string>ssh://github.com/yansun0/Griddy.git</string>
+		<key>D268ED1636091A669DE04FF8894E1BB6481CCDBF</key>
+		<string>https://github.com/yansun0/Griddy.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Griddy.xcodeproj/project.xcworkspace</string>
+	<string>Griddy.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E958C360-4103-46CF-BCA0-1615CEC1B4C0</key>
+		<key>D268ED1636091A669DE04FF8894E1BB6481CCDBF</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/yansun0/Griddy.git</string>
+	<string>https://github.com/yansun0/Griddy.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E958C360-4103-46CF-BCA0-1615CEC1B4C0</string>
+	<string>D268ED1636091A669DE04FF8894E1BB6481CCDBF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E958C360-4103-46CF-BCA0-1615CEC1B4C0</string>
+			<string>D268ED1636091A669DE04FF8894E1BB6481CCDBF</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Griddy</string>
 		</dict>

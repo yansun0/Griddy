@@ -36,10 +36,11 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 
 @implementation GDStatusPopoverActivateButton
 
+
 - (void) drawRect: (NSRect) dirtyRect {
     NSBezierPath* path = [GDAssets getPathForGridFourIcon];
     
-    [[NSColor colorWithWhite: 0.2f alpha: 0.5f] setFill];
+    [[NSColor colorWithWhite: 0.8f alpha: 0.8f] setFill];
     
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
     [transformer translateXBy: 14.0f yBy: 14.0f];
@@ -57,10 +58,11 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 
 @implementation GDStatusPopoverAboutButton
 
+
 - (void) drawRect: (NSRect) dirtyRect {
     NSBezierPath* path = [GDAssets getPathForQuestionIcon];
     
-    [[NSColor colorWithWhite: 0.2f alpha: 0.5f] setFill];
+    [[NSColor colorWithWhite: 0.8f alpha: 0.8f] setFill];
     
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
     [transformer translateXBy: 14.0f yBy: 14.0f];
@@ -81,7 +83,7 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 - (void) drawRect: (NSRect) dirtyRect {
     NSBezierPath* path = [GDAssets getPathForGearsIcon];
     
-    [[NSColor colorWithWhite: 0.2f alpha: 0.5f] setFill];
+    [[NSColor colorWithWhite: 0.8f alpha: 0.8f] setFill];
     
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
     [transformer translateXBy: 14.0f yBy: 14.0f];
@@ -111,7 +113,7 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 - (void) drawRect: (NSRect) dirtyRect {
     NSBezierPath* path = [GDAssets getPathForTimesIcon];
     
-    [[NSColor colorWithWhite: 0.2f alpha: 0.5f] setFill];
+    [[NSColor colorWithWhite: 0.8f alpha: 0.8f] setFill];
     
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
     [transformer translateXBy: 14.0f yBy: 14.0f];
@@ -123,12 +125,14 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
     [super drawRect: dirtyRect];
 }
 
+
 - (void) mouseUp: (NSEvent *) theEvent {
     [[NSUserDefaults standardUserDefaults] synchronize];
     [NSApp performSelector: @selector(terminate:)
                 withObject: nil
                 afterDelay: 0.0];
 }
+
 
 @end
 

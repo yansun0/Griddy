@@ -11,46 +11,13 @@
 
 
 // ----------------------------------
-#pragma mark - GDStatusItemView
-// ----------------------------------
-
-@interface GDStatusItemView : NSView
-
-// properties
-@property(assign, nonatomic, getter=isActive) BOOL active;
-@property(assign, nonatomic) BOOL animated;
-@property(strong, nonatomic) NSImage *image;
-@property(strong, nonatomic) NSImage *alternateImage;
-@property(strong, nonatomic) NSStatusItem *statusItem;
-
-
-// init
-- (id) initWithViewController: (NSViewController *)controller;
-
-// show / hide popover
-- (void) showPopover;
-- (void) showPopoverAnimated:(BOOL)animated;
-- (void) hidePopover;
-- (void) transitionToNewView: (NSViewController *) newViewController;
-
-// view size
-- (void) setContentSize:(CGSize)size;
-
-// events
-- (void) setAction: (SEL) action
-           toTarget: (id) target;
-- (void) removeStatusItem;
-
-@end
-
-
-
-// ----------------------------------
 #pragma mark - GDStatusItemController
 // ----------------------------------
 
 @class GDStatusPopoverMenuViewController;
 @class GDStatusPopoverPreferenceViewController;
+@class GDStatusItemView;
+@class AXStatusItemPopup;
 @interface GDStatusItemController : NSObject
 
 @property (nonatomic, strong) GDStatusItemView *statusItemView;
@@ -67,3 +34,31 @@
 
 @end
 
+
+
+// ----------------------------------
+#pragma mark - GDStatusItemView
+// ----------------------------------
+
+@interface GDStatusItemView : NSView
+
+// properties
+@property(nonatomic) BOOL active;
+
+// init
+- (id) initWithViewController: (NSViewController *)controller;
+
+// show / hide popover
+- (void) showPopover;
+- (void) hidePopover;
+- (void) transitionToNewView: (NSViewController *) newViewController;
+
+// view size
+- (void) setContentSize:(CGSize)size;
+
+// events
+- (void) setAction: (SEL) action
+           toTarget: (id) target;
+- (void) removeStatusItem;
+
+@end

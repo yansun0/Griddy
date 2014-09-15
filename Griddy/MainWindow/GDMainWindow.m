@@ -88,7 +88,6 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
                       selector: @selector(windowUnfocused:)
                           name: NSWindowDidResignMainNotification
                         object: self.window];
-    
     [defaultCenter addObserver: self
                       selector: @selector(reinitWindow:)
                           name: GDMainWindowTypeChanged

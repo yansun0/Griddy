@@ -32,7 +32,6 @@ extern NSString * const StatusItemMenuOpened;
 extern NSString * const GDDockIconVisibilityChanged;
 extern NSString * const GDStatusItemVisibilityChanged;
 extern NSString * const GDAutoLaunchOnLoginChanged;
-extern NSString * const GDStatusPopoverPreferenceViewChange;
 
 
 
@@ -110,11 +109,6 @@ extern NSString * const GDStatusPopoverPreferenceViewChange;
              object: nil];
     
     [nc addObserver: self
-           selector: @selector(onStatusPopoverPreferenceViewChange:)
-               name: GDStatusPopoverPreferenceViewChange
-             object: nil];
-    
-    [nc addObserver: self
            selector: @selector(onGDStatusItemVisibilityChanged:)
                name: GDStatusItemVisibilityChanged
              object: nil];
@@ -123,16 +117,6 @@ extern NSString * const GDStatusPopoverPreferenceViewChange;
            selector: @selector(onGDDockIconVisibilityChanged:)
                name: GDDockIconVisibilityChanged
              object: nil];
-}
-
-
-- (void) onStatusPopoverPreferenceViewChange: (NSNotification *) note {
-    BOOL shouldShowWindow = [[[note userInfo] objectForKey:@"info"] boolValue];
-    if (shouldShowWindow) {
-        [self launchWindows];
-    } else {
-        [self hideWindows];
-    }
 }
 
 
@@ -402,6 +386,7 @@ extern NSString * const GDStatusPopoverPreferenceViewChange;
 
 
 - (void) closeAllUnfocusedWindowsIncluding: (NSWindow *) curWindow {
+    NSLog(@"closeAllUnfocusedWindowsIncluding");
     NSUInteger numClosed = 0;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         GDMainWindowController *curWC = [_windowControllers objectAtIndex: i];
@@ -418,6 +403,7 @@ extern NSString * const GDStatusPopoverPreferenceViewChange;
 
 
 - (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow {
+    NSLog(@"closeAllOtherWindowsExcluding");
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         GDMainWindowController *curWC = [_windowControllers objectAtIndex: i];
         if ([curWC window] != (GDMainWindow *)curWindow) {
