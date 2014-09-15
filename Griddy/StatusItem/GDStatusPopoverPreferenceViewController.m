@@ -10,10 +10,8 @@
 
 #import "GDStatusPopoverPreferenceViewController.h"
 #import "GDStatusItem.h"
-#import "GDMainWindow.h"
-#import "GDAppDelegate.h"
 #import "GDPreferences.h"
-
+#import "GDDemoMainWindow.h"
 
 
 // preference keys
@@ -51,15 +49,11 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 
-@interface GDStatusPopoverPreferenceViewController() {
-    GDAppDelegate *_appDelegate;
-}
+@interface GDStatusPopoverPreferenceViewController()
 
-@property (strong, nonatomic) NSMutableArray *avaliableScreens;
-@property (strong, nonatomic) NSMutableArray *windowControllers;
+@property GDDemoController *demoController;
 
 - (NSView *) viewForTag: (NSUInteger) tag;
-//- (NSRect) getFrameForNewView: (NSView *) view;
 
 @end
 
@@ -68,17 +62,20 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 @implementation GDStatusPopoverPreferenceViewController
 
 
+@synthesize demoController = _demoController;
+
+
 # pragma mark - INIT
 
-- (id) initWithNibName: (NSString *) nibNameOrNil
-                bundle: (NSBundle *) nibBundleOrNil {
-    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
-    if (self) {
-        _appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
-    }
-    
-    return self;
-}
+// Don't need
+//- (id) initWithNibName: (NSString *) nibNameOrNil
+//                bundle: (NSBundle *) nibBundleOrNil {
+//    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
+//    if (self) {
+//    }
+//    
+//    return self;
+//}
 
 
 - (void) awakeFromNib {
@@ -89,6 +86,8 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 }
 
 
+# pragma mark - NOTIFICATIONS
+
 - (void) setupNotifications {
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(windowTypeChanged:)
@@ -97,20 +96,28 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 }
 
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
 
 # pragma mark - DEMO windows
 
 - (void) setupDemoWindows {
-    
+    _demoController = [[GDDemoController alloc] init];
 }
 
-- (void) launchWindowsBehindWindowLevel: (NSInteger) topWindowLevel {
-    for (NSUInteger i = 0; i < _windowControllers.count; i++) {
-        [[_windowControllers objectAtIndex: i] showWindow: nil BehindWindowLevel: topWindowLevel];
+
+- (void) shouldShowDemoWindowsByTag: (NSUInteger) tag {
+    BOOL showWindow = (tag == 1 || tag == 2);
+    if (showWindow == YES) {
+        NSInteger curWindowLevel = self.view.window.level;
+        [_demoController launchWindows];
+    } else {
+        [_demoController hideWindows];
     }
 }
-
-
 
 
 
@@ -133,9 +140,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 - (void) transitionToNewView: (NSUInteger) tag {
     NSView *view = [self viewForTag: tag];
     NSView *previousView = [self viewForTag: currentViewTag];
-    
     view.frame = previousView.frame;
-    [self shouldShowDemoWindowsByTag: tag];
     
     // transition
     [NSAnimationContext beginGrouping];
@@ -146,7 +151,8 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
                                   with: view];
     view.needsDisplay = YES;
     [NSAnimationContext endGrouping];
-    
+
+    [self shouldShowDemoWindowsByTag: tag];
     currentViewTag = tag;
 }
 
@@ -167,14 +173,6 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
             view = contentView;
     }
     return view;
-}
-
-- (void) shouldShowDemoWindowsByTag: (NSUInteger) tag {
-    BOOL showWindow = (tag == 1 || tag == 2);
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName: GDStatusPopoverPreferenceViewChange
-                      object: self
-                    userInfo: @{ @"info": [NSNumber numberWithBool: showWindow] }];
 }
 
 

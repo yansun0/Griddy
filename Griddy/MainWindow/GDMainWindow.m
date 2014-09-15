@@ -56,9 +56,9 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: grid];
     [thisWindow setWindowController: self];
     self = [super initWithWindow: thisWindow];
-    
-    [self listenToNotifications];
-    
+    if (self != nil) {
+        [self listenToNotifications];
+    }
     return self;
 }
 
@@ -107,6 +107,11 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
                       selector: @selector(reinitWindow:)
                           name: GDMainWindowGridUniversalDimensionsChanged
                         object: nil];
+}
+
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 

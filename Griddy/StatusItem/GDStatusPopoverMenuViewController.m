@@ -97,7 +97,6 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 
 
 - (void) mouseUp: (NSEvent *) theEvent {
-    NSLog(@"mouse up");
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName: GDStatusPopoverSettingsButtonSelected
                       object: self

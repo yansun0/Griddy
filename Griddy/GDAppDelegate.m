@@ -52,6 +52,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 @synthesize frontApp = _frontApp;
 @synthesize avaliableScreens = _avaliableScreens;
+@synthesize grids = _grids;
 @synthesize windowControllers = _windowControllers;
 @synthesize overlayWindow = _overlayWindow;
 @synthesize GDStatusItemController = _GDStatusItemController;
@@ -70,8 +71,8 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 - (void) applicationWillFinishLaunching: (NSNotification *) note {
     [self setupNotifications];
-    [self windowControllers];
     [self avaliableScreens];
+    [self windowControllers];
     [self setupHotkey];
 
     _dockIconVisible = [[NSUserDefaults standardUserDefaults] boolForKey: GDDockIconVisibilityKey];
@@ -134,6 +135,12 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 - (void) onGDDockIconVisibilityChanged: (NSNotification *) note {
 	BOOL newVisibility = [[[note userInfo] objectForKey:@"info"] boolValue];
     [self transformApp: newVisibility];
+}
+
+
+- (void) dealloc {
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 
@@ -386,7 +393,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 - (void) closeAllUnfocusedWindowsIncluding: (NSWindow *) curWindow {
-    NSLog(@"closeAllUnfocusedWindowsIncluding");
     NSUInteger numClosed = 0;
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         GDMainWindowController *curWC = [_windowControllers objectAtIndex: i];
@@ -403,7 +409,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 - (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow {
-    NSLog(@"closeAllOtherWindowsExcluding");
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         GDMainWindowController *curWC = [_windowControllers objectAtIndex: i];
         if ([curWC window] != (GDMainWindow *)curWindow) {
@@ -425,23 +430,8 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 #pragma mark - SCREENS
 
-- (void) applicationDidChangeScreenParameters:(NSNotification *)aNotification {
+- (void) applicationDidChangeScreenParameters: (NSNotification *) aNotification {
     [self updateAvaliableScreens];
-}
-
-
-- (NSMutableArray *) windowControllers {
-    if (!_windowControllers) {
-        _windowControllers = [[NSMutableArray alloc] initWithCapacity:1];
-
-        for (int i = 0; i < _avaliableScreens.count; i++) {
-            GDScreen *curScreen = [_avaliableScreens objectAtIndex: i];
-            GDGrid *curGrid = [[GDGrid alloc] initWithGDScreen: curScreen];
-            GDMainWindowController *curWC = [[GDMainWindowController alloc] initWithGrid: curGrid];
-            [_windowControllers addObject: curWC];
-        }
-    }
-    return _windowControllers;
 }
 
 
@@ -454,9 +444,17 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 }
 
 
+- (NSMutableArray *) grids {
+    if (!_grids) {
+        _grids = [[NSMutableArray alloc] initWithCapacity: 1];
+    }
+    return _grids;
+}
+
+
 - (void) updateAvaliableScreens {
     NSArray *screenArray = [NSScreen screens];
-
+    
     // step 1. add a screen that's not already in the avaliable screen array
     for (NSUInteger i = 0; i < [screenArray count]; i++)  {
         NSScreen *curScreen = [screenArray objectAtIndex: i];
@@ -476,11 +474,12 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
             
             // make a new window controller
             GDGrid *newGrid = [[GDGrid alloc] initWithGDScreen: newGDScreen];
+            [self.grids addObject: newGrid];
             GDMainWindowController *newWC = [[GDMainWindowController alloc] initWithGrid: newGrid];
             [_windowControllers addObject: newWC];
         }
     }
-
+    
     // step 2. remove a screen that is in the avaliable screen array but nolonger avaliable
     for (NSUInteger i = 0; i < [_avaliableScreens count]; i++)  {
         GDScreen *curGDScreen = [_avaliableScreens objectAtIndex: i];
@@ -502,13 +501,38 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
                 GDMainWindowController *curWC = [_windowControllers objectAtIndex: j];
                 if ([curWC.thisGrid.thisGDScreen isSameGDScreen: curGDScreen] == YES) {
                     [_windowControllers removeObjectAtIndex: j];
+                    break;
                 }
             }
             
+            // remove the associated grid
+            // remove the associated window controller
+            for (NSUInteger k = 0; k < self.grids.count; k++) {
+                GDGrid *curG = [self.grids objectAtIndex: k];
+                if ([curG.thisGDScreen isSameGDScreen: curGDScreen] == YES) {
+                    [self.grids removeObjectAtIndex: k];
+                    break;
+                }
+            }
         }
     }
 }
 
+
+- (NSMutableArray *) windowControllers {
+    if (!_windowControllers) {
+        _windowControllers = [[NSMutableArray alloc] initWithCapacity: 1];
+
+        for (int i = 0; i < _avaliableScreens.count; i++) {
+            GDScreen *curScreen = [_avaliableScreens objectAtIndex: i];
+            GDGrid *curGrid = [[GDGrid alloc] initWithGDScreen: curScreen];
+            [self.grids addObject: curGrid];
+            GDMainWindowController *curWC = [[GDMainWindowController alloc] initWithGrid: curGrid];
+            [_windowControllers addObject: curWC];
+        }
+    }
+    return _windowControllers;
+}
 
 
 @end

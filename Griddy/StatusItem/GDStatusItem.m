@@ -35,6 +35,8 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 @synthesize curViewTag = _curViewTag;
 
 
+# pragma mark - INIT
+
 - (id) initWithAction: (SEL) action
             andTarget: (id) target {
     self = [super init];
@@ -52,6 +54,9 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     return self;
 }
 
+
+
+# pragma mark - NOTIFICATIONS
 
 - (void) notificationSetup {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -76,6 +81,24 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 }
 
 
+
+# pragma mark - STATUS ITEM
+
+- (BOOL) isStatusItemMenuOpen {
+    return _statusItemView.active;
+}
+
+
+- (void) hideStatusItem {
+    [_statusItemView removeStatusItem];
+    _statusItemView = nil;
+    _menuViewController = nil;
+}
+
+
+
+# pragma mark - VIEWS
+
 - (void) changeViewController: (NSUInteger) newViewTag {
     if (newViewTag == _curViewTag) {
         return;
@@ -94,18 +117,6 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
         }
     }
     [_statusItemView transitionToNewView: newViewController];
-}
-
-
-- (BOOL) isStatusItemMenuOpen {
-    return _statusItemView.active;
-}
-
-
-- (void) hideStatusItem {
-    [_statusItemView removeStatusItem];
-    _statusItemView = nil;
-    _menuViewController = nil;
 }
 
 

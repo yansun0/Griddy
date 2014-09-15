@@ -83,14 +83,24 @@
         GDMainWindowAppInfoView *appInfoView = [[GDMainWindowAppInfoView alloc] initWithGDGrid: grid];
         self.view = appInfoView;
     }
-    
+    // register global notifications
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
+                                                           selector: @selector(setAppInfo:)
+                                                               name: NSWorkspaceDidDeactivateApplicationNotification
+                                                             object: nil];
     return self;
 }
 
 
-- (void) viewWillAppear {
+- (void) setAppInfo: (NSNotification *) note {
     GDMainWindowAppInfoView *appInfoView = (GDMainWindowAppInfoView *)self.view;
-    [appInfoView newApp: [[self.view.window windowController] getCurrentApp]];
+    NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
+    [appInfoView newApp: newApp];
+}
+
+
+- (void) dealloc {
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self];
 }
 
 
@@ -142,20 +152,6 @@
         _curApp = newApp;
     }
 }
-
-
-//- (void) newApp: (NSNotification *) note {
-//    NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
-//    if (![_curApp isEqualTo: newApp]) {
-//        // icon
-//        _appIconView.image = newApp.icon;
-//        
-//        // name
-//        _appNameView.stringValue = newApp.localizedName;
-//        [_appNameView sizeToFit];
-//        _curApp = newApp;
-//    }
-//}
 
 
 @end
