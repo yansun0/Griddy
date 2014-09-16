@@ -6,21 +6,38 @@
 //  Copyright (c) 2014 Sunnay. All rights reserved.
 //
 
-#import "GDGrid.h"
+#import "GDDemoGrid.h"
 #import "GDScreen.h"
 
 
 // user default keys
 extern NSString * const GDMainWindowTypeKey;
-extern NSString * const GDMainWindowAbsoluteSizeKey;
-extern NSString * const GDMainWindowRelativeSizeKey;
-extern NSString * const GDMainWindowGridUniversalDimensionsKey;
+extern NSString * const GDMainWindowTypePostChanges; // GDMainWindowTypeKey
 
-@interface GDGrid() {
+extern NSString * const GDMainWindowAbsoluteSizeKey;
+extern NSString * const GDMainWindowAbsoluteSizePostChanges; // GDMainWindowAbsoluteSizeKey
+
+extern NSString * const GDMainWindowRelativeSizeKey;
+extern NSString * const GDMainWindowRelativeSizePostChanges; // GDMainWindowRelativeSizeKey
+
+extern NSString * const GDMainWindowGridUniversalDimensionsKey;
+extern NSString * const GDMainWindowGridUniversalDimensionsPostChanges;
+
+extern NSString * const GDDemoGridValueUpdated;
+
+@interface GDDemoGrid() {
     CGFloat _innerMargin;
     CGFloat _outterMargin;
     CGFloat _appViewSize;
     CGFloat _cellMarginTop;
+    
+    // setupGridInfo globals
+    NSUInteger _windowType;
+    NSSize _absSize;
+    NSSize _relSize;
+    
+    // setupCellSize globals
+    NSSize _numCell;
 }
 
 
@@ -28,7 +45,7 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 
 
 
-@implementation GDGrid
+@implementation GDDemoGrid
 
 
 @synthesize thisGDScreen = _thisGDScreen;
@@ -44,50 +61,115 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
     self = [super init];
     if (self != nil) {
         _thisGDScreen = screen;
+        _windowType = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
+        
+        NSData *absData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
+        NSValue *unarchivedAbsData = [NSKeyedUnarchiver unarchiveObjectWithData: absData];
+        _absSize = [unarchivedAbsData sizeValue];
+        
+        NSData *relData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
+        NSValue *unarchivedRelData = [NSKeyedUnarchiver unarchiveObjectWithData: relData];
+        _relSize = [_thisGDScreen getMainWindowSizeForScreenPercentageSize: [unarchivedRelData sizeValue]];
+
+        NSData *numCelldata = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowGridUniversalDimensionsKey];
+        NSValue *unarchivedNumCelldata = [NSKeyedUnarchiver unarchiveObjectWithData: numCelldata];
+        _numCell = [unarchivedNumCelldata sizeValue];
+
+        [self listenToNotifications];
         [self setupGridParams];
     }
     return self;
 }
 
 
-- (void) reinitWithGDScreen: (GDScreen *)newScreen {
-    _thisGDScreen = newScreen;
-    [self setupGridParams];
+
+#pragma mark - notifications
+
+- (void) listenToNotifications {
+    // register for window events
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver: self
+                      selector: @selector(onNewMainWindowType:)
+                          name: GDMainWindowTypePostChanges
+                        object: nil];
+    
+    [defaultCenter addObserver: self
+                      selector: @selector(onNewMainWindowSize:)
+                          name: GDMainWindowAbsoluteSizePostChanges
+                        object: nil];
+    
+    [defaultCenter addObserver: self
+                      selector: @selector(onNewMainWindowSize:)
+                          name: GDMainWindowRelativeSizePostChanges
+                        object: nil];
+    
+    [defaultCenter addObserver: self
+                      selector: @selector(onNewCellDimensions:)
+                          name: GDMainWindowGridUniversalDimensionsPostChanges
+                        object: nil];
 }
 
 
-- (void) setupGridParams {
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
+- (void) onNewMainWindowType: (NSNotification *) note {
+    _windowType = [[[note userInfo] objectForKey: @"info"] integerValue];
     [self setupGridInfo];
-    [self setupGridMeasurements];
-    [self setupCellSize];
-    [_thisGDScreen setNumWidth: _numCell.width NumHeight: _numCell.height];
+    [self notifyUpdate];
 }
 
+
+- (void) onNewMainWindowSize: (NSNotification *) note {
+    NSData *data = [note.userInfo objectForKey: @"info"];
+    NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+    NSSize newSize = [unarchived sizeValue];
+    if (_windowType == 0) {
+        _relSize = [_thisGDScreen getMainWindowSizeForScreenPercentageSize: newSize];
+    } else {
+        _absSize = newSize;
+    }
+    [self setupGridInfo];
+    [self notifyUpdate];
+}
+
+
+- (void) onNewCellDimensions: (NSNotification *) note {
+    NSData *data = [note.userInfo objectForKey: @"info"];
+    NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+    _cellSize = [unarchived sizeValue];
+    [self setupCellSize];
+    [self notifyUpdate];
+}
+
+- (void) notifyUpdate {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDDemoGridValueUpdated
+                      object: self
+                    userInfo: nil];
+}
 
 
 #pragma mark - WINDOW POSITION LOGIC
 
+- (void) setupGridParams {
+    [self setupGridMeasurements];
+    [self setupGridInfo];
+    [_thisGDScreen setNumWidth: _numCell.width NumHeight: _numCell.height];
+}
+
+
 // TODO: find grid size based on user preferences/defaults
 - (void) setupGridInfo {
-    NSUInteger windowType = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
+    _gridInfo.size = (_windowType == 0) ? _relSize : _absSize;
     
-    // relative, need to ask for help from GDScreen
-    if (windowType == 0) {
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
-        NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
-        
-        _gridInfo.size = [_thisGDScreen getMainWindowSizeForScreenPercentageSize: [unarchived sizeValue]];
-        
-    // abs, just do it
-    } else {
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
-        NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
-        _gridInfo.size = [unarchived sizeValue];
-    }
-
     // center the grid
     _gridInfo.origin.x = (_thisGDScreen.screenInfo.size.width - _gridInfo.size.width) * 0.5 + _thisGDScreen.screenInfo.origin.x;
     _gridInfo.origin.y = (_thisGDScreen.screenInfo.size.height - _gridInfo.size.height) * 0.5 + _thisGDScreen.screenInfo.origin.y;
+    
+    [self setupCellSize];
 }
 
 
@@ -102,10 +184,6 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 
 
 - (void) setupCellSize {
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowGridUniversalDimensionsKey];
-    NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
-    _numCell = [unarchived sizeValue];
-    
     _cellMarginTop = _appViewSize + _outterMargin;
     
     // calculate cell size

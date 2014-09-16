@@ -10,6 +10,10 @@
 
 
 
+// ----------------------------------
+#pragma mark - GDPreferences
+// ----------------------------------
+
 @interface GDPreferences : NSObject
 
 + (void) setUserDefaults;
@@ -19,4 +23,30 @@
 + (void) setMainWindowRelativeSizeDefault: (NSSize) newSize;
 + (void) setMainWindowAbsoluteSizeDefault: (NSSize) newSize;
 + (void) setGridDimensionsDefault: (NSSize) newDimensions;
+@end
+
+
+
+// ----------------------------------
+#pragma mark - GDPreferencesChangesController
+// ----------------------------------
+
+@interface GDPreferencesChangesController : NSObject
+- (id) init;
+- (void) acceptChanges;
+- (void) clearChanges;
+@end
+
+
+
+// ----------------------------------
+#pragma mark - GDPreferencesChange
+// ----------------------------------
+
+@interface GDPreferencesChange : NSObject
+
+- (id) initWithNotificationName: (NSString *) name
+                        AndData: (NSDictionary *) data;
+- (BOOL) isSameType: (NSString *) name;
+- (void) acceptChange;
 @end

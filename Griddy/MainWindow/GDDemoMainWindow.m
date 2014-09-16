@@ -7,11 +7,12 @@
 //
 
 #import "GDDemoMainWindow.h"
-#import "GDAppDelegate.h"
-#import "GDGrid.h"
+#import "GDDemoGrid.h"
 #import "GDScreen.h"
 
 
+
+NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
 
 
 
@@ -40,8 +41,16 @@
 
 
 - (NSMutableArray *) getGrids {
-    GDAppDelegate *appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
-    return appDelegate.grids;
+    NSArray *screenArray = [NSScreen screens];
+    NSMutableArray *grids = [[NSMutableArray alloc] init];
+    // step 1. add a screen that's not already in the avaliable screen array
+    for (NSUInteger i = 0; i < screenArray.count; i++)  {
+        NSScreen *curScreen = [screenArray objectAtIndex: i];
+        GDScreen *newGDScreen = [[GDScreen alloc] initWithScreen: curScreen];
+        GDDemoGrid *newGrid = [[GDDemoGrid alloc] initWithGDScreen: newGDScreen];
+        [grids addObject: newGrid];
+    }
+    return grids;
 }
 
 
@@ -49,7 +58,7 @@
     NSMutableArray * windowControllers = [[NSMutableArray alloc] initWithCapacity:1];
     
     for (int i = 0; i < grids.count; i++) {
-        GDGrid *curGrid = [grids objectAtIndex: i];
+        GDDemoGrid *curGrid = [grids objectAtIndex: i];
         GDDemoMainWindowController *curWC = [[GDDemoMainWindowController alloc] initWithGrid: curGrid];
         [windowControllers addObject: curWC];
     }
@@ -108,7 +117,7 @@
 
 @interface GDDemoMainWindowController ()
 
-@property (strong, nonatomic) GDGrid *grid;
+@property (strong, nonatomic) GDDemoGrid *grid;
 
 @end
 
@@ -122,7 +131,7 @@
 
 #pragma mark - init
 
-- (id) initWithGrid: (GDGrid *) grid {
+- (id) initWithGrid: (GDDemoGrid *) grid {
     _grid = grid;
     
     GDDemoMainWindow *thisWindow = [[GDDemoMainWindow alloc] initWithGrid: grid];
@@ -137,11 +146,10 @@
 
 - (void) reinitWindow: (NSNotification *) note {
     // destroy previous window
-    self.window = nil; // release last window
     NSInteger windowLevel = self.window.level;
+    self.window = nil; // release last window
     
     // make new window
-    [_grid setupGridParams];
     GDDemoMainWindow *thisWindow = [[GDDemoMainWindow alloc] initWithGrid: _grid];
     [thisWindow setWindowController: self];
     self.window = thisWindow;
@@ -156,29 +164,10 @@
 - (void) listenToNotifications {
     // register for window events
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-//    [defaultCenter addObserver: self
-//                      selector: @selector(windowUnfocused:)
-//                          name: NSWindowDidResignMainNotification
-//                        object: self.window];
-//    [defaultCenter addObserver: self
-//                      selector: @selector(reinitWindow:)
-//                          name: GDMainWindowTypeChanged
-//                        object: nil];
-//    
-//    [defaultCenter addObserver: self
-//                      selector: @selector(reinitWindow:)
-//                          name: GDMainWindowAbsoluteSizeChanged
-//                        object: nil];
-//    
-//    [defaultCenter addObserver: self
-//                      selector: @selector(reinitWindow:)
-//                          name: GDMainWindowRelativeSizeChanged
-//                        object: nil];
-//    
-//    [defaultCenter addObserver: self
-//                      selector: @selector(reinitWindow:)
-//                          name: GDMainWindowGridUniversalDimensionsChanged
-//                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(reinitWindow:)
+                          name: GDDemoGridValueUpdated
+                        object: nil];
 }
 
 
@@ -241,7 +230,7 @@
 @implementation GDDemoMainWindow
 
 
-- (id) initWithGrid: (GDGrid *)grid {
+- (id) initWithGrid: (GDDemoGrid *)grid {
     NSRect contentFrame = [grid getMainWindowFrame];
     
     self = [super initWithContentRect: contentFrame
@@ -256,7 +245,7 @@
         [self setBackgroundColor: [NSColor clearColor]];
         [self setLevel: NSFloatingWindowLevel];
         
-        [self setContentView: [[GDDemoMainWindowMainView alloc] initWithGDGrid: grid]];
+        [self setContentView: [[GDDemoMainWindowMainView alloc] initWithGrid: grid]];
     }
     
     return self;
@@ -292,7 +281,7 @@
 @implementation GDDemoMainWindowMainView
 
 
-- (id) initWithGDGrid: (GDGrid *) grid {
+- (id) initWithGrid: (GDDemoGrid *) grid {
     self = [super initWithFrame: [grid getMainWindowFrame]];
     
     if (self != nil) {
@@ -337,7 +326,7 @@
 @implementation GDDemoMainWindowAppInfoViewController
 
 
-- (id) initWithGrid: (GDGrid *) grid {
+- (id) initWithGrid: (GDDemoGrid *) grid {
     self = [super initWithNibName: nil bundle: nil];
     
     if (self != nil) {
@@ -355,7 +344,7 @@
 @implementation GDDemoMainWindowAppInfoView
 
 
-- (id) initWithGrid: (GDGrid *) grid {
+- (id) initWithGrid: (GDDemoGrid *) grid {
     self = [super initWithFrame: [grid getAppInfoFrame]];
     
     if (self != nil) {
@@ -393,7 +382,7 @@
 
 #pragma mark - INITIALIZATION
 
-- (id) initWithGrid: (GDGrid *) grid {
+- (id) initWithGrid: (GDDemoGrid *) grid {
     self = [super initWithFrame: [grid getCellCollectionRectFrame]];
     
     if (self != nil) {

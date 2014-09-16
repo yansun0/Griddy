@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) NSRunningApplication *frontApp;
 @property (strong, nonatomic) NSMutableArray *avaliableScreens;
-@property (strong, nonatomic) NSMutableArray *grids;
 @property (strong, nonatomic) NSMutableArray *windowControllers;
 
 

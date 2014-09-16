@@ -27,8 +27,17 @@ NSString * const GDDockIconVisibilityKey = @"GDDockIconVisibilityKey";
 NSString * const GDAutoLaunchOnLoginKey = @"GDAutoLaunchOnLoginKey";
 
 
+// posted changes keys
+NSString * const GDMainWindowTypePostChanges = @"GDMainWindowTypePostChanges";
+NSString * const GDMainWindowAbsoluteSizePostChanges = @"GDMainWindowAbsoluteSizePostChanges";
+NSString * const GDMainWindowRelativeSizePostChanges = @"GDMainWindowRelativeSizePostChanges";
+NSString * const GDMainWindowGridUniversalDimensionsPostChanges = @"GDMainWindowGridUniversalDimensionsPostChanges";
+NSString * const GDStatusItemVisibilityPostChanges = @"GDStatusItemVisibilityPostChanges";
+NSString * const GDDockIconVisibilityPostChanges = @"GDDockIconVisibilityPostChanges";
+NSString * const GDAutoLaunchOnLoginPostChanges = @"GDAutoLaunchOnLoginPostChanges";
 
-// changes keys
+
+// accepted changes keys
 NSString * const GDMainWindowTypeChanged = @"GDMainWindowTypeChanged";
 NSString * const GDMainWindowAbsoluteSizeChanged = @"GDMainWindowAbsoluteSizeChanged";
 NSString * const GDMainWindowRelativeSizeChanged = @"GDMainWindowRelativeSizeChanged";
@@ -39,11 +48,14 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 
+
+
+// ----------------------------------
+#pragma mark - GDPreferences
+// ----------------------------------
+
 @implementation GDPreferences
 
-
-
-# pragma mark - USER DEFAULTS
 
 + (void) setUserDefaults {
     // archive necessary data
@@ -75,6 +87,12 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 + (void) setMainWindowTypeDefault: (NSUInteger) newType {
+    NSLog(@"stored it");
+    // short circuit
+    if (newType == [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue]) {
+        return;
+    }
+    
     // update user defaults
     [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithInteger: newType]
                                               forKey: GDMainWindowTypeKey];
@@ -89,6 +107,11 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 + (void) setStatusItemVisibilityDefault: (BOOL) showItem {
+    // short circuit
+    if (showItem == [[[NSUserDefaults standardUserDefaults] objectForKey: GDStatusItemVisibilityKey] boolValue]) {
+        return;
+    }
+    
     // update user defaults
     [[NSUserDefaults standardUserDefaults] setBool: showItem
                                             forKey: GDStatusItemVisibilityKey];
@@ -103,6 +126,11 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 + (void) setDockIconVisibilityDefault: (BOOL) showIcon {
+    // short circuit
+    if (showIcon == [[[NSUserDefaults standardUserDefaults] objectForKey: GDDockIconVisibilityKey] boolValue]) {
+        return;
+    }
+    
     // update user defaults
     [[NSUserDefaults standardUserDefaults] setBool: showIcon
                                             forKey: GDDockIconVisibilityKey];
@@ -117,10 +145,19 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 + (void) setMainWindowRelativeSizeDefault: (NSSize) newSize {
+    NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
+
+    // short circuit
+    NSData *data = [defaultValues objectForKey: GDMainWindowRelativeSizeKey];
+    NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
+    if (NSEqualSizes(newSize, oldSize)) {
+        return;
+    }
+    
     // update user defaults
     NSData *newRelativeSizeData = [NSKeyedArchiver archivedDataWithRootObject: [NSValue valueWithSize: newSize]];
-    [[NSUserDefaults standardUserDefaults] setObject: newRelativeSizeData
-                                              forKey: GDMainWindowRelativeSizeKey];
+    [defaultValues setObject: newRelativeSizeData
+                      forKey: GDMainWindowRelativeSizeKey];
     
     // send notification
     NSValue *sizeValue = [NSValue valueWithSize: newSize];
@@ -132,10 +169,19 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 + (void) setMainWindowAbsoluteSizeDefault: (NSSize) newSize {
+    NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
+
+    // short circuit
+    NSData *data = [defaultValues objectForKey: GDMainWindowAbsoluteSizeKey];
+    NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
+    if (NSEqualSizes(newSize, oldSize)) {
+        return;
+    }
+    
     // update user defaults
     NSData *newAbsSizeData = [NSKeyedArchiver archivedDataWithRootObject: [NSValue valueWithSize: newSize]];
-    [[NSUserDefaults standardUserDefaults] setObject: newAbsSizeData
-                                              forKey: GDMainWindowAbsoluteSizeKey];
+    [defaultValues setObject: newAbsSizeData
+                      forKey: GDMainWindowAbsoluteSizeKey];
     
     // send notification
     NSValue *sizeValue = [NSValue valueWithSize: newSize];
@@ -161,3 +207,186 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 }
 
 @end
+
+
+
+
+
+// ----------------------------------
+#pragma mark - GDPreferencesChangesController
+// ----------------------------------
+
+@interface GDPreferencesChangesController()
+@property (nonatomic)  NSMutableArray *changes;
+@end
+
+
+@implementation GDPreferencesChangesController
+
+@synthesize changes = _changes;
+
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        [self listenToChangesNotifications];
+    }
+    return self;
+}
+
+
+- (NSMutableArray *) changes {
+    if (_changes == nil) {
+        _changes = [[NSMutableArray alloc] init];
+    }
+    return _changes;
+}
+
+
+- (void) listenToChangesNotifications {
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDMainWindowTypePostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDMainWindowAbsoluteSizePostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDMainWindowRelativeSizePostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDMainWindowGridUniversalDimensionsPostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDStatusItemVisibilityPostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDDockIconVisibilityPostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDAutoLaunchOnLoginPostChanges
+                        object: nil];
+}
+
+
+- (void) addNewChange: (NSNotification *) note {
+    GDPreferencesChange *newChange =  [[GDPreferencesChange alloc] initWithNotificationName: note.name AndData: note.userInfo];
+    
+    // check if smae type already exists in array , if so replace it
+    BOOL sameTypeExists = NO;
+    for (int i = 0; i < self.changes.count; i++) {
+        GDPreferencesChange *curChange = [self.changes objectAtIndex: i];
+        if ([curChange isSameType: note.name] == YES) {
+            [self.changes replaceObjectAtIndex: i
+                                withObject: newChange];
+            sameTypeExists = YES;
+            break; // there can only be one
+        }
+    }
+    
+    // if not append to the end
+    if (sameTypeExists == NO) {
+        [self.changes addObject: newChange];
+    }
+}
+
+
+- (void) acceptChanges {
+    for (int i = 0; i < self.changes.count; i++) {
+        GDPreferencesChange *curChange = [self.changes objectAtIndex: i];
+        [curChange acceptChange];
+    }
+    [self clearChanges];
+}
+
+
+- (void) clearChanges {
+    [self.changes removeAllObjects];
+}
+
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
+@end
+
+
+
+
+
+// ----------------------------------
+#pragma mark - GDPreferencesChange
+// ----------------------------------
+
+@interface GDPreferencesChange() {
+    NSString *_name;
+    NSDictionary *_data;
+}
+@end
+
+
+@implementation GDPreferencesChange
+
+- (id) initWithNotificationName: (NSString *) name
+                        AndData: (NSDictionary *) data {
+    self = [super init];
+    if (self) {
+        _name = name;
+        _data = data;
+    }
+    return self;
+}
+
+
+- (BOOL) isSameType: (NSString *) name {
+    return [_name isEqualToString: name];
+}
+
+- (void) acceptChange {
+    if ([_name isEqualToString: GDMainWindowTypePostChanges]) {
+        NSUInteger newType = [[_data objectForKey: @"info"] integerValue];
+        [GDPreferences setMainWindowTypeDefault: newType];
+        
+    } else if ([_name isEqualToString: GDMainWindowAbsoluteSizePostChanges]) {
+        NSData *data = [_data objectForKey: @"info"];
+        NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+        NSSize newSize = [unarchived sizeValue];
+        [GDPreferences setMainWindowAbsoluteSizeDefault: newSize];
+
+    } else if ([_name isEqualToString: GDMainWindowRelativeSizePostChanges]) {
+        NSData *data = [_data objectForKey: @"info"];
+        NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+        NSSize newSize = [unarchived sizeValue];
+        [GDPreferences setMainWindowRelativeSizeDefault: newSize];
+        
+    } else if ([_name isEqualToString: GDMainWindowGridUniversalDimensionsPostChanges]) {
+        NSData *data = [_data objectForKey: @"info"];
+        NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+        NSSize newSize = [unarchived sizeValue];
+        [GDPreferences setGridDimensionsDefault: newSize];
+        
+    } else if ([_name isEqualToString: GDStatusItemVisibilityPostChanges]) {
+        BOOL newState = [[_data objectForKey: @"info"] boolValue];
+        [GDPreferences setStatusItemVisibilityDefault: newState];
+
+    } else if ([_name isEqualToString: GDDockIconVisibilityPostChanges]) {
+        BOOL newState = [[_data objectForKey: @"info"] boolValue];
+        [GDPreferences setDockIconVisibilityDefault: newState];
+        
+    } else if ([_name isEqualToString: GDAutoLaunchOnLoginPostChanges]) {
+        //
+        
+    }
+}
+
+@end
+

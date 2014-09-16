@@ -34,6 +34,7 @@
 		2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */; };
 		2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */; };
 		2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */; };
+		2CEF121419C80C4B00EE8634 /* GDDemoGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,8 @@
 		2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+Monitoring.m"; path = "MASShortcut/MASShortcut+Monitoring.m"; sourceTree = "<group>"; };
 		2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowView.h; path = MainWindow/GDMainWindowView.h; sourceTree = "<group>"; };
 		2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowView.m; path = MainWindow/GDMainWindowView.m; sourceTree = "<group>"; };
+		2CEF121219C80C4B00EE8634 /* GDDemoGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDDemoGrid.h; path = Models/GDDemoGrid.h; sourceTree = "<group>"; };
+		2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDDemoGrid.m; path = Models/GDDemoGrid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 			children = (
 				2C4B5E8D19665662001398D9 /* GDGrid.h */,
 				2C4B5E8E19665662001398D9 /* GDGrid.m */,
+				2CEF121219C80C4B00EE8634 /* GDDemoGrid.h */,
+				2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */,
 				2C1BC28419689B2100125DAB /* GDScreen.h */,
 				2C1BC28519689B2100125DAB /* GDScreen.m */,
 			);
@@ -429,6 +434,7 @@
 				2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */,
 				2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */,
 				2C68D96619A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m in Sources */,
+				2CEF121419C80C4B00EE8634 /* GDDemoGrid.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

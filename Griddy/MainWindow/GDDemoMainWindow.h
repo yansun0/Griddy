@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class GDGrid;
+@class GDDemoGrid;
 
 
 
@@ -33,7 +33,7 @@
 
 @interface GDDemoMainWindowController : NSWindowController
 
-- (id) initWithGrid: (GDGrid *) grid;
+- (id) initWithGrid: (GDDemoGrid *) grid;
 - (void) showWindow: (id) sender;
 - (void) showWindow: (id) sender
       AtWindowLevel: (NSInteger) prevWindowLevel;
@@ -53,7 +53,7 @@
 
 @interface GDDemoMainWindow : NSWindow
 
-- (id) initWithGrid: (GDGrid *)grid;
+- (id) initWithGrid: (GDDemoGrid *)grid;
 
 @end
 
@@ -65,7 +65,7 @@
 
 @interface GDDemoMainWindowMainView : NSView
 
-- (id) initWithGDGrid: (GDGrid *)grid;
+- (id) initWithGrid: (GDDemoGrid *)grid;
 
 @end
 
@@ -76,14 +76,14 @@
 // ----------------------------------
 @interface GDDemoMainWindowAppInfoViewController : NSViewController
 
-- (id) initWithGrid: (GDGrid *)grid;
+- (id) initWithGrid: (GDDemoGrid *)grid;
 
 @end
 
 
 @interface GDDemoMainWindowAppInfoView : NSView
 
-- (id) initWithGrid: (GDGrid *)grid;
+- (id) initWithGrid: (GDDemoGrid *)grid;
 
 @end
 
@@ -95,7 +95,7 @@
 
 @interface GDDemoMainWindowCellCollectionView : NSView
 
-- (id) initWithGrid: (GDGrid *)grid;
+- (id) initWithGrid: (GDDemoGrid *)grid;
 
 @end
 

@@ -52,7 +52,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 @synthesize frontApp = _frontApp;
 @synthesize avaliableScreens = _avaliableScreens;
-@synthesize grids = _grids;
 @synthesize windowControllers = _windowControllers;
 @synthesize overlayWindow = _overlayWindow;
 @synthesize GDStatusItemController = _GDStatusItemController;
@@ -443,15 +442,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     return _avaliableScreens;
 }
 
-
-- (NSMutableArray *) grids {
-    if (!_grids) {
-        _grids = [[NSMutableArray alloc] initWithCapacity: 1];
-    }
-    return _grids;
-}
-
-
+// TODO: refactor later, move this into the model
 - (void) updateAvaliableScreens {
     NSArray *screenArray = [NSScreen screens];
     
@@ -474,7 +465,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
             
             // make a new window controller
             GDGrid *newGrid = [[GDGrid alloc] initWithGDScreen: newGDScreen];
-            [self.grids addObject: newGrid];
             GDMainWindowController *newWC = [[GDMainWindowController alloc] initWithGrid: newGrid];
             [_windowControllers addObject: newWC];
         }
@@ -504,16 +494,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
                     break;
                 }
             }
-            
-            // remove the associated grid
-            // remove the associated window controller
-            for (NSUInteger k = 0; k < self.grids.count; k++) {
-                GDGrid *curG = [self.grids objectAtIndex: k];
-                if ([curG.thisGDScreen isSameGDScreen: curGDScreen] == YES) {
-                    [self.grids removeObjectAtIndex: k];
-                    break;
-                }
-            }
         }
     }
 }
@@ -526,7 +506,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
         for (int i = 0; i < _avaliableScreens.count; i++) {
             GDScreen *curScreen = [_avaliableScreens objectAtIndex: i];
             GDGrid *curGrid = [[GDGrid alloc] initWithGDScreen: curScreen];
-            [self.grids addObject: curGrid];
             GDMainWindowController *curWC = [[GDMainWindowController alloc] initWithGrid: curGrid];
             [_windowControllers addObject: curWC];
         }

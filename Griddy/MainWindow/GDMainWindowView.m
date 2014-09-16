@@ -222,7 +222,7 @@
 - (void) mouseExited: (NSEvent *) theEvent {
     NSPoint mousePos = [NSEvent mouseLocation];
     
-    NSRect frameRelativeToWindow = [self convertRect:self.bounds toView:nil];
+    NSRect frameRelativeToWindow = [self convertRect: self.bounds toView: nil];
     NSRect frameRelativeToScreen = [self.window convertRectToScreen: frameRelativeToWindow];
     if (CGRectContainsPoint(frameRelativeToScreen, mousePos) == NO) {
         [[self.window windowController] clearCurCellPosition];

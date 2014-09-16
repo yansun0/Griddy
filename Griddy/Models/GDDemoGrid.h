@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class GDScreen;
 
-@interface GDGrid : NSObject
+@interface GDDemoGrid : NSObject
 
 @property (nonatomic) GDScreen *thisGDScreen;
 @property (nonatomic) NSSize numCell;
@@ -17,7 +17,6 @@
 @property (nonatomic) NSSize cellSize;
 
 - (id) initWithGDScreen: (GDScreen *)screen;
-- (void) reinitWithGDScreen: (GDScreen *)newScreen;
 - (void) setupGridParams;
 
 - (NSRect) getMainWindowFrame;

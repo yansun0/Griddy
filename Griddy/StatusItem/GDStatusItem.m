@@ -136,6 +136,8 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
         _preferenceViewController = [[GDStatusPopoverPreferenceViewController alloc] initWithNibName: @"GDStatusPopoverPreferenceView"
                                                                                               bundle: nil];
         _preferenceViewController.statusItemController = self;
+    } else {
+        [_preferenceViewController reinit];
     }
     _curViewController = _preferenceViewController;
     _curViewTag = 1;

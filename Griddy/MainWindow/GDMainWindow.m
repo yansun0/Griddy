@@ -65,16 +65,15 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 
 - (void) reinitWindow: (NSNotification *) note {
     // destroy previous window
-    self.window = nil; // release last window
-    NSInteger windowLevel = self.window.level;
+    NSInteger prevWindowLevel = self.window.level;
+    self.window = nil;
     
     // make new window
     [_thisGrid setupGridParams];
     GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: _thisGrid];
     [thisWindow setWindowController: self];
     self.window = thisWindow;
-    
-    [self showWindow: nil AtWindowLevel: windowLevel];
+    self.window.level = prevWindowLevel;
 }
 
 

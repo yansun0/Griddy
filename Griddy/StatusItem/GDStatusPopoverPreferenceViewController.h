@@ -14,6 +14,8 @@
 @interface GDStatusPopoverPreferenceViewController : NSViewController {
     IBOutlet NSButton *backButton;
     IBOutlet NSSegmentedControl *preferenceTab;
+    IBOutlet NSButton *cancelButton;
+    IBOutlet NSButton *acceptButton;
     IBOutlet NSView *contentView;
     
     // window view outlets
@@ -38,6 +40,9 @@
 
 @property (nonatomic, strong) GDStatusItemController *statusItemController;
 
+// top buttons
+- (void) reinit;
+
 - (IBAction) backToMenu: (id)sender;
 - (IBAction) changedPreferenceTab: (id)sender;
 
@@ -53,5 +58,9 @@
 // misc tab
 - (IBAction) changeStatusItemCheckBox: (id) sender;
 - (IBAction) changeDockIconCheckBox: (id) sender;
+
+// bottom buttons
+- (IBAction) cancelChanges: (id) sender;
+- (IBAction) acceptChanges: (id) sender;
 
 @end
