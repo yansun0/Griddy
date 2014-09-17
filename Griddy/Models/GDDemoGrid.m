@@ -139,7 +139,7 @@ extern NSString * const GDDemoGridValueUpdated;
 - (void) onNewCellDimensions: (NSNotification *) note {
     NSData *data = [note.userInfo objectForKey: @"info"];
     NSValue *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData: data];
-    _cellSize = [unarchived sizeValue];
+    _numCell = [unarchived sizeValue];
     [self setupCellSize];
     [self notifyUpdate];
 }

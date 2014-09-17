@@ -92,6 +92,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 - (void) hideStatusItem {
     [_statusItemView removeStatusItem];
     _statusItemView = nil;
+    _preferenceViewController = nil;
     _menuViewController = nil;
 }
 

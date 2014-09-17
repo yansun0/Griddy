@@ -76,11 +76,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="vnG-a4-nus">
-                    <rect key="frame" x="177" y="119" width="19" height="27"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="lBU-j5-GOu"/>
-                </stepper>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ebm-Wo-mRD">
                     <rect key="frame" x="30" y="98" width="46" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -91,7 +86,7 @@
                     </textFieldCell>
                 </textField>
                 <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="7Ox-rD-MW8">
-                    <rect key="frame" x="177" y="92" width="19" height="27"/>
+                    <rect key="frame" x="183" y="92" width="19" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="oqJ-qj-EgR"/>
                 </stepper>
@@ -120,23 +115,28 @@
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="1jU-qW-OqS">
-                    <rect key="frame" x="154" y="125" width="20" height="17"/>
+                    <rect key="frame" x="158" y="125" width="20" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="?" drawsBackground="YES" id="Hdz-Nd-gjU">
                         <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9zP-fd-XfE">
-                    <rect key="frame" x="154" y="100" width="20" height="17"/>
+                    <rect key="frame" x="158" y="98" width="20" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="?" drawsBackground="YES" id="RE1-Wf-Z5M">
                         <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="vnG-a4-nus">
+                    <rect key="frame" x="183" y="119" width="19" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="lBU-j5-GOu"/>
+                </stepper>
             </subviews>
             <point key="canvasLocation" x="0.0" y="-38.5"/>
         </customView>
@@ -240,8 +240,15 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Heh-vr-OMD">
+                    <rect key="frame" x="118" y="111" width="118" height="5"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="gsg-dN-2Xe">
-                    <rect key="frame" x="202" y="56" width="20" height="17"/>
+                    <rect key="frame" x="204" y="55" width="16" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="px" id="g2Z-6I-VVD">
                         <font key="font" metaFont="system"/>
@@ -250,7 +257,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Mvo-ZL-O5U">
-                    <rect key="frame" x="202" y="26" width="20" height="17"/>
+                    <rect key="frame" x="204" y="25" width="16" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="px" id="IjD-Fj-hgz">
                         <font key="font" metaFont="system"/>
@@ -258,15 +265,8 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Heh-vr-OMD">
-                    <rect key="frame" x="118" y="111" width="118" height="5"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <font key="titleFont" metaFont="system"/>
-                </box>
             </subviews>
-            <point key="canvasLocation" x="0.0" y="316.5"/>
+            <point key="canvasLocation" x="0.0" y="316"/>
         </customView>
         <customView id="uSB-O0-q9K" userLabel="miscView">
             <rect key="frame" x="0.0" y="-1" width="370" height="220"/>

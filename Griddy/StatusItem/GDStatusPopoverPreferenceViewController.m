@@ -52,6 +52,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     NSUInteger _WINDOW_TYPE;
     NSSize _ABS_SIZE;
     NSSize _REL_SIZE;
+    NSSize _GRID_DIM_SIZE;
 }
 
 @property (nonatomic) GDDemoController *demoController;
@@ -111,13 +112,18 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 - (void) setupDataFromUserDefaults {
-    _WINDOW_TYPE = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
+    NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
+
+    _WINDOW_TYPE = [[defaultValues objectForKey: GDMainWindowTypeKey] integerValue];
     
-    NSData *absSizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
+    NSData *absSizeData = [defaultValues objectForKey: GDMainWindowAbsoluteSizeKey];
     _ABS_SIZE = [[NSKeyedUnarchiver unarchiveObjectWithData: absSizeData] sizeValue];
     
-    NSData *relSizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
+    NSData *relSizeData = [defaultValues objectForKey: GDMainWindowRelativeSizeKey];
     _REL_SIZE = [[NSKeyedUnarchiver unarchiveObjectWithData: relSizeData] sizeValue];
+    
+    NSData *gridDimData = [defaultValues objectForKey: GDMainWindowGridUniversalDimensionsKey];
+    _GRID_DIM_SIZE = [[NSKeyedUnarchiver unarchiveObjectWithData: gridDimData] sizeValue];
 }
 
 
@@ -426,15 +432,12 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 // grid tab callbacks
 
 - (void) setPreferenceUIGridDimensions {
-    NSData *sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowGridUniversalDimensionsKey];
-    NSSize gridDimensions = [[NSKeyedUnarchiver unarchiveObjectWithData: sizeData] sizeValue];
-    [self setGridXInputBoxValue: gridDimensions.width];
-    [self setGridYInputBoxValue: gridDimensions.height];
+    [self setGridXInputBoxValue: _GRID_DIM_SIZE.width];
+    [self setGridYInputBoxValue: _GRID_DIM_SIZE.height];
 }
 
 
 - (IBAction) changeGridDimensionsX: (id) sender {
-    NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
     [formatter setRoundingMode: NSNumberFormatterRoundUp];
@@ -445,11 +448,13 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     newDimX = MIN(20, MAX(2, newDimX));         // 2 <= widthVal <= 25
     [self setGridXInputBoxValue: newDimX];
     
-    // save it in user defaults
-    NSData *data = [defaultValues objectForKey: GDMainWindowGridUniversalDimensionsKey];
-    NSSize oldDim = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
-    NSSize newDim = NSMakeSize(newDimX, oldDim.height);
-    if (NSEqualSizes(newDim, oldDim) == NO) {
+    // make new dim
+    NSSize newDim = NSMakeSize(newDimX, _GRID_DIM_SIZE.height);
+    
+    if (NSEqualSizes(newDim, _GRID_DIM_SIZE) == NO) {
+        _GRID_DIM_SIZE = newDim;
+        
+        // send notification
         NSData *newDimData = [NSKeyedArchiver archivedDataWithRootObject: [NSValue valueWithSize: newDim]];
         NSDictionary *infoDict = @{ @"info": newDimData };
         [self sendNotification: GDMainWindowGridUniversalDimensionsPostChanges withInfo: infoDict];
@@ -463,7 +468,6 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 - (IBAction) changeGridDimensionsY: (id) sender {
-    NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
     [formatter setRoundingMode: NSNumberFormatterRoundUp];
@@ -473,12 +477,13 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     CGFloat newDimY = [[formatter numberFromString: gridDimensionsY.stringValue] integerValue];
     newDimY = MIN(20, MAX(2, newDimY));         // 2 <= widthVal <= 25
     [self setGridYInputBoxValue: newDimY];
-    
-    // save it in user defaults
-    NSData *data = [defaultValues objectForKey: GDMainWindowGridUniversalDimensionsKey];
-    NSSize oldDim = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
-    NSSize newDim = NSMakeSize(oldDim.width, newDimY);
-    if (NSEqualSizes(newDim, oldDim) == NO) {
+
+    // make new dim
+    NSSize newDim = NSMakeSize(_GRID_DIM_SIZE.width, newDimY);
+
+    if (NSEqualSizes(newDim, _GRID_DIM_SIZE) == NO) {
+        _GRID_DIM_SIZE = newDim;
+        
         NSData *newDimData = [NSKeyedArchiver archivedDataWithRootObject: [NSValue valueWithSize: newDim]];
         NSDictionary *infoDict = @{ @"info": newDimData };
         [self sendNotification: GDMainWindowGridUniversalDimensionsPostChanges withInfo: infoDict];
