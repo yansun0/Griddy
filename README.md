@@ -1,13 +1,18 @@
-Griddy - OSX's missing window manager
-======
-
-
-
-#Introductions
+# Griddy - OSX's missing window manager
 
 With the lastest changes to OSX Apple did away with the "expand" green button and replaced it with the "full screen" instead. However, for a person with a 4k display and running my rMBP on 2880x1800 this comes as a detriment isn't no app can take advantage nor should they deserve to take up such high resolution screens in their entirely.
 
 Enter Griddy.
+
+
+
+# Demo
+
+### Main Window Demo
+![Main Window Demo](https://raw.githubusercontent.com/yansun0/Griddy/master/Demo/1.gif)
+
+### Preference Popup Demo
+![Preference Popup Demo](https://raw.githubusercontent.com/yansun0/Griddy/master/Demo/2.gif)
 
 
 
@@ -38,7 +43,9 @@ Griddy is modeled after [Divvy](http://mizage.com/divvy/) with a boatload of add
 * Support screen changes (add/remove screens, change resolutions)
 
 
+
 # Installation
+
 NOTICE: Griddy is pre-alpha, its nowhere near feature complete, nor fully tested. I do not hold any responsibilies for damages to your system this may cause.
 
 1. Have a system with the latest `OSX 10.10` build
