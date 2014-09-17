@@ -48,7 +48,11 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 
-@interface GDStatusPopoverPreferenceViewController()
+@interface GDStatusPopoverPreferenceViewController() {
+    NSUInteger _WINDOW_TYPE;
+    NSSize _ABS_SIZE;
+    NSSize _REL_SIZE;
+}
 
 @property (nonatomic) GDDemoController *demoController;
 @property (nonatomic) GDPreferencesChangesController *prefState;
@@ -76,6 +80,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     if (self) {
         // never directly accessed, need to be manually instantiated
         _prefState = [[GDPreferencesChangesController alloc] init];
+        [self setupDataFromUserDefaults];
     }
     
     return self;
@@ -86,6 +91,8 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     // destory any unsaved changes
     [self.prefState clearChanges];
     self.demoController = nil; // destory b/c grid might be dirty
+
+    [self setupDataFromUserDefaults];
     
     // restart ui
     [self setPreferenceUI];
@@ -100,6 +107,17 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     [self setupNotifications];
     [self setPreferenceUI];
     [self disableButtomButtons];
+}
+
+
+- (void) setupDataFromUserDefaults {
+    _WINDOW_TYPE = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
+    
+    NSData *absSizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
+    _ABS_SIZE = [[NSKeyedUnarchiver unarchiveObjectWithData: absSizeData] sizeValue];
+    
+    NSData *relSizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
+    _REL_SIZE = [[NSKeyedUnarchiver unarchiveObjectWithData: relSizeData] sizeValue];
 }
 
 
@@ -243,9 +261,8 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 - (void) setPreferenceUI {
     // window tab
-    NSUInteger windowType = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue];
-    [windowSizeTypeChoiceMatrix selectCellWithTag: windowType];
-    [self setPreferenceUIWindowSizeWithWindowType: windowType];
+    [windowSizeTypeChoiceMatrix selectCellWithTag: _WINDOW_TYPE];
+    [self setPreferenceUIWindowSizeWithWindowType: _WINDOW_TYPE];
     
     // grid tab
     [self setPreferenceUIGridDimensions];
@@ -254,6 +271,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     dockIconCheckBox.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDDockIconVisibilityKey] boolValue];
     statusItemCheckBox.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDStatusItemVisibilityKey] boolValue];
 }
+
 
 - (void) windowTypeChanged: (NSNotification *) note {
     NSUInteger newType = [[[note userInfo] objectForKey: @"info"] integerValue];
@@ -265,31 +283,24 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 // window tab callbacks
 
 - (void) setPreferenceUIWindowSizeWithWindowType: (NSUInteger) windowType {
-    NSData *sizeData;
-    if (windowType == 1) { // abs
-        sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowAbsoluteSizeKey];
-    } else { // rel
-        sizeData = [[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowRelativeSizeKey];
-    }
-    NSSize windowSize = [[NSKeyedUnarchiver unarchiveObjectWithData: sizeData] sizeValue];
-    [self setWindowWidthInputBoxValue: windowSize.width
-                         asWindowType: windowType];
-    [self setWindowHeightInputBoxValue: windowSize.height
-                          asWindowType: windowType];
+    NSSize windowSize = (windowType == 1) ? _ABS_SIZE : _REL_SIZE;
+    [self setWindowWidthInputBoxValue: windowSize.width];
+    [self setWindowHeightInputBoxValue: windowSize.height];
 }
 
 
 - (IBAction) changeWindowSizeTypeChoiceMatrix: (id)sender {
-    NSUInteger state = [[sender selectedCell] tag];
-    NSLog(@"%lu", (unsigned long)state);
+    NSUInteger newType = [[sender selectedCell] tag];
+    if (newType == _WINDOW_TYPE) {
+        return;
+    }
+    _WINDOW_TYPE = newType;
     [self sendNotification: GDMainWindowTypePostChanges
-                  withInfo: @{ @"info": [NSNumber numberWithBool: state] }];
+                  withInfo: @{ @"info": [NSNumber numberWithBool: newType] }];
 }
 
 
 - (IBAction) changeWidthInputBox: (id)sender {
-	NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
-    NSUInteger windowType = [[defaultValues objectForKey: GDMainWindowTypeKey] integerValue];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
     [formatter setRoundingMode: NSNumberFormatterRoundUp];
@@ -298,30 +309,36 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     NSSize newSize;
     NSString *notificationType;
 
-    if (windowType == 1) { // abs
+    if (_WINDOW_TYPE == 1) { // abs
         notificationType = GDMainWindowAbsoluteSizePostChanges;
 
+        // round
         [formatter setMaximumFractionDigits: 0];
         widthVal = [[formatter numberFromString: widthInputBox.stringValue] integerValue];
         widthVal = floor((ABS(widthVal) / 5) + 0.5) * 5; // round up to nearest 5
         widthVal = MAX(300, MIN(900, widthVal));         // 300 <= widthVal <= 900
         
-        // save it
-        NSData *data = [defaultValues objectForKey: GDMainWindowAbsoluteSizeKey];
-        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
-        newSize = NSMakeSize(widthVal, oldSize.height);
+        // make new size
+        newSize = NSMakeSize(widthVal, _ABS_SIZE.height);
+        if (NSEqualSizes(newSize, _ABS_SIZE)) {
+            return;
+        }
+        _ABS_SIZE = newSize;
         
     } else { // relative
         notificationType = GDMainWindowRelativeSizePostChanges;
 
+        // round
         [formatter setMaximumFractionDigits: 2];
         widthVal = [[formatter numberFromString: widthInputBox.stringValue] floatValue] / 100;
-        widthVal = MAX(0.5, MIN(0.7, widthVal));         // 5% <= widthVal <= 70%
+        widthVal = MAX(0.05, MIN(0.7, widthVal));         // 5% <= widthVal <= 70%
         
-        // save it
-        NSData *data = [defaultValues objectForKey: GDMainWindowRelativeSizeKey];
-        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
-        newSize = NSMakeSize(widthVal, oldSize.height);
+        // generate new size
+        newSize = NSMakeSize(widthVal, _REL_SIZE.height);
+        if (NSEqualSizes(newSize, _REL_SIZE)) {
+            return;
+        }
+        _REL_SIZE = newSize;
     }
     
     // send notification
@@ -330,14 +347,11 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     [self sendNotification: notificationType withInfo: infoDict];
     
     // update ui
-    [self setWindowWidthInputBoxValue: widthVal
-                         asWindowType: windowType];
+    [self setWindowWidthInputBoxValue: widthVal];
 }
 
 
 - (IBAction) changeHeightInputBox: (id) sender {
-	NSUserDefaults *defaultValues = [NSUserDefaults standardUserDefaults];
-    NSUInteger windowType = [[defaultValues objectForKey: GDMainWindowTypeKey] integerValue];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
     [formatter setRoundingMode: NSNumberFormatterRoundUp];
@@ -346,7 +360,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     NSSize newSize;
     NSString *notificationType;
    
-    if (windowType == 1) { // abs
+    if (_WINDOW_TYPE == 1) { // abs
         notificationType = GDMainWindowAbsoluteSizePostChanges;
 
         [formatter setMaximumFractionDigits: 0];
@@ -354,28 +368,26 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
         heightVal = floor((ABS(heightVal) / 5) + 0.5) * 5; // round up to nearest 5
         heightVal = MAX(180, MIN(540, heightVal));         // 180 <= heightVal <= 540
         
-        // save it
-        NSData *data = [defaultValues objectForKey: GDMainWindowAbsoluteSizeKey];
-        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
-        newSize = NSMakeSize(oldSize.width, heightVal);
-        if (NSEqualSizes(newSize, oldSize)) {
+        // make new size
+        newSize = NSMakeSize(_ABS_SIZE.width, heightVal);
+        if (NSEqualSizes(newSize, _ABS_SIZE)) {
             return;
         }
+        _ABS_SIZE = newSize;
         
     } else { // relative
         notificationType = GDMainWindowRelativeSizePostChanges;
 
         [formatter setMaximumFractionDigits: 2];
         heightVal = [[formatter numberFromString: heightInputBox.stringValue] floatValue] / 100;
-        heightVal = MAX(0.5, MIN(0.7, heightVal));         // 5% <= heightVal <= 70%
-        
-        // save it
-        NSData *data = [defaultValues objectForKey: GDMainWindowRelativeSizeKey];
-        NSSize oldSize = [[NSKeyedUnarchiver unarchiveObjectWithData: data] sizeValue];
-        newSize = NSMakeSize(oldSize.width, heightVal);
-        if (NSEqualSizes(newSize, oldSize)) {
+        heightVal = MAX(0.05, MIN(0.7, heightVal));         // 5% <= heightVal <= 70%
+
+        // make new size
+        newSize = NSMakeSize(_REL_SIZE.width, heightVal);
+        if (NSEqualSizes(newSize, _REL_SIZE)) {
             return;
         }
+        _REL_SIZE = newSize;
     }
 
     // send notification
@@ -384,14 +396,12 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     [self sendNotification: notificationType withInfo: infoDict];
     
     // update ui
-    [self setWindowHeightInputBoxValue: heightVal
-                          asWindowType: windowType];
+    [self setWindowHeightInputBoxValue: heightVal];
 }
 
 
-- (void) setWindowWidthInputBoxValue: (CGFloat) widthVal
-                        asWindowType: (NSUInteger) windowType {
-    if (windowType == 1) { // abs
+- (void) setWindowWidthInputBoxValue: (CGFloat) widthVal {
+    if (_WINDOW_TYPE == 1) { // abs
         [widthInputBox setStringValue: [NSString stringWithFormat:@"%lu", (NSInteger)ceilf(widthVal)]];
         [widthInputBoxSuffix setStringValue: @"px"];
     } else {
@@ -401,9 +411,8 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 }
 
 
-- (void) setWindowHeightInputBoxValue: (CGFloat) heightVal
-                         asWindowType: (NSUInteger) windowType {
-    if (windowType == 1) { // abs
+- (void) setWindowHeightInputBoxValue: (CGFloat) heightVal {
+    if (_WINDOW_TYPE == 1) { // abs
         [heightInputBox setStringValue: [NSString stringWithFormat:@"%lu", (NSInteger)ceilf(heightVal)]];
         [heightInputBoxSuffix setStringValue: @"px"];
     } else {
