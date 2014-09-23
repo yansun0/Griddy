@@ -62,3 +62,13 @@
 - (void) removeStatusItem;
 
 @end
+
+
+
+// ----------------------------------
+#pragma mark - GDStatusPopoverViewController
+// ----------------------------------
+
+@protocol GDStatusPopoverViewController
+- (void) cleanUp;
+@end

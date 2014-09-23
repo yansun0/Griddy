@@ -9,7 +9,6 @@
 
 
 #import "GDStatusPopoverPreferenceViewController.h"
-#import "GDStatusItem.h"
 #import "GDPreferences.h"
 #import "GDDemoMainWindow.h"
 
@@ -101,6 +100,10 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     [self shouldShowDemoWindowsByTag: currentViewTag];
 }
 
+- (void) cleanUp {
+    [self.demoController hideWindows];
+}
+
 
 // ui setup
 - (void) awakeFromNib {
@@ -170,6 +173,10 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     }
 }
 
+
+- (void) hideDemoWindows {
+    [self.demoController hideWindows];
+}
 
 
 # pragma mark - BASE UI

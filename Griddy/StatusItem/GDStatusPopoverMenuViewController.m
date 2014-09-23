@@ -7,7 +7,6 @@
 //
 
 #import "GDStatusPopoverMenuViewController.h"
-#import "GDStatusItem.h"
 #import "GDAssets.h"
 
 
@@ -29,6 +28,8 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
     
     return self;
 }
+
+- (void) cleanUp {}
 
 @end
 

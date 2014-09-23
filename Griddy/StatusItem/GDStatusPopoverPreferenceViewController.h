@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GDStatusItem.h"
 @class GDStatusItemController;
 
 
 
-@interface GDStatusPopoverPreferenceViewController : NSViewController {
+@interface GDStatusPopoverPreferenceViewController : NSViewController <GDStatusPopoverViewController> {
     IBOutlet NSButton *backButton;
     IBOutlet NSSegmentedControl *preferenceTab;
     IBOutlet NSButton *cancelButton;
@@ -62,5 +63,8 @@
 // bottom buttons
 - (IBAction) cancelChanges: (id) sender;
 - (IBAction) acceptChanges: (id) sender;
+
+// manually hide demo windows if needed
+- (void) hideDemoWindows;
 
 @end

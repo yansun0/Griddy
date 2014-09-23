@@ -157,7 +157,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 // ----------------------------------
 
 @interface GDStatusItemView () {
-    NSViewController *_menuViewController;
+    NSViewController<GDStatusPopoverViewController> *_menuViewController;
     NSImageView *_imageView;
     NSImage *_image;
     NSImage *_alternateImage;
@@ -177,7 +177,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 @synthesize active = _active;
 
 
-- (id) initWithViewController: (NSViewController *) controller {
+- (id) initWithViewController: (NSViewController<GDStatusPopoverViewController> *) controller {
     
     CGFloat height = [NSStatusBar systemStatusBar].thickness;
     
@@ -294,8 +294,10 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     if (!_popover) {
         _popover = [[NSPopover alloc] init];
         _popover.contentViewController = _menuViewController;
+    } else if (!_popover.contentViewController) {
+        _popover.contentViewController = _menuViewController;
     }
-        
+    
     if (!_popover.isShown) {
         _popover.animates = YES;
         [_popover showRelativeToRect: self.frame
@@ -315,12 +317,20 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 
 - (void) hidePopover {
     self.active = NO;
-    if (_popover && _popover.isShown) {
-        _popover.contentViewController = _menuViewController;
-        [_popover close];
-		if (_popoverTransiencyMonitor) {
-            [NSEvent removeMonitor:_popoverTransiencyMonitor];
-            _popoverTransiencyMonitor = nil;
+    
+    if (_popover) {
+        // cleanup
+        NSViewController <GDStatusPopoverViewController> *vc = (NSViewController <GDStatusPopoverViewController> *) _popover.contentViewController;
+        [vc cleanUp];
+        
+        // if popover still being displayed
+        if (_popover.isShown) {
+            _popover.contentViewController = nil;
+            [_popover close];
+            if (_popoverTransiencyMonitor) {
+                [NSEvent removeMonitor:_popoverTransiencyMonitor];
+                _popoverTransiencyMonitor = nil;
+            }
         }
     }
 }
