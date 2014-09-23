@@ -181,7 +181,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     
     CGFloat height = [NSStatusBar systemStatusBar].thickness;
     
-    self = [super initWithFrame:NSMakeRect(0, 0, kMinViewWidth, height)];
+    self = [super initWithFrame: NSMakeRect(0, 0, kMinViewWidth, height)];
     if (self) {
         _menuViewController = controller;
         
@@ -235,7 +235,6 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
         [NSApp sendAction: _actionL to: _targetL from: self];
     }
 }
-
 
 - (void) rightMouseDown: (NSEvent *)theEvent {
     if (_popover.isShown) {
@@ -296,7 +295,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
         _popover = [[NSPopover alloc] init];
         _popover.contentViewController = _menuViewController;
     }
-    
+        
     if (!_popover.isShown) {
         _popover.animates = YES;
         [_popover showRelativeToRect: self.frame

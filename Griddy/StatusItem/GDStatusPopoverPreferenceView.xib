@@ -28,6 +28,66 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <numberFormatter formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="e4Q-nZ-OY4"/>
+        <customView id="ntJ-xx-cuZ">
+            <rect key="frame" x="0.0" y="-5" width="370" height="314"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <segmentedControl verticalHuggingPriority="750" id="SCG-nG-4QN">
+                    <rect key="frame" x="78" y="270" width="214" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="ABF-gq-ifH">
+                        <font key="font" metaFont="system"/>
+                        <segments>
+                            <segment label="Window" width="70" selected="YES" tag="1"/>
+                            <segment label="Grid" width="70" tag="2"/>
+                            <segment label="Misc." width="70" tag="3"/>
+                        </segments>
+                    </segmentedCell>
+                    <connections>
+                        <action selector="changedPreferenceTab:" target="-2" id="KSX-4m-25e"/>
+                    </connections>
+                </segmentedControl>
+                <button verticalHuggingPriority="750" id="kcX-79-aIe">
+                    <rect key="frame" x="20" y="270" width="29" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="roundTextured" title="◀︎" bezelStyle="texturedRounded" alignment="left" scrollable="YES" lineBreakMode="clipping" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="vMx-R2-M4M">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="backToMenu:" target="-2" id="G3l-Tb-bGE"/>
+                    </connections>
+                </button>
+                <customView id="oV7-O6-kxh">
+                    <rect key="frame" x="0.0" y="40" width="370" height="220"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </customView>
+                <button verticalHuggingPriority="750" id="eY8-uf-2nT">
+                    <rect key="frame" x="305" y="13" width="51" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="✓" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1F7-dw-ich">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="acceptChanges:" target="-2" id="AUe-Wx-11m"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" id="Zoi-2m-9qJ">
+                    <rect key="frame" x="255" y="13" width="50" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="✕" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ynm-Rm-gG3">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" size="13" name="ZapfDingbatsITC"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="cancelChanges:" target="-2" id="Zen-Te-DHH"/>
+                    </connections>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="437" y="359"/>
+        </customView>
         <customView id="TuJ-70-68I" userLabel="windowsView">
             <rect key="frame" x="0.0" y="0.0" width="370" height="220"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -329,66 +389,6 @@
                 </box>
             </subviews>
             <point key="canvasLocation" x="0.0" y="672"/>
-        </customView>
-        <numberFormatter formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="e4Q-nZ-OY4"/>
-        <customView id="ntJ-xx-cuZ">
-            <rect key="frame" x="0.0" y="-5" width="370" height="314"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <segmentedControl verticalHuggingPriority="750" id="SCG-nG-4QN">
-                    <rect key="frame" x="78" y="270" width="214" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="ABF-gq-ifH">
-                        <font key="font" metaFont="system"/>
-                        <segments>
-                            <segment label="Window" width="70" selected="YES" tag="1"/>
-                            <segment label="Grid" width="70" tag="2"/>
-                            <segment label="Misc." width="70" tag="3"/>
-                        </segments>
-                    </segmentedCell>
-                    <connections>
-                        <action selector="changedPreferenceTab:" target="-2" id="KSX-4m-25e"/>
-                    </connections>
-                </segmentedControl>
-                <button verticalHuggingPriority="750" id="kcX-79-aIe">
-                    <rect key="frame" x="20" y="270" width="29" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="roundTextured" title="◀︎" bezelStyle="texturedRounded" alignment="left" scrollable="YES" lineBreakMode="clipping" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="vMx-R2-M4M">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="backToMenu:" target="-2" id="G3l-Tb-bGE"/>
-                    </connections>
-                </button>
-                <customView id="oV7-O6-kxh">
-                    <rect key="frame" x="0.0" y="40" width="370" height="220"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </customView>
-                <button verticalHuggingPriority="750" id="eY8-uf-2nT">
-                    <rect key="frame" x="305" y="13" width="51" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="✓" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1F7-dw-ich">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="acceptChanges:" target="-2" id="AUe-Wx-11m"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" id="Zoi-2m-9qJ">
-                    <rect key="frame" x="255" y="13" width="50" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="✕" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ynm-Rm-gG3">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="13" name="ZapfDingbatsITC"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="cancelChanges:" target="-2" id="Zen-Te-DHH"/>
-                    </connections>
-                </button>
-            </subviews>
-            <point key="canvasLocation" x="437" y="359"/>
         </customView>
     </objects>
 </document>

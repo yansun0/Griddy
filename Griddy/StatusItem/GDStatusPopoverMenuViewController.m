@@ -52,6 +52,14 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
     [super drawRect: dirtyRect];
 }
 
+- (BOOL) acceptsFirstResponder {
+    return YES;
+}
+
+- (BOOL) acceptsFirstMouse: (NSEvent *) theEvent {
+    return YES;
+}
+
 @end
 
 
@@ -72,6 +80,14 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
     [path fill];
     
     [super drawRect: dirtyRect];
+}
+
+- (BOOL) acceptsFirstResponder {
+    return YES;
+}
+
+- (BOOL) acceptsFirstMouse: (NSEvent *) theEvent {
+    return YES;
 }
 
 @end
@@ -103,6 +119,14 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
                     userInfo: nil];
 }
 
+- (BOOL) acceptsFirstResponder {
+    return YES;
+}
+
+- (BOOL) acceptsFirstMouse: (NSEvent *) theEvent {
+    return YES;
+}
+
 @end
 
 
@@ -132,6 +156,13 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
                 afterDelay: 0.0];
 }
 
+- (BOOL) acceptsFirstResponder {
+    return YES;
+}
+
+- (BOOL) acceptsFirstMouse: (NSEvent *) theEvent {
+    return YES;
+}
 
 @end
 
