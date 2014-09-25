@@ -9,6 +9,32 @@
 #import "GDAssets.h"
 
 @implementation GDAssets
+// light
+// background: 233 231 235
+// text:       97 97 100
+
+// dark
+// background: 155 155 155
+// text:       255 255 255
++ (NSColor *) getLightColorBackground {
+    return [NSColor colorWithCalibratedWhite: 233/255 alpha: 1];
+}
+
+
++ (NSColor *) getLightColorText {
+    return [NSColor colorWithCalibratedWhite: 100/255 alpha: 1];
+}
+
+
++ (NSColor *) getDarkColorBackground {
+    return [NSColor colorWithCalibratedWhite: 155/255 alpha: 1];
+}
+
+
++ (NSColor *) getDarkColorText {
+    return [NSColor colorWithCalibratedWhite: 255/255 alpha: 1];
+}
+
 
 + (NSBezierPath *) getPathForGridFourIcon {
     NSBezierPath* gridFourPath = NSBezierPath.bezierPath;
