@@ -186,7 +186,9 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
         _menuViewController = controller;
         
         _image = [NSImage imageNamed:@"statusitem-a"];
+        [_image setTemplate: YES];
         _alternateImage = [NSImage imageNamed:@"statusitem-b"];
+        [_alternateImage setTemplate: YES];
         
         _imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, kMinViewWidth, height)];
         [self addSubview:_imageView];

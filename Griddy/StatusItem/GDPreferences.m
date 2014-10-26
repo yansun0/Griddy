@@ -87,7 +87,6 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 + (void) setMainWindowTypeDefault: (NSUInteger) newType {
-    NSLog(@"stored it");
     // short circuit
     if (newType == [[[NSUserDefaults standardUserDefaults] objectForKey: GDMainWindowTypeKey] integerValue]) {
         return;

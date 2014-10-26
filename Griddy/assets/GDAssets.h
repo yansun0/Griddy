@@ -15,6 +15,7 @@
 + (NSColor *) getDarkColorBackground;
 + (NSColor *) getDarkColorText;
 
+// DEFAULT ICON SIZE = 64
 + (NSBezierPath *) getPathForGridNineIcon;
 + (NSBezierPath *) getPathForGridFourIcon;
 + (NSBezierPath *) getPathForGearsIcon;

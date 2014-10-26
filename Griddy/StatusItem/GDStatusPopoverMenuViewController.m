@@ -41,20 +41,20 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 - (void) drawRect: (NSRect) dirtyRect {
     // text
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys: [NSFont fontWithName: @"HelveticaNeue-UltraLight"
-                                                                                           size: 26],
+                                                                                           size: 22],
                                 NSFontAttributeName,
                                 [NSColor blackColor],
                                 NSForegroundColorAttributeName,
                                 nil];
     NSAttributedString * currentText = [[NSAttributedString alloc] initWithString:@"Activate" attributes: attributes];
-    [currentText drawInRect:NSMakeRect(64, 14, 192, 36)];
+    [currentText drawInRect:NSMakeRect(48, 14, 128, 24)];
     
     // icon
     NSBezierPath* path = [GDAssets getPathForGridFourIcon];
     [[GDAssets getLightColorText] setFill];
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
-    [transformer translateXBy: 14.0f yBy: 14.0f];
-    [transformer scaleBy: 0.5625f];
+    [transformer translateXBy: 12.0f yBy: 12.0f];
+    [transformer scaleBy: 0.375f];
     [path transformUsingAffineTransform: transformer];
     [path fill];
     
@@ -79,20 +79,20 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 - (void) drawRect: (NSRect) dirtyRect {
     // text
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys: [NSFont fontWithName: @"HelveticaNeue-UltraLight"
-                                                                                           size: 26],
+                                                                                           size: 22],
                                 NSFontAttributeName,
                                 [NSColor blackColor],
                                 NSForegroundColorAttributeName,
                                 nil];
     NSAttributedString * currentText = [[NSAttributedString alloc] initWithString:@"About" attributes: attributes];
-    [currentText drawInRect:NSMakeRect(64, 14, 192, 36)];
+    [currentText drawInRect:NSMakeRect(48, 14, 128, 24)];
     
     // icon
     NSBezierPath* path = [GDAssets getPathForQuestionIcon];
     [[GDAssets getLightColorText] setFill];
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
-    [transformer translateXBy: 14.0f yBy: 14.0f];
-    [transformer scaleBy: 0.5625f];
+    [transformer translateXBy: 12.0f yBy: 12.0f];
+    [transformer scaleBy: 0.375f];
     [path transformUsingAffineTransform: transformer];
     [path fill];
     
@@ -116,20 +116,20 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 - (void) drawRect: (NSRect) dirtyRect {
     // text
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys: [NSFont fontWithName: @"HelveticaNeue-UltraLight"
-                                                                                           size: 26],
+                                                                                           size: 22],
                                 NSFontAttributeName,
                                 [NSColor blackColor],
                                 NSForegroundColorAttributeName,
                                 nil];
     NSAttributedString * currentText = [[NSAttributedString alloc] initWithString:@"Settings" attributes: attributes];
-    [currentText drawInRect:NSMakeRect(64, 14, 192, 36)];
+    [currentText drawInRect:NSMakeRect(48, 14, 128, 24)];
     
     // icon
     NSBezierPath* path = [GDAssets getPathForGearsIcon];
     [[GDAssets getLightColorText] setFill];
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
-    [transformer translateXBy: 14.0f yBy: 14.0f];
-    [transformer scaleBy: 0.5625f];
+    [transformer translateXBy: 12.0f yBy: 12.0f];
+    [transformer scaleBy: 0.375f];
     [path transformUsingAffineTransform: transformer];
     [path fill];
     [super drawRect: dirtyRect];
@@ -161,20 +161,20 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 - (void) drawRect: (NSRect) dirtyRect {
     // text
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys: [NSFont fontWithName: @"HelveticaNeue-UltraLight"
-                                                                                           size: 26],
+                                                                                           size: 22],
                                 NSFontAttributeName,
                                 [NSColor blackColor],
                                 NSForegroundColorAttributeName,
                                 nil];
     NSAttributedString * currentText = [[NSAttributedString alloc] initWithString:@"Quit" attributes: attributes];
-    [currentText drawInRect:NSMakeRect(64, 14, 192, 36)];
+    [currentText drawInRect:NSMakeRect(48, 14, 128, 24)];
     
     // icon
     NSBezierPath* path = [GDAssets getPathForTimesIcon];
     [[GDAssets getLightColorText] setFill];
     NSAffineTransform *transformer = [[NSAffineTransform alloc] init];
-    [transformer translateXBy: 14.0f yBy: 14.0f];
-    [transformer scaleBy: 0.5625f];
+    [transformer translateXBy: 12.0f yBy: 12.0f];
+    [transformer scaleBy: 0.375f];
     [path transformUsingAffineTransform: transformer];
     [path fill];
     
