@@ -222,9 +222,11 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     if (NSEqualPoints(pos, _startCell) == YES) {
         NSLog(@"[START] -- (%d, %d)", (int)_startCell.x, (int)_startCell.y);
         NSLog(@"[END] -- (%d, %d)", (int)_curCell.x, (int)_curCell.y);
-        NSString *result = [_thisGrid getNewWindowBoundsStringFromCell1: _startCell
-                                                                ToCell2: _curCell];
-        [_appDelegate moveAppWithResultRect: result];
+//        NSString *result = [_thisGrid getAppWindowBoundsStringFromCell1: _startCell
+//                                                                ToCell2: _curCell];
+        NSRect rect = [_thisGrid getAppWindowFrameFromCell1: _startCell
+                                                    ToCell2: _curCell];
+        [_appDelegate moveAppWithResultRect: rect];
     }
 }
 

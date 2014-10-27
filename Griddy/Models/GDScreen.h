@@ -24,4 +24,6 @@
 - (NSSize) getMainWindowSizeForScreenPercentageSize: (NSSize) sizeP;
 - (NSString *) getScreenBoundsForGridRect: (NSRect) newPosRect;
 - (NSRect) getScreenFrameForGridRect: (NSRect) gridRect;
+- (NSRect) getCGFrameForGridRect: (NSRect) gridRect;
+
 @end

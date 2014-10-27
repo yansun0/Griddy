@@ -27,8 +27,10 @@
 - (NSRect) getCellCollectionRectFrame;
 - (NSRect) getCellViewFrameForCellX: (NSInteger)x
                                   Y: (NSInteger)y;
-- (NSString *) getNewWindowBoundsStringFromCell1: (NSPoint)cell1
+- (NSString *) getAppWindowBoundsStringFromCell1: (NSPoint)cell1
                                          ToCell2: (NSPoint)cell2;
+- (NSRect) getAppWindowFrameFromCell1: (NSPoint)cell1
+                              ToCell2: (NSPoint)cell2;
 - (NSRect) getOverlayWindowFrameFromCell1: (NSPoint)cell1;
 - (NSRect) getOverlayWindowFrameFromCell1: (NSPoint)cell1
                                   ToCell2: (NSPoint)cell2;

@@ -348,7 +348,68 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 #pragma mark - WINDOW CONTROLLER CALLBACKS
 
-- (void) moveAppWithResultRect: (NSString *)resultRect {
+// OPTION 1 -- use accessibility api
+- (BOOL) amIAuthorized {
+    if (AXIsProcessTrustedWithOptions != 0) {
+        /* Yehaa, all apps are authorized */
+        return true;
+    }
+    /* Bummer, it's not activated, maybe we are trusted */
+    if (AXIsProcessTrusted() != 0) {
+        /* Good news, we are already trusted */
+        return true;
+    }
+    
+    // try to activate
+    NSDictionary *options = @{(__bridge id)kAXTrustedCheckOptionPrompt: @YES};
+    return AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options);
+}
+
+
+- (AXUIElementRef) getFrontMostApp {
+    return AXUIElementCreateApplication(_frontApp.processIdentifier);
+}
+
+
+- (void) moveAppWithResultRect: (NSRect) rect {
+    if ([self amIAuthorized] == NO) {
+        return;
+    }
+    
+    AXValueRef temp;
+    CGSize windowSize;
+    CGPoint windowPosition;
+    AXUIElementRef frontMostApp = [self getFrontMostApp];
+    AXUIElementRef frontMostWindow;
+    
+    // the get
+    AXUIElementCopyAttributeValue(frontMostApp, kAXFocusedWindowAttribute, (CFTypeRef *)&frontMostWindow);
+    AXUIElementCopyAttributeValue(frontMostWindow, kAXSizeAttribute, (CFTypeRef *)&temp);
+    AXValueGetValue(temp, kAXValueCGSizeType, &windowSize);
+    CFRelease(temp);
+    AXUIElementCopyAttributeValue(frontMostWindow, kAXPositionAttribute, (CFTypeRef *)&temp);
+    AXValueGetValue(temp, kAXValueCGPointType, &windowPosition);
+    CFRelease(temp);
+    
+    // the move
+    windowSize = rect.size;
+    temp = AXValueCreate(kAXValueCGSizeType, &windowSize);
+    AXUIElementSetAttributeValue(frontMostWindow, kAXSizeAttribute, temp);
+    CFRelease(temp);
+    windowPosition = rect.origin;
+    temp = AXValueCreate(kAXValueCGPointType, &windowPosition);
+    AXUIElementSetAttributeValue(frontMostWindow, kAXPositionAttribute, temp);
+    CFRelease(temp);
+    
+    CFRelease(frontMostWindow);
+    CFRelease(frontMostApp);
+    [self hideWindows];
+}
+
+
+
+// OPTION 2 -- use applescript
+- (void) moveAppWithResultRect2: (NSString *)resultRect {
     NSDictionary* errorDict;
     NSAppleEventDescriptor* returnDescriptor = NULL;
     

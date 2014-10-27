@@ -171,11 +171,18 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 }
 
 
-- (NSString *) getNewWindowBoundsStringFromCell1: (NSPoint)cell1
+- (NSString *) getAppWindowBoundsStringFromCell1: (NSPoint)cell1
                                          ToCell2: (NSPoint)cell2 {
     NSRect newPosRect = [self getRectFromPoint1: cell1
                                          Point2: cell2];
     return [_thisGDScreen getScreenBoundsForGridRect: newPosRect];
+}
+
+- (NSRect) getAppWindowFrameFromCell1: (NSPoint)cell1
+                              ToCell2: (NSPoint)cell2 {
+    NSRect newPosRect = [self getRectFromPoint1: cell1
+                                         Point2: cell2];
+    return [_thisGDScreen getCGFrameForGridRect: newPosRect];
 }
 
 // hovering
