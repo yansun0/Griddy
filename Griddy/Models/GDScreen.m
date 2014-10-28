@@ -105,8 +105,9 @@
 
 // use cg coordinate system
 - (NSRect) getCGFrameForGridRect: (NSRect) gridRect {
+    NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex: 0];
     NSRect cocoaFrame = [self getScreenFrameForGridRect: gridRect];
-    cocoaFrame.origin.y = [NSScreen mainScreen].frame.size.height - cocoaFrame.origin.y - cocoaFrame.size.height; // flip the coordinate system, the deducate the height
+    cocoaFrame.origin.y = [primaryScreen visibleFrame].size.height - cocoaFrame.origin.y - cocoaFrame.size.height; // flip the coordinate system, the deducate the height
     return cocoaFrame;
 }
 

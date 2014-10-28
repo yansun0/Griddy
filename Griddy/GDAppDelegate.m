@@ -372,6 +372,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 
 - (void) moveAppWithResultRect: (NSRect) rect {
+    NSLog(@"%@", CGRectCreateDictionaryRepresentation(rect));
     if ([self amIAuthorized] == NO) {
         return;
     }
