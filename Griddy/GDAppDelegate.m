@@ -348,7 +348,6 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 
 #pragma mark - WINDOW CONTROLLER CALLBACKS
 
-// OPTION 1 -- use accessibility api
 - (BOOL) amIAuthorized {
     if (AXIsProcessTrustedWithOptions != 0) {
         /* Yehaa, all apps are authorized */
@@ -366,13 +365,10 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 }
 
 
-- (AXUIElementRef) getFrontMostApp {
-    return AXUIElementCreateApplication(_frontApp.processIdentifier);
-}
-
-
+// OPTION 1 -- use accessibility api
 - (void) moveAppWithResultRect: (NSRect) rect {
-    NSLog(@"%@", CGRectCreateDictionaryRepresentation(rect));
+    NSLog(@"NOT FORCED");
+    NSLog(@"%@\n\n", CGRectCreateDictionaryRepresentation(rect));
     if ([self amIAuthorized] == NO) {
         return;
     }
@@ -380,7 +376,7 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
     AXValueRef temp;
     CGSize windowSize;
     CGPoint windowPosition;
-    AXUIElementRef frontMostApp = [self getFrontMostApp];
+    AXUIElementRef frontMostApp = AXUIElementCreateApplication(self.frontApp.processIdentifier);
     AXUIElementRef frontMostWindow;
     
     // the get
@@ -408,12 +404,20 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
 }
 
 
-
 // OPTION 2 -- use applescript
-- (void) moveAppWithResultRect2: (NSString *)resultRect {
+- (void) moveAppWithResultRectForced: (NSRect) rect {
+    NSLog(@"FORCED");
+    NSLog(@"%@\n\n", CGRectCreateDictionaryRepresentation(rect));
+    NSString *rectStr = [NSString stringWithFormat: @"{%d, %d, %d, %d}",
+                            (int) rect.origin.x, (int) rect.size.width,
+                            (int) rect.origin.y, (int) rect.size.height];
+
+    if ([self amIAuthorized] == NO) {
+        return;
+    }
+    
     NSDictionary* errorDict;
     NSAppleEventDescriptor* returnDescriptor = NULL;
-    
     NSString *scriptStr = [NSString stringWithFormat: @"\
         global theApp, theBounds\n\
         set theApp to \"%@\"\n\
@@ -437,16 +441,16 @@ extern NSString * const GDAutoLaunchOnLoginChanged;
                 set size of front window of application process theApp to item 1 of theBounds\n\
                 set position of front window of application process theApp to item 2 of theBounds\n\
             end tell\n\
-        end nonScriptableApp", [_frontApp localizedName], resultRect];
+        end nonScriptableApp", [_frontApp localizedName], rectStr];
     NSAppleScript *AaplScript = [[NSAppleScript alloc] initWithSource: scriptStr];
     
     returnDescriptor = [AaplScript executeAndReturnError: &errorDict];
     if (returnDescriptor != NULL) {
-        NSLog(@"success: move %@ to %@", [_frontApp localizedName], resultRect);
+        NSLog(@"success: move %@ to %@", [_frontApp localizedName], rectStr);
         // successful execution
 
     } else {
-        NSLog(@"error: didn't move %@ to %@", [_frontApp localizedName], resultRect);
+        NSLog(@"error: didn't move %@ to %@", [_frontApp localizedName], rectStr);
     }
     
     [self hideWindows];

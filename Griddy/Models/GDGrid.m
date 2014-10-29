@@ -171,7 +171,7 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 }
 
 
-- (NSString *) getAppWindowBoundsStringFromCell1: (NSPoint)cell1
+- (NSRect) getAppWindowBoundsStringFromCell1: (NSPoint)cell1
                                          ToCell2: (NSPoint)cell2 {
     NSRect newPosRect = [self getRectFromPoint1: cell1
                                          Point2: cell2];

@@ -22,9 +22,10 @@ NSString * const GDMainWindowGridUniversalDimensionsKey = @"GDMainWindowGridUniv
 NSString * const GDMainWindowRelativeGridSpecificDimensionsKey = @"GDMainWindowRelativeGridSpecificDimensionsKey";
 NSString * const GDMainWindowAbsoluteGridSpecificDimensionsKey = @"GDMainWindowAbsoluteGridSpecificDimensionsKey";
 NSString * const GDShortcutKey = @"GDShortcutKey";
+NSString * const GDAutoLaunchOnLoginKey = @"GDAutoLaunchOnLoginKey";
+NSString * const GDMoveMethodKey = @"GDMoveMethodKey";
 NSString * const GDStatusItemVisibilityKey = @"GDStatusItemVisibilityKey";
 NSString * const GDDockIconVisibilityKey = @"GDDockIconVisibilityKey";
-NSString * const GDAutoLaunchOnLoginKey = @"GDAutoLaunchOnLoginKey";
 
 
 // posted changes keys
@@ -33,6 +34,7 @@ NSString * const GDMainWindowAbsoluteSizePostChanges = @"GDMainWindowAbsoluteSiz
 NSString * const GDMainWindowRelativeSizePostChanges = @"GDMainWindowRelativeSizePostChanges";
 NSString * const GDMainWindowGridUniversalDimensionsPostChanges = @"GDMainWindowGridUniversalDimensionsPostChanges";
 NSString * const GDStatusItemVisibilityPostChanges = @"GDStatusItemVisibilityPostChanges";
+NSString * const GDMoveMethodPostChanges = @"GDMoveMethodPostChanges";
 NSString * const GDDockIconVisibilityPostChanges = @"GDDockIconVisibilityPostChanges";
 NSString * const GDAutoLaunchOnLoginPostChanges = @"GDAutoLaunchOnLoginPostChanges";
 
@@ -42,9 +44,10 @@ NSString * const GDMainWindowTypeChanged = @"GDMainWindowTypeChanged";
 NSString * const GDMainWindowAbsoluteSizeChanged = @"GDMainWindowAbsoluteSizeChanged";
 NSString * const GDMainWindowRelativeSizeChanged = @"GDMainWindowRelativeSizeChanged";
 NSString * const GDMainWindowGridUniversalDimensionsChanged = @"GDMainWindowGridUniversalDimensionsChanged";
+NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
+NSString * const GDMoveMethodChanged = @"GDMoveMethodChanged";
 NSString * const GDStatusItemVisibilityChanged = @"GDStatusItemVisibilityChanged";
 NSString * const GDDockIconVisibilityChanged = @"GDDockIconVisibilityChanged";
-NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
 
 
 
@@ -76,7 +79,11 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
                       forKey: GDMainWindowRelativeSizeKey];
     [defaultValues setObject: mainWindowAbsGridUniSizeData
                       forKey: GDMainWindowGridUniversalDimensionsKey];
-	[defaultValues setObject: [NSNumber numberWithBool: NO]
+    [defaultValues setObject: [NSNumber numberWithBool: YES] // TODO
+                      forKey: GDAutoLaunchOnLoginKey];
+    [defaultValues setObject: [NSNumber numberWithBool: 0] // 0 = not forced, 1 = forced
+                      forKey: GDMoveMethodKey];
+    [defaultValues setObject: [NSNumber numberWithBool: NO]
                       forKey: GDDockIconVisibilityKey];
 	[defaultValues setObject: [NSNumber numberWithBool: YES]
                       forKey: GDStatusItemVisibilityKey];
@@ -140,6 +147,25 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
     [nc postNotificationName: GDDockIconVisibilityChanged
                       object: self
                     userInfo: @{ @"info": [NSNumber numberWithBool: showIcon] }];
+}
+
+
++ (void) setMoveMethodDefault: (NSUInteger) isForced {
+    // short circuit
+    if (isForced == [[[NSUserDefaults standardUserDefaults] objectForKey: GDMoveMethodKey] integerValue]) {
+        return;
+    }
+    
+    // update user defaults
+    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithInteger: isForced]
+                                              forKey: GDMoveMethodKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // send notification
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDMoveMethodChanged
+                      object: self
+                    userInfo: @{ @"info": [NSNumber numberWithBool: isForced] }];
 }
 
 
@@ -262,15 +288,19 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
                         object: nil];
     [defaultCenter addObserver: self
                       selector: @selector(addNewChange:)
+                          name: GDAutoLaunchOnLoginPostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
+                          name: GDMoveMethodPostChanges
+                        object: nil];
+    [defaultCenter addObserver: self
+                      selector: @selector(addNewChange:)
                           name: GDStatusItemVisibilityPostChanges
                         object: nil];
     [defaultCenter addObserver: self
                       selector: @selector(addNewChange:)
                           name: GDDockIconVisibilityPostChanges
-                        object: nil];
-    [defaultCenter addObserver: self
-                      selector: @selector(addNewChange:)
-                          name: GDAutoLaunchOnLoginPostChanges
                         object: nil];
 }
 
@@ -381,6 +411,10 @@ NSString * const GDAutoLaunchOnLoginChanged = @"GDAutoLaunchOnLoginChanged";
         BOOL newState = [[_data objectForKey: @"info"] boolValue];
         [GDPreferences setDockIconVisibilityDefault: newState];
         
+    } else if ([_name isEqualToString: GDMoveMethodPostChanges]) {
+        NSUInteger isForced = [[_data objectForKey: @"info"] integerValue];
+        [GDPreferences setMoveMethodDefault: isForced];
+    
     } else if ([_name isEqualToString: GDAutoLaunchOnLoginPostChanges]) {
         //
         

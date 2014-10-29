@@ -25,9 +25,10 @@ extern NSString * const GDMainWindowGridUniversalDimensionsKey;
 extern NSString * const GDMainWindowRelativeGridSpecificDimensionsKey;
 extern NSString * const GDMainWindowAbsoluteGridSpecificDimensionsKey;
 extern NSString * const GDShortcutKey;
+extern NSString * const GDAutoLaunchOnLoginKey;
+extern NSString * const GDMoveMethodKey;
 extern NSString * const GDStatusItemVisibilityKey;
 extern NSString * const GDDockIconVisibilityKey;
-extern NSString * const GDAutoLaunchOnLoginKey;
 
 
 // new changes keys
@@ -38,6 +39,8 @@ extern NSString * const GDMainWindowGridUniversalDimensionsPostChanges;
 extern NSString * const GDStatusItemVisibilityPostChanges;
 extern NSString * const GDDockIconVisibilityPostChanges;
 extern NSString * const GDAutoLaunchOnLoginPostChanges;
+extern NSString * const GDMoveMethodPostChanges;
+
 
 
 
@@ -281,6 +284,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     [self setPreferenceUIGridDimensions];
     
     // misc tab
+    forceWindowMove.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMoveMethodKey] boolValue];
     dockIconCheckBox.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDDockIconVisibilityKey] boolValue];
     statusItemCheckBox.state = [[[NSUserDefaults standardUserDefaults] objectForKey: GDStatusItemVisibilityKey] boolValue];
 }
@@ -505,6 +509,18 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 // misc tab callbacks
+// TODO
+- (IBAction)changeOpenOnStartup: (id)sender {
+    NSInteger state = [openOnStartupCheckbox state];
+//    [self sendNotification: GDStatusItemVisibilityPostChanges
+//                  withInfo: @{ @"info": [NSNumber numberWithBool: state] }];
+}
+
+- (IBAction)changeForceWindowMove: (id)sender {
+    NSInteger state = [forceWindowMove state];
+    [self sendNotification: GDMoveMethodPostChanges
+                  withInfo: @{ @"info": [NSNumber numberWithBool: state] }];
+}
 
 - (IBAction) changeStatusItemCheckBox: (id)sender {
     NSInteger state = [statusItemCheckBox state];
@@ -518,6 +534,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     [self sendNotification: GDDockIconVisibilityPostChanges
                   withInfo: @{ @"info": [NSNumber numberWithBool: state] }];
 }
+
 
 
 

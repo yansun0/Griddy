@@ -23,7 +23,8 @@
 - (void) showHoverWindowWithFrame: (NSRect) newFrame
                  BehindMainWindow: (NSWindow *) mainWindow;
 - (void) hideHoverWindow;
-- (void) moveAppWithResultRect: (NSRect) resultRect;
+- (void) moveAppWithResultRect: (NSRect) rect;
+- (void) moveAppWithResultRectForced: (NSRect) rect;
 - (void) closeAllUnfocusedWindowsIncluding: (NSWindow *) curWindow;
 - (void) closeAllOtherWindowsExcluding: (NSWindow *) curWindow;
 

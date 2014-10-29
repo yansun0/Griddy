@@ -80,16 +80,15 @@
 }
 
 
-- (NSString *) getScreenBoundsForGridRect: (NSRect) newPosRect {
+- (NSRect) getScreenBoundsForGridRect: (NSRect) newPosRect {
     CGFloat leftBound = newPosRect.origin.x * _gridPixelSize.width + _screenInfo.origin.x;
     CGFloat rightBound = (newPosRect.size.width * _gridPixelSize.width) + leftBound;
     CGFloat topBound = (_gridCellSize.height - (newPosRect.origin.y +  newPosRect.size.height)) * _gridPixelSize.height + _screenInfoFlipped.origin.y;
     CGFloat botBound = (newPosRect.size.height * _gridPixelSize.height) + topBound;
-
-    NSString *result = [NSString stringWithFormat: @"{%d, %d, %d, %d}",
-                                        (int) leftBound, (int) topBound,
-                                        (int) rightBound, (int) botBound];
-    return result;
+    return NSMakeRect(leftBound,  // x
+                      rightBound, // y
+                      topBound,   // width
+                      botBound);  // height
 }
 
 // using cocoa coordinate system
@@ -107,7 +106,7 @@
 - (NSRect) getCGFrameForGridRect: (NSRect) gridRect {
     NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex: 0];
     NSRect cocoaFrame = [self getScreenFrameForGridRect: gridRect];
-    cocoaFrame.origin.y = [primaryScreen visibleFrame].size.height - cocoaFrame.origin.y - cocoaFrame.size.height; // flip the coordinate system, the deducate the height
+    cocoaFrame.origin.y = [primaryScreen frame].size.height - cocoaFrame.origin.y - cocoaFrame.size.height; // flip the coordinate system, the deducate the height
     return cocoaFrame;
 }
 

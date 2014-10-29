@@ -28,7 +28,6 @@
 		2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9765119A5B2EB000AA486 /* GDAssets.m */; };
 		2CB4E00A19C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB4E00919C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m */; };
 		2CB4E00E19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CB4E00D19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib */; };
-		2CC8E0E219761037007C8165 /* GDCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC8E0E119761037007C8165 /* GDCellView.m */; };
 		2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4C55519A3046700A0528D /* GDStatusItem.m */; };
 		2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08E6199F138C00433AF3 /* MASShortcut.m */; };
 		2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */; };
@@ -61,8 +60,8 @@
 		2C68D96419A419BC0095C7D8 /* GDStatusPopoverMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverMenuViewController.h; path = StatusItem/GDStatusPopoverMenuViewController.h; sourceTree = "<group>"; };
 		2C68D96519A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverMenuViewController.m; path = StatusItem/GDStatusPopoverMenuViewController.m; sourceTree = "<group>"; };
 		2C68D96F19A471850095C7D8 /* GDStatusPopoverMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDStatusPopoverMenuView.xib; sourceTree = "<group>"; };
-		2C879FCE19C6834D00EA9E60 /* GDDemoMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDDemoMainWindow.h; path = Griddy/MainWindow/GDDemoMainWindow.h; sourceTree = "<group>"; };
-		2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDDemoMainWindow.m; path = Griddy/MainWindow/GDDemoMainWindow.m; sourceTree = "<group>"; };
+		2C879FCE19C6834D00EA9E60 /* GDDemoMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDDemoMainWindow.h; path = MainWindow/GDDemoMainWindow.h; sourceTree = "<group>"; };
+		2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDDemoMainWindow.m; path = MainWindow/GDDemoMainWindow.m; sourceTree = "<group>"; };
 		2C9D55F1195A5FAB00588507 /* Griddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Griddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9D55F4195A5FAB00588507 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2C9D55F7195A5FAB00588507 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -86,8 +85,6 @@
 		2CB4E00819C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverPreferenceViewController.h; path = StatusItem/GDStatusPopoverPreferenceViewController.h; sourceTree = "<group>"; };
 		2CB4E00919C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverPreferenceViewController.m; path = StatusItem/GDStatusPopoverPreferenceViewController.m; sourceTree = "<group>"; };
 		2CB4E00D19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GDStatusPopoverPreferenceView.xib; path = StatusItem/GDStatusPopoverPreferenceView.xib; sourceTree = "<group>"; };
-		2CC8E0E019761037007C8165 /* GDCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDCellView.h; path = MainWindow/GDCellView.h; sourceTree = "<group>"; };
-		2CC8E0E119761037007C8165 /* GDCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDCellView.m; path = MainWindow/GDCellView.m; sourceTree = "<group>"; };
 		2CD4C55419A3046700A0528D /* GDStatusItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusItem.h; path = StatusItem/GDStatusItem.h; sourceTree = "<group>"; };
 		2CD4C55519A3046700A0528D /* GDStatusItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusItem.m; path = StatusItem/GDStatusItem.m; sourceTree = "<group>"; };
 		2CDA08E5199F138C00433AF3 /* MASShortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASShortcut.h; path = MASShortcut/MASShortcut.h; sourceTree = "<group>"; };
@@ -139,10 +136,10 @@
 		2C36298419A07D5600C93AD5 /* Main WIndow */ = {
 			isa = PBXGroup;
 			children = (
-				2CDA08E3199F135700433AF3 /* Overlay Window */,
-				2CDC90B2196BA316002F1433 /* Grid Window */,
-				2CC8E0E019761037007C8165 /* GDCellView.h */,
-				2CC8E0E119761037007C8165 /* GDCellView.m */,
+				2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */,
+				2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */,
+				2C3E4A0D198DA35F00489600 /* GDOverlayWindow.h */,
+				2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */,
 			);
 			name = "Main WIndow";
 			sourceTree = "<group>";
@@ -172,8 +169,6 @@
 		2C9D55E8195A5FAB00588507 = {
 			isa = PBXGroup;
 			children = (
-				2C879FCE19C6834D00EA9E60 /* GDDemoMainWindow.h */,
-				2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */,
 				2C9D55FA195A5FAB00588507 /* Griddy */,
 				2C9D5618195A5FAB00588507 /* GriddyTests */,
 				2CDA08F4199F139100433AF3 /* Vendor */,
@@ -280,15 +275,6 @@
 			name = "Status Item";
 			sourceTree = "<group>";
 		};
-		2CDA08E3199F135700433AF3 /* Overlay Window */ = {
-			isa = PBXGroup;
-			children = (
-				2C3E4A0D198DA35F00489600 /* GDOverlayWindow.h */,
-				2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */,
-			);
-			name = "Overlay Window";
-			sourceTree = "<group>";
-		};
 		2CDA08E4199F137300433AF3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +282,8 @@
 				2C9D5607195A5FAB00588507 /* GDAppDelegate.m */,
 				2C4B5E8A1966553D001398D9 /* GDMainWindow.h */,
 				2C4B5E8B1966553D001398D9 /* GDMainWindow.m */,
+				2C879FCE19C6834D00EA9E60 /* GDDemoMainWindow.h */,
+				2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -306,15 +294,6 @@
 				2C68D96A19A46C4B0095C7D8 /* MASShortcut */,
 			);
 			name = Vendor;
-			sourceTree = "<group>";
-		};
-		2CDC90B2196BA316002F1433 /* Grid Window */ = {
-			isa = PBXGroup;
-			children = (
-				2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */,
-				2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */,
-			);
-			name = "Grid Window";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,7 +406,6 @@
 				2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */,
 				2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */,
 				2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */,
-				2CC8E0E219761037007C8165 /* GDCellView.m in Sources */,
 				2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */,
 				2C879FD019C6834D00EA9E60 /* GDDemoMainWindow.m in Sources */,
 				2CB4E00A19C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m in Sources */,

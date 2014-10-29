@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6246" systemVersion="14A361c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6246"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GDStatusPopoverPreferenceViewController">
@@ -11,12 +11,14 @@
                 <outlet property="cancelButton" destination="Zoi-2m-9qJ" id="XRB-UY-Qm4"/>
                 <outlet property="contentView" destination="oV7-O6-kxh" id="XRK-of-K7M"/>
                 <outlet property="dockIconCheckBox" destination="cMW-xM-cXe" id="rUN-Ak-iNG"/>
+                <outlet property="forceWindowMove" destination="3Vi-cv-Kyx" id="k9d-2p-gVo"/>
                 <outlet property="gridDimensionsX" destination="mn7-tq-XyV" id="11F-eN-bhl"/>
                 <outlet property="gridDimensionsY" destination="ESi-Ax-o8F" id="o2T-q5-BqA"/>
                 <outlet property="gridView" destination="ZwU-to-T61" id="obP-j9-d5w"/>
                 <outlet property="heightInputBox" destination="jVn-X4-o3K" id="zJv-ho-1Ws"/>
                 <outlet property="heightInputBoxSuffix" destination="9zP-fd-XfE" id="CZf-iZ-GY4"/>
                 <outlet property="miscView" destination="uSB-O0-q9K" id="rtb-0q-hit"/>
+                <outlet property="openOnStartupCheckbox" destination="dov-SW-k16" id="ino-Tt-dq8"/>
                 <outlet property="preferenceTab" destination="SCG-nG-4QN" id="ZCS-ce-utw"/>
                 <outlet property="statusItemCheckBox" destination="7do-aX-8UP" id="1Eb-H2-UIq"/>
                 <outlet property="view" destination="ntJ-xx-cuZ" id="iIL-gY-402"/>
@@ -213,15 +215,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="e19-KL-H5N">
-                    <rect key="frame" x="18" y="83" width="444" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Grid Layout" id="K2B-iw-GMz">
-                        <font key="font" metaFont="system" size="18"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <textField verticalHuggingPriority="750" id="mn7-tq-XyV">
                     <rect key="frame" x="95" y="167" width="96" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -264,67 +257,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" id="9nM-g1-4dN">
-                    <rect key="frame" x="129" y="53" width="96" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="68m-WO-XEv">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Skc-LL-fYp">
-                    <rect key="frame" x="24" y="55" width="99" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Outter Margins" id="MYh-so-QK1">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField verticalHuggingPriority="750" id="oaT-Cn-VsR">
-                    <rect key="frame" x="129" y="23" width="96" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="wtz-Wy-7CT">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="SUv-3x-2bQ">
-                    <rect key="frame" x="24" y="25" width="91" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Inner Margins" id="Nc3-Du-0u1">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Heh-vr-OMD">
-                    <rect key="frame" x="118" y="111" width="118" height="5"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <font key="titleFont" metaFont="system"/>
-                </box>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="gsg-dN-2Xe">
-                    <rect key="frame" x="204" y="55" width="16" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="px" id="g2Z-6I-VVD">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Mvo-ZL-O5U">
-                    <rect key="frame" x="204" y="25" width="16" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="px" id="IjD-Fj-hgz">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
             </subviews>
             <point key="canvasLocation" x="0.0" y="316"/>
         </customView>
@@ -332,24 +264,16 @@
             <rect key="frame" x="0.0" y="-1" width="370" height="220"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button id="7do-aX-8UP">
-                    <rect key="frame" x="30" y="59" width="130" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Show Status Item" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CEH-Su-sao">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="changeStatusItemCheckBox:" target="-2" id="qn3-6f-PPJ"/>
-                    </connections>
-                </button>
                 <button id="dov-SW-k16">
-                    <rect key="frame" x="30" y="153" width="126" height="18"/>
+                    <rect key="frame" x="30" y="152" width="126" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Open on Startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9Db-4j-ldx">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="changeOpenOnStartup:" target="-2" id="Uik-ZC-bRf"/>
+                    </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4J7-qi-15Q">
                     <rect key="frame" x="18" y="182" width="444" height="22"/>
@@ -361,7 +285,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Jpe-3T-6B1">
-                    <rect key="frame" x="18" y="86" width="444" height="22"/>
+                    <rect key="frame" x="18" y="74" width="444" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="App Presence" id="9cO-9J-Ktj">
                         <font key="font" metaFont="system" size="18"/>
@@ -369,8 +293,19 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button id="7do-aX-8UP">
+                    <rect key="frame" x="30" y="47" width="130" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show Status Item" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CEH-Su-sao">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changeStatusItemCheckBox:" target="-2" id="qn3-6f-PPJ"/>
+                    </connections>
+                </button>
                 <button id="cMW-xM-cXe">
-                    <rect key="frame" x="30" y="30" width="122" height="18"/>
+                    <rect key="frame" x="30" y="18" width="122" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show Dock Icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="If2-ID-OzE">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -380,8 +315,19 @@
                         <action selector="changeDockIconCheckBox:" target="-2" id="phX-Jg-RY6"/>
                     </connections>
                 </button>
+                <button id="3Vi-cv-Kyx">
+                    <rect key="frame" x="30" y="124" width="148" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Force window resize" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bdi-kO-Z4n">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changeForceWindowMove:" target="-2" id="09z-8i-r8J"/>
+                    </connections>
+                </button>
                 <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="xFL-Pl-CPz">
-                    <rect key="frame" x="121" y="124" width="118" height="5"/>
+                    <rect key="frame" x="126" y="108" width="118" height="5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

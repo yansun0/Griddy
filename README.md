@@ -27,16 +27,16 @@ Griddy is modeled after [Divvy](http://mizage.com/divvy/) with a boatload of add
 * Customizable window size as either absolute side (pixels) or percentage of the screen
 * Preview customizations before they take place
 * Cutomize the number of Grids shown in the main window
+* New StatusItem icon
+* Choose between force/not-forced window movement and resizing
 
 ### InDev Features
-* Yosemite Styles for the Preferences, Main Window, and Hover Window
+* Yosemite Styles for the Main Window, and Hover Window
 * Support light/dark modes
-* New StatusItem icon
+* open on login
 
 ### Future Features
-* open on login
 * customizable shortcuts
-* customize tile margins
 * hotkey functionalities (full screen, left 1/2, etc.)
 * width x height label on Hover Window
 * Onboarding for the Accessibility requirement

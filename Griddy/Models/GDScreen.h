@@ -22,7 +22,7 @@
 - (void) setNumWidth: (NSInteger) numCellHorizontal
            NumHeight: (NSInteger) numCellVertical;
 - (NSSize) getMainWindowSizeForScreenPercentageSize: (NSSize) sizeP;
-- (NSString *) getScreenBoundsForGridRect: (NSRect) newPosRect;
+- (NSRect) getScreenBoundsForGridRect: (NSRect) newPosRect;
 - (NSRect) getScreenFrameForGridRect: (NSRect) gridRect;
 - (NSRect) getCGFrameForGridRect: (NSRect) gridRect;
 

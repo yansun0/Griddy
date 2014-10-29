@@ -51,3 +51,17 @@
 - (id) initWithGDGrid: (GDGrid *)grid;
 
 @end
+
+
+
+// ----------------------------------
+#pragma mark - GDCellView
+// ----------------------------------
+
+@interface GDCellView : NSView
+
+@property NSPoint viewPosition;
+- (id)initWithFrame: (NSRect)frame
+       andPositionX: (NSInteger)x
+       andPositionY: (NSInteger)y;
+@end

@@ -12,13 +12,15 @@
 #import "GDGrid.h"
 
 
+// default keys
+extern NSString * const GDMoveMethodKey;
 
 // notifications names
 extern NSString * const GDMainWindowTypeChanged;
 extern NSString * const GDMainWindowAbsoluteSizeChanged;
 extern NSString * const GDMainWindowRelativeSizeChanged;
 extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
-
+extern NSString * const GDMoveMethodChanged;
 
 
 
@@ -34,6 +36,7 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 @property (nonatomic) NSPoint endCell;
 @property (nonatomic) BOOL isInCell;
 @property (nonatomic) GDAppDelegate *appDelegate;
+@property (nonatomic) BOOL moveMethod;
 
 @end
 
@@ -47,11 +50,12 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 @synthesize curCell = _curCell;
 @synthesize endCell = _endCell;
 @synthesize appDelegate = _appDelegate;
-
+@synthesize moveMethod = _moveMethod;
 
 - (id) initWithGrid: (GDGrid *) grid {
     _thisGrid = grid;
     _appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
+    _moveMethod = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMoveMethodKey] integerValue];
     
     GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: grid];
     [thisWindow setWindowController: self];
@@ -105,6 +109,11 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     [defaultCenter addObserver: self
                       selector: @selector(reinitWindow:)
                           name: GDMainWindowGridUniversalDimensionsChanged
+                        object: nil];
+    
+    [defaultCenter addObserver: self
+                      selector: @selector(onMoveMethodChanged:)
+                          name: GDMoveMethodChanged
                         object: nil];
 }
 
@@ -222,14 +231,25 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
     if (NSEqualPoints(pos, _startCell) == YES) {
         NSLog(@"[START] -- (%d, %d)", (int)_startCell.x, (int)_startCell.y);
         NSLog(@"[END] -- (%d, %d)", (int)_curCell.x, (int)_curCell.y);
-//        NSString *result = [_thisGrid getAppWindowBoundsStringFromCell1: _startCell
-//                                                                ToCell2: _curCell];
-        NSRect rect = [_thisGrid getAppWindowFrameFromCell1: _startCell
-                                                    ToCell2: _curCell];
-        [_appDelegate moveAppWithResultRect: rect];
+
+
+        NSRect rect;
+        if (_moveMethod == 0) {
+            rect = [_thisGrid getAppWindowFrameFromCell1: _startCell
+                                                 ToCell2: _curCell];
+            [_appDelegate moveAppWithResultRect: rect];
+
+        } else {
+            rect = [_thisGrid getAppWindowBoundsStringFromCell1: _startCell
+                                                        ToCell2: _curCell];
+            [_appDelegate moveAppWithResultRectForced: rect];
+        }
     }
 }
 
+- (void) onMoveMethodChanged: (NSNotification *) note {
+    _moveMethod = [[[note userInfo] objectForKey:@"info"] integerValue];
+}
 
 @end
 

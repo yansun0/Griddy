@@ -34,6 +34,8 @@
     
     // misc view outlets
     IBOutlet NSView *miscView;
+    IBOutlet NSButton *openOnStartupCheckbox; // TODO
+    IBOutlet NSButton *forceWindowMove;
     IBOutlet NSButton *statusItemCheckBox;
     IBOutlet NSButton *dockIconCheckBox;
     NSUInteger currentViewTag;
@@ -57,6 +59,8 @@
 - (IBAction) changeGridDimensionsY: (id) sender;
 
 // misc tab
+- (IBAction) changeOpenOnStartup: (id)sender;
+- (IBAction) changeForceWindowMove: (id)sender;
 - (IBAction) changeStatusItemCheckBox: (id) sender;
 - (IBAction) changeDockIconCheckBox: (id) sender;
 

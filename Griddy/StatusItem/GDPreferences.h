@@ -18,11 +18,13 @@
 
 + (void) setUserDefaults;
 + (void) setMainWindowTypeDefault: (NSUInteger) newType;
-+ (void) setStatusItemVisibilityDefault: (BOOL) showItem;
-+ (void) setDockIconVisibilityDefault: (BOOL) showIcon;
 + (void) setMainWindowRelativeSizeDefault: (NSSize) newSize;
 + (void) setMainWindowAbsoluteSizeDefault: (NSSize) newSize;
 + (void) setGridDimensionsDefault: (NSSize) newDimensions;
++ (void) setMoveMethodDefault: (NSUInteger) isForced;
++ (void) setStatusItemVisibilityDefault: (BOOL) showItem;
++ (void) setDockIconVisibilityDefault: (BOOL) showIcon;
+
 @end
 
 
