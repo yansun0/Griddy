@@ -90,19 +90,6 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 }
 
 
-- (void) reinit {
-    // destory any unsaved changes
-    [self.prefState clearChanges];
-    self.demoController = nil; // destory b/c grid might be dirty
-
-    [self setupDataFromUserDefaults];
-    
-    // restart ui
-    [self setPreferenceUI];
-    [self disableButtomButtons];
-    [self shouldShowDemoWindowsByTag: currentViewTag];
-}
-
 - (void) cleanUp {
     [self.demoController hideWindows];
 }
@@ -110,10 +97,10 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 // ui setup
 - (void) awakeFromNib {
-    [self transitionToNewView: 1];
     [self setupNotifications];
     [self setPreferenceUI];
     [self disableButtomButtons];
+    [self transitionToNewView: 1];
 }
 
 
@@ -202,7 +189,15 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 // bottom buttons
 - (IBAction) cancelChanges: (id) sender {
-    [self reinit];
+    // destory any unsaved changes
+    [self.prefState clearChanges];
+    self.demoController = nil; // destory b/c grid might be dirty
+    
+    // re-get data, and setup ui
+    [self setupDataFromUserDefaults];
+    [self setPreferenceUI];
+    [self disableButtomButtons];
+    [self shouldShowDemoWindowsByTag: currentViewTag];
 }
 
 

@@ -44,8 +44,6 @@
 @property (nonatomic, strong) GDStatusItemController *statusItemController;
 
 // top buttons
-- (void) reinit;
-
 - (IBAction) backToMenu: (id)sender;
 - (IBAction) changedPreferenceTab: (id)sender;
 
