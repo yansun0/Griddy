@@ -9,10 +9,11 @@
 #import "GDDemoMainWindow.h"
 #import "GDDemoGrid.h"
 #import "GDScreen.h"
-
+#import "GDAssets.h"
 
 
 NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
+extern NSString * const GDAppearanceModeChanged;
 
 
 
@@ -239,11 +240,11 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
                                 defer: NO];
     if (self != nil) {
         // window setup
-        [self setStyleMask: NSBorderlessWindowMask];
-        [self setHasShadow: NO];
-        [self setOpaque: NO];
-        [self setBackgroundColor: [NSColor clearColor]];
-        [self setLevel: NSFloatingWindowLevel];
+        self.styleMask = NSBorderlessWindowMask;
+        self.hasShadow = YES;
+        self.opaque = NO;
+        self.backgroundColor = [NSColor clearColor];
+        self.level = NSFloatingWindowLevel;
         
         [self setContentView: [[GDDemoMainWindowMainView alloc] initWithGrid: grid]];
     }
@@ -280,7 +281,6 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
 
 @implementation GDDemoMainWindowMainView
 
-
 - (id) initWithGrid: (GDDemoGrid *) grid {
     self = [super initWithFrame: [grid getMainWindowFrame]];
     
@@ -291,6 +291,15 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
         self.layer.cornerRadius = 15.0;
         self.layer.masksToBounds = YES;
         
+        // setup border
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+        
+        // setup vibrancy
+        self.material = [GDAssets getWindowMaterial];
+        self.blendingMode = NSVisualEffectBlendingModeBehindWindow;
+        self.state = NSVisualEffectStateActive;
+        
         // setup app info view
         _appInfoViewController = [[GDDemoMainWindowAppInfoViewController alloc] initWithGrid: grid];
         [self addSubview: _appInfoViewController.view];
@@ -298,20 +307,24 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
         // setup cell views
         _cellCollectionView = [[GDDemoMainWindowCellCollectionView alloc] initWithGrid: grid];
         [self addSubview: _cellCollectionView];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
     
     return self;
 }
 
-
-- (void) drawRect: (NSRect) dirtyRect {
-    [[NSColor colorWithCalibratedRed: 0.0
-                               green: 0.0
-                                blue: 0.0
-                               alpha: 0.6] set];
-    NSRectFill(dirtyRect);
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    self.material = [GDAssets getWindowMaterial];
+    self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
 
 @end
 
@@ -341,6 +354,14 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
 
 
 
+@interface GDDemoMainWindowAppInfoView() {
+    NSImageView *_appIconView;
+    NSTextField *_appNameView;
+}
+@end
+
+
+
 @implementation GDDemoMainWindowAppInfoView
 
 
@@ -348,24 +369,42 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
     self = [super initWithFrame: [grid getAppInfoFrame]];
     
     if (self != nil) {
-        NSImageView *appIconView = [[NSImageView alloc] initWithFrame: [grid getAppIconFrame]];
-        appIconView.imageScaling = NSImageScaleAxesIndependently;
-        appIconView.image = [NSApp applicationIconImage];
-        [self addSubview: appIconView];
+        _appIconView = [[NSImageView alloc] initWithFrame: [grid getAppIconFrame]];
+        _appIconView.imageScaling = NSImageScaleAxesIndependently;
+        _appIconView.image = [NSApp applicationIconImage];
+        _appIconView.tag = 0;
+        [self addSubview: _appIconView];
         
-        NSTextField *appNameView = [[NSTextField alloc] initWithFrame: [grid getAppNameFrame]];
-        appNameView.bezeled = NO;
-        appNameView.drawsBackground = NO;
-        appNameView.editable = NO;
-        appNameView.selectable = NO;
-        appNameView.textColor = [NSColor whiteColor];
-        appNameView.stringValue = @"Demo Application";
-        [appNameView sizeToFit];
-        [self addSubview: appNameView];
+        _appNameView = [[NSTextField alloc] initWithFrame: [grid getAppNameFrame]];
+        _appNameView.bezeled = NO;
+        _appNameView.drawsBackground = NO;
+        _appNameView.editable = NO;
+        _appNameView.selectable = NO;
+        _appNameView.textColor = [GDAssets getTextColor];
+        _appNameView.stringValue = @"Demo Application";
+        _appNameView.tag = 1;
+        [_appNameView sizeToFit];
+        [self addSubview: _appNameView];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
     
     return self;
 }
+
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    _appNameView.textColor = [GDAssets getTextColor];
+}
+
 
 @end
 
@@ -386,12 +425,6 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
     self = [super initWithFrame: [grid getCellCollectionRectFrame]];
     
     if (self != nil) {
-        // setup self
-        self.wantsLayer = YES;
-        self.layer.frame = self.frame;
-        self.layer.cornerRadius = 5.0;
-        self.layer.masksToBounds = YES;
-        
         // setup cells views
         for (NSInteger i = 0; i < (NSUInteger)grid.numCell.width; i++) {
             for (NSInteger j = 0; j < (NSUInteger)grid.numCell.height; j++) {
@@ -419,21 +452,42 @@ NSString * const GDDemoGridValueUpdated = @"GDDemoGridValueUpdated";
 
 @implementation GDDemoCellView
 
-
 - (id) initWithFrame: (NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // init something
+        self.wantsLayer = YES;
+        self.layer.frame = self.frame;
+        
+        // setup rounded corners
+        self.layer.cornerRadius = 3.0f;
+        self.layer.masksToBounds = YES;
+        
+        // setup border
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [[GDAssets getCellBorderBackground] CGColor];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
+    
     return self;
 }
 
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    self.layer.borderColor = [[GDAssets getCellBorderBackground] CGColor];
+}
+
+
 - (void) drawRect: (NSRect) dirtyRect {
-    [[NSColor colorWithCalibratedRed: 0.0
-                               green: 0.0
-                                blue: 0.0
-                               alpha: 0.5] set];
+    [[GDAssets getCellBackground] set];
     NSRectFill(dirtyRect);
 }
 

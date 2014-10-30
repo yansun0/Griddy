@@ -63,7 +63,7 @@
 #pragma mark - GDDemoMainWindowMainView
 // ----------------------------------
 
-@interface GDDemoMainWindowMainView : NSView
+@interface GDDemoMainWindowMainView : NSVisualEffectView
 
 - (id) initWithGrid: (GDDemoGrid *)grid;
 

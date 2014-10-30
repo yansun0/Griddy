@@ -274,11 +274,11 @@ extern NSString * const GDMoveMethodChanged;
                                 defer: NO];
     if (self != nil) {
         // window setup
-        [self setStyleMask: NSBorderlessWindowMask];
-        [self setHasShadow: NO];
-        [self setOpaque: NO];
-        [self setBackgroundColor: [NSColor clearColor]];
-        [self setLevel: NSFloatingWindowLevel];
+        self.styleMask = NSBorderlessWindowMask;
+        self.hasShadow = YES;
+        self.opaque = NO;
+        self.backgroundColor = [NSColor clearColor];
+        self.level = NSFloatingWindowLevel;
 
         [self setContentView: [[GDMainWindowMainView alloc] initWithGDGrid: grid]];
     }

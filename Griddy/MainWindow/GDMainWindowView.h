@@ -15,7 +15,7 @@
 #pragma mark - GDMainWindowMainView
 // ----------------------------------
 
-@interface GDMainWindowMainView : NSView
+@interface GDMainWindowMainView : NSVisualEffectView
 
 - (id) initWithGDGrid: (GDGrid *)grid;
 

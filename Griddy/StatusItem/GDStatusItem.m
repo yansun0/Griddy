@@ -103,7 +103,6 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 
 
 - (void) onStatusItemPreferenceView: (NSNotification *) note {
-    NSLog(@"recieved msg to go to pref view");
     [self changeViewController: 2];
 }
 
@@ -214,6 +213,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 }
 
 
+// TODO: fix this up
 - (void) drawRect:(NSRect)dirtyRect {
     // set view background color
     if (_active) {
