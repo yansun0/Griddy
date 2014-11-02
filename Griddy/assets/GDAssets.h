@@ -8,14 +8,31 @@
 
 #import <Foundation/Foundation.h>
 
+
+
 @interface GDAssets : NSObject
 
-+ (NSColor *) getLightColorBackground;
-+ (NSColor *) getLightColorText;
-+ (NSColor *) getDarkColorBackground;
-+ (NSColor *) getDarkColorText;
 
-// DEFAULT ICON SIZE = 64
+#pragma mark - COLORS
+
+// window
++ (NSVisualEffectMaterial) getWindowMaterial;
++ (NSColor *) getWindowBorder;
++ (NSColor *) getOverlayInnerBorder;
++ (NSColor *) getOverlayBackground;
+
+// cell
++ (NSColor *) getCellBorderBackground;
++ (NSColor *) getCellBackground;
+
+// other
++ (NSColor *) getTextColor;
++ (NSColor *) getDividerColor;
+
+
+#pragma mark - ICONS
+// Default size: 64x64
+
 + (NSBezierPath *) getPathForGridNineIcon;
 + (NSBezierPath *) getPathForGridFourIcon;
 + (NSBezierPath *) getPathForGearsIcon;

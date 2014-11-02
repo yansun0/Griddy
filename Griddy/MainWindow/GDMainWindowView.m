@@ -10,8 +10,11 @@
 #import "GDAppDelegate.h"
 #import "GDScreen.h"
 #import "GDGrid.h"
+#import "GDAssets.h"
 
 
+
+extern NSString * const GDAppearanceModeChanged;
 
 
 
@@ -40,6 +43,15 @@
         self.layer.cornerRadius = 15.0;
         self.layer.masksToBounds = YES;
         
+        // setup border
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+        
+        // setup vibrancy
+        self.material = [GDAssets getWindowMaterial];
+        self.blendingMode = NSVisualEffectBlendingModeBehindWindow;
+        self.state = NSVisualEffectStateActive;
+        
         // setup app info view
         _appInfoViewController = [[GDMainWindowAppInfoViewController alloc] initWithGDGrid: grid];
         [self addSubview: _appInfoViewController.view];
@@ -47,20 +59,25 @@
         // setup cell views
         _cellCollectionView = [[GDMainWindowCellCollectionView alloc] initWithGDGrid: grid];
         [self addSubview: _cellCollectionView];
+
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
     
     return self;
 }
 
-
-- (void) drawRect: (NSRect) dirtyRect {
-    [[NSColor colorWithCalibratedRed: 0.0
-                               green: 0.0
-                                blue: 0.0
-                               alpha: 0.6] set];
-    NSRectFill(dirtyRect);
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    self.material = [GDAssets getWindowMaterial];
+    self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
 
 @end
 
@@ -132,11 +149,21 @@
         _appNameView.drawsBackground = NO;
         _appNameView.editable = NO;
         _appNameView.selectable = NO;
-        _appNameView.textColor = [NSColor whiteColor];
+        _appNameView.textColor = [GDAssets getTextColor];
         [self addSubview: _appNameView];
+    
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
     
     return self;
+}
+
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 
@@ -150,6 +177,10 @@
         [_appNameView sizeToFit];
         _curApp = newApp;
     }
+}
+
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    _appNameView.textColor = [GDAssets getTextColor];
 }
 
 
@@ -182,12 +213,6 @@
     self = [super initWithFrame: [grid getCellCollectionRectFrame]];
     
     if (self != nil) {
-        // setup self
-        self.wantsLayer = YES;
-        self.layer.frame = self.frame;
-        self.layer.cornerRadius = 5.0;
-        self.layer.masksToBounds = YES;
-        
         // setup cells views
         for (NSInteger i = 0; i < (NSUInteger)grid.numCell.width; i++) {
             for (NSInteger j = 0; j < (NSUInteger)grid.numCell.height; j++) {
@@ -278,7 +303,7 @@
 
 
 // ----------------------------------
-#pragma mark - GDMainWindowCellCollectionView
+#pragma mark - GDCellView
 // ----------------------------------
 
 
@@ -304,16 +329,40 @@
                                                                       owner: self
                                                                    userInfo: nil];
         [self addTrackingArea: trackingArea];
+        
+        self.wantsLayer = YES;
+        self.layer.frame = self.frame;
+        
+        // setup rounded corners
+        self.layer.cornerRadius = 3.0f;
+        self.layer.masksToBounds = YES;
+        
+        // setup border
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [[GDAssets getCellBorderBackground] CGColor];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
+    
     return self;
 }
 
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    self.layer.borderColor = [[GDAssets getCellBorderBackground] CGColor];
+}
+
+
 - (void) drawRect: (NSRect) dirtyRect {
-    [[NSColor colorWithCalibratedRed: 0.0
-                               green: 0.0
-                                blue: 0.0
-                               alpha: 0.5] set];
+    [[GDAssets getCellBackground] set];
     NSRectFill(dirtyRect);
 }
 

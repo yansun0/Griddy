@@ -8,9 +8,9 @@
 
 #import "GDOverlayWindow.h"
 #import "GDGrid.h"
+#import "GDAssets.h"
 
-
-
+extern NSString * const GDAppearanceModeChanged;
 
 
 // ----------------------------------
@@ -18,11 +18,7 @@
 // ----------------------------------
 
 @interface GDOverlayWindow()
-
-typedef void *CGSConnection;
-extern OSStatus CGSSetWindowBackgroundBlurRadius(CGSConnection connection, NSInteger windowNumber, int radius);
-extern CGSConnection CGSDefaultConnectionForThread();
-
+// stuff
 @end
 
 
@@ -36,22 +32,14 @@ extern CGSConnection CGSDefaultConnectionForThread();
                              backing: NSBackingStoreBuffered
                                defer: NO];
     if (self != nil) {
+        // window setup
         self.styleMask = NSBorderlessWindowMask;
-        self.hasShadow = NO;
         self.opaque = NO;
-        [self setContentView: [[GDOverlayWindowView alloc] initWithFrame: contentRect]];
-        [self enableBlurForWindow: self];
+        self.hasShadow = NO;
+        self.backgroundColor = [NSColor clearColor];
+        [self setContentView: [[GDOverlayWindowViewWrapper alloc] initWithFrame: contentRect]];
     }
     return self;
-}
-
-
-- (void) enableBlurForWindow: (NSWindow *)window {
-    window.opaque = NO;
-    window.backgroundColor = [NSColor colorWithCalibratedWhite: 0.9 alpha: 0.5];
-    
-    CGSConnection connection = CGSDefaultConnectionForThread();
-    CGSSetWindowBackgroundBlurRadius(connection, [window windowNumber], 20);
 }
 
 
@@ -81,6 +69,55 @@ extern CGSConnection CGSDefaultConnectionForThread();
 @end
 
 
+// ----------------------------------
+#pragma mark - GDOverlayWindowViewWrapper
+// ----------------------------------
+
+@implementation GDOverlayWindowViewWrapper
+
+- (id) initWithFrame: (NSRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.wantsLayer = YES;
+        self.layer.frame = self.frame;
+        
+        // setup rounded corners
+        self.layer.cornerRadius = 5.0f;
+        self.layer.masksToBounds = YES;
+        
+        // setup border
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+        
+        // autoresize
+        self.autoresizesSubviews = YES;
+        
+        frame.origin = NSMakePoint(0, 0);
+        NSView *innerView = [[GDOverlayWindowView alloc] initWithFrame: frame];
+        [self addSubview: innerView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
+    }
+    return self;
+}
+
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+}
+
+- (void) drawRect: (NSRect) dirtyRect {
+    [[NSColor clearColor] set];
+    NSRectFill(dirtyRect);
+}
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
+@end
 
 
 
@@ -90,15 +127,44 @@ extern CGSConnection CGSDefaultConnectionForThread();
 
 @implementation GDOverlayWindowView
 
-- (id)initWithFrame: (NSRect)frame {
-    self = [super initWithFrame:frame];
+- (id) initWithFrame: (NSRect)frame {
+    self = [super initWithFrame: frame];
     if (self) {
         self.wantsLayer = YES;
         self.layer.frame = self.frame;
-        self.layer.cornerRadius = 5.0;
+        
+        // setup rounded corners
+        self.layer.cornerRadius = 5.0f;
         self.layer.masksToBounds = YES;
+        
+        // setup border
+        self.layer.borderWidth = 3.0f;
+        self.layer.borderColor = [[GDAssets getOverlayInnerBorder] CGColor];
+        
+        // authresize
+        self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(onAppearanceModeChanged:)
+                                                     name: GDAppearanceModeChanged
+                                                   object: nil];
     }
     return self;
+}
+
+- (void) onAppearanceModeChanged: (NSNotification *) note {
+    self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+}
+
+- (void) drawRect: (NSRect) dirtyRect {
+    self.layer.borderColor = [[GDAssets getOverlayInnerBorder] CGColor];
+    [[GDAssets getOverlayBackground] set];
+    NSRectFill(dirtyRect);
+}
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 @end

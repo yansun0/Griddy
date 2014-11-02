@@ -506,7 +506,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 // misc tab callbacks
 // TODO
 - (IBAction)changeOpenOnStartup: (id)sender {
-    NSInteger state = [openOnStartupCheckbox state];
+//    NSInteger state = [openOnStartupCheckbox state];
 //    [self sendNotification: GDStatusItemVisibilityPostChanges
 //                  withInfo: @{ @"info": [NSNumber numberWithBool: state] }];
 }

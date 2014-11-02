@@ -19,9 +19,9 @@
 @end
 
 
+@interface GDOverlayWindowViewWrapper : NSView
+@end
+
 
 @interface GDOverlayWindowView : NSView
-
-- (id) initWithFrame: (NSRect)frameRect;
-
 @end

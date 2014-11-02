@@ -8,33 +8,90 @@
 
 #import "GDAssets.h"
 
+
+
+NSString * const GDAppearanceModeChanged = @"GDAppearanceModeChanged";
+static BOOL isDarkMode;
+
+
+
 @implementation GDAssets
-// light
-// background: 233 231 235
-// text:       97 97 100
 
-// dark
-// background: 155 155 155
-// text:       255 255 255
-+ (NSColor *) getLightColorBackground {
-    return [NSColor colorWithCalibratedWhite: 233/255 alpha: 1];
+
+
+#pragma mark - COLORS
+
++ (void) initialize {
+    [GDAssets onAppearanceModeChanged: nil];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self
+                                                        selector: @selector(onAppearanceModeChanged:)
+                                                            name: @"AppleInterfaceThemeChangedNotification"
+                                                          object: nil];
 }
 
 
-+ (NSColor *) getLightColorText {
-    return [NSColor colorWithCalibratedWhite: 100/255 alpha: 1];
++ (void) onAppearanceModeChanged: (NSNotification *) note {
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] persistentDomainForName: NSGlobalDomain];
+    id style = [dict objectForKey: @"AppleInterfaceStyle"];
+    isDarkMode = ( style && [style isKindOfClass:[NSString class]] && NSOrderedSame == [style caseInsensitiveCompare:@"dark"] );
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: GDAppearanceModeChanged
+                      object: self];
 }
 
 
-+ (NSColor *) getDarkColorBackground {
-    return [NSColor colorWithCalibratedWhite: 155/255 alpha: 1];
+// color: window
++ (NSVisualEffectMaterial) getWindowMaterial {
+    return isDarkMode ? NSVisualEffectMaterialDark: // dark mode
+                        NSVisualEffectMaterialLight; // light mode
+}
+
++ (NSColor *) getWindowBorder {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 0.0 alpha: 0.25f]: // dark mode
+                        [NSColor colorWithCalibratedWhite: 1.0 alpha: 0.25f]; // light mode ???
+}
+
++ (NSColor *) getOverlayInnerBorder {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 1.0 alpha: 0.9f]: // dark mode
+                        [NSColor colorWithCalibratedWhite: 0.0 alpha: 0.4f]; // light mode ???
+}
+
++ (NSColor *) getOverlayBackground {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 1.0 alpha: 0.5f]: // dark mode
+                        [NSColor colorWithCalibratedWhite: 0.0 alpha: 0.2f]; // light mode ???
 }
 
 
-+ (NSColor *) getDarkColorText {
-    return [NSColor colorWithCalibratedWhite: 255/255 alpha: 1];
+// color: cell
++ (NSColor *) getCellBorderBackground {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 1.0 alpha: 0.15f]:
+                        [NSColor colorWithCalibratedWhite: 0.1 alpha: 0.15f];
 }
 
++ (NSColor *) getCellBackground {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 0.0 alpha: 0.35f]:
+                        [NSColor colorWithCalibratedWhite: 0.0 alpha: 0.05f];
+}
+
+
+// color: other
++ (NSColor *) getTextColor {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 1.0 alpha: 1.0f]: // dark mode
+    [NSColor colorWithCalibratedWhite: 0.0 alpha: 1.0f]; // light mode ???
+}
+
++ (NSColor *) getDividerColor {
+    return isDarkMode ? [NSColor colorWithCalibratedWhite: 1.0 alpha: 0.5f]: // dark mode
+    [NSColor colorWithCalibratedWhite: 0.0 alpha: 0.5f]; // light mode ???
+}
+
+
+
+
+
+#pragma mark - ICONS
+// Default size: 64x64
 
 + (NSBezierPath *) getPathForGridFourIcon {
     NSBezierPath* gridFourPath = NSBezierPath.bezierPath;
