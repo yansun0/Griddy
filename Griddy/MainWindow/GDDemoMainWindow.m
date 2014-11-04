@@ -78,13 +78,6 @@ extern NSString * const GDAppearanceModeChanged;
 }
 
 
-- (void) launchWindowsBehindWindowLevel: (NSInteger) windowLevel {
-    for (NSUInteger i = 0; i < _windowControllers.count; i++) {
-        [[_windowControllers objectAtIndex: i] showWindow: nil BehindWindowLevel: windowLevel];
-    }
-}
-
-
 - (void) hideWindows {
     for (NSUInteger i = 0; i < _windowControllers.count; i++) {
         GDDemoMainWindowController *curWC = [_windowControllers objectAtIndex: i];
@@ -133,12 +126,11 @@ extern NSString * const GDAppearanceModeChanged;
 #pragma mark - init
 
 - (id) initWithGrid: (GDDemoGrid *) grid {
-    _grid = grid;
-    
     GDDemoMainWindow *thisWindow = [[GDDemoMainWindow alloc] initWithGrid: grid];
     [thisWindow setWindowController: self];
     self = [super initWithWindow: thisWindow];
     if (self != nil) {
+        _grid = grid;
         [self listenToNotifications];
     }
     return self;

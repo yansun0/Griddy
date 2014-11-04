@@ -7,7 +7,7 @@
 //
 #import "GDMainWindow.h"
 #import "GDMainWindowView.h"
-#import "GDAppDelegate.h"
+
 #import "GDScreen.h"
 #import "GDGrid.h"
 #import "GDAssets.h"
@@ -208,11 +208,11 @@ extern NSString * const GDAppearanceModeChanged;
 #pragma mark - INITIALIZATION
 
 - (id) initWithGDGrid: (GDGrid *) grid {
-    isMouseDown = NO;
-
     self = [super initWithFrame: [grid getCellCollectionRectFrame]];
     
     if (self != nil) {
+        isMouseDown = NO;
+
         // setup cells views
         for (NSInteger i = 0; i < (NSUInteger)grid.numCell.width; i++) {
             for (NSInteger j = 0; j < (NSUInteger)grid.numCell.height; j++) {
@@ -268,7 +268,6 @@ extern NSString * const GDAppearanceModeChanged;
     
     NSArray *cellSubViews = [self subviews];
     GDCellView *curClosestCellView;
-    GDCellView *prevClosestCellView;
     CGFloat closestDistance = CGFLOAT_MAX;
     for (NSInteger i = 0; i < [cellSubViews count]; i++) {
         GDCellView *curView = [cellSubViews objectAtIndex: i];
@@ -287,11 +286,7 @@ extern NSString * const GDAppearanceModeChanged;
             curClosestCellView = curView;
         }
     }
-    
-    if ( prevClosestCellView == nil || prevClosestCellView != curClosestCellView ) {
-        [curClosestCellView mouseEntered: theEvent];
-        prevClosestCellView = curClosestCellView;
-    }
+    [curClosestCellView mouseEntered: theEvent];
 }
 
 
@@ -313,15 +308,15 @@ extern NSString * const GDAppearanceModeChanged;
 @synthesize viewPosition = _viewPosition;
 
 
-- (id) initWithFrame: (NSRect)frame
-        andPositionX: (NSInteger)x
-        andPositionY: (NSInteger)y {
+- (id) initWithFrame: (NSRect) frame
+        andPositionX: (NSInteger) x
+        andPositionY: (NSInteger) y {
     _viewPosition = NSMakePoint(x, y);
     return [self initWithFrame: frame];
 }
 
 
-- (id)initWithFrame: (NSRect)frame {
+- (id) initWithFrame: (NSRect) frame {
     self = [super initWithFrame:frame];
     if (self) {
         NSTrackingArea* trackingArea = [[NSTrackingArea alloc] initWithRect: [self bounds]

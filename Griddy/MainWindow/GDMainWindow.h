@@ -8,8 +8,28 @@
 
 #import <Cocoa/Cocoa.h>
 @class GDMainWindow;
-@class GDAppDelegate;
 @class GDGrid;
+@class GDScreen;
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowControllers
+// ----------------------------------
+
+@interface GDMainWindowControllers : NSObject
+
++ ( id ) get;
+
+- ( void ) showWindows;
+- ( void ) hideWindows;
+- ( void ) hideAllUnfocusedWindowsIncluding: ( NSWindow * ) curWindow;
+- ( void ) hideAllOtherWindowsExcluding: ( NSWindow * ) curWindow;
+- ( void ) toggleWindowState;
+
+- ( void ) updateScreensAndControllers;
+- ( void ) canHide: ( BOOL ) canWindowHide;
+
+@end
 
 
 
@@ -29,15 +49,12 @@
   BehindWindowLevel: (NSInteger) topWindowNumber;
 - (void) hideWindow;
 - (BOOL) isWindowFocused;
-- (void) preventHideWindow;
-- (void) enableHideWindow;
+- ( void ) canHide: ( BOOL ) canWindowHide;
+- ( BOOL ) hasSameGDScreen: ( GDScreen * ) screen;
 
 // window callbacks
 - (void) windowFocused: (NSNotification *)note;
 - (void) windowUnfocused: (NSNotification *)note;
-
-// app view callbacks
-- (NSRunningApplication *) getCurrentApp;
 
 // cell view callbacks
 - (void) setStartCellPosition: (NSPoint)pos;

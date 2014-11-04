@@ -8,20 +8,45 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GDOverlayWindow : NSWindow
 
-- (id) initWithRect: (NSRect) contentRect;
-- (void) showWindow: (id) sender
-         withFrame: (NSRect) frame;
-- (void) preventHideWindow;
-- (void) enableHideWindow;
+
+// ----------------------------------
+#pragma mark - GDOverlayWindowController
+// ----------------------------------
+
+@interface GDOverlayWindowController : NSWindowController
+
++ ( id ) get;
+- ( void ) showWindowWithRect: (NSRect) newFrame
+             BehindMainWindow: (NSWindow *) mainWindow;
+- ( void ) hideWindow;
+- ( void ) canHide: ( BOOL ) canWindowHide;
 
 @end
 
+
+
+// ----------------------------------
+#pragma mark - GDOverlayWindow
+// ----------------------------------
+
+@interface GDOverlayWindow : NSWindow
+@end
+
+
+
+// ----------------------------------
+#pragma mark - GDOverlayWindowViewWrapper
+// ----------------------------------
 
 @interface GDOverlayWindowViewWrapper : NSView
 @end
 
+
+
+// ----------------------------------
+#pragma mark - GDOverlayWindowView
+// ----------------------------------
 
 @interface GDOverlayWindowView : NSView
 @end

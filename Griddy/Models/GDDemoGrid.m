@@ -249,8 +249,8 @@ extern NSString * const GDDemoGridValueUpdated;
 }
 
 
-- (NSString *) getNewWindowBoundsStringFromCell1: (NSPoint)cell1
-                                         ToCell2: (NSPoint)cell2 {
+- (NSRect) getNewWindowBoundsStringFromCell1: (NSPoint)cell1
+                                     ToCell2: (NSPoint)cell2 {
     NSRect newPosRect = [self getRectFromPoint1: cell1
                                          Point2: cell2];
     return [_thisGDScreen getScreenBoundsForGridRect: newPosRect];

@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GDStatusItem.h"
 
-@class GDStatusItemView;
-
 
 @interface GDStatusPopoverMenuViewController : NSViewController <GDStatusPopoverViewController>
 @end

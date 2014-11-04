@@ -7,6 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class GDStatusPopoverMenuViewController;
+@class GDStatusPopoverPreferenceViewController;
+@class GDStatusItemView;
+@class AXStatusItemPopup;
 
 
 
@@ -14,10 +18,6 @@
 #pragma mark - GDStatusItemController
 // ----------------------------------
 
-@class GDStatusPopoverMenuViewController;
-@class GDStatusPopoverPreferenceViewController;
-@class GDStatusItemView;
-@class AXStatusItemPopup;
 @interface GDStatusItemController : NSObject
 
 @property (nonatomic, strong) GDStatusItemView *statusItemView;
@@ -27,10 +27,10 @@
 @property (nonatomic) NSUInteger curViewTag;
 @property (nonatomic) BOOL isVisible;
 
-- (id) initWithAction: (SEL) action
-            andTarget: (id) target;
-- (BOOL) isStatusItemMenuOpen;
-- (void) hideStatusItem;
++ ( id ) get;
+- ( void ) showStatusItem;
+- ( void ) hideStatusItem;
+- ( void ) toggleStatusItemState;
 
 @end
 
@@ -57,8 +57,6 @@
 - (void) setContentSize:(CGSize)size;
 
 // events
-- (void) setAction: (SEL) action
-           toTarget: (id) target;
 - (void) removeStatusItem;
 
 @end

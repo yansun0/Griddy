@@ -208,7 +208,6 @@ NSString * const GDStatusPopoverSettingsButtonSelected = @"GDStatusPopoverSettin
 @implementation GDStatusPopoverDivider
 
 - (void) drawRect: (NSRect) dirtyRect {
-    NSLog(@"here");
     [[GDAssets getDividerColor] setFill];
     NSRectFill(dirtyRect);
 }

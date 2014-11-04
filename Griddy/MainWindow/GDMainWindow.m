@@ -8,19 +8,160 @@
 
 #import "GDMainWindow.h"
 #import "GDMainWindowView.h"
-#import "GDAppDelegate.h"
+#import "GDOverlayWindow.h"
+
 #import "GDGrid.h"
+#import "GDScreen.h"
+
+#import "GDUtils.h"
 
 
-// default keys
-extern NSString * const GDMoveMethodKey;
 
 // notifications names
 extern NSString * const GDMainWindowTypeChanged;
 extern NSString * const GDMainWindowAbsoluteSizeChanged;
 extern NSString * const GDMainWindowRelativeSizeChanged;
 extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
-extern NSString * const GDMoveMethodChanged;
+
+
+
+
+
+// ----------------------------------
+#pragma mark - GDMainWindowControllers
+// ----------------------------------
+
+
+@interface GDMainWindowControllers() {
+    BOOL windowsVisible;
+    NSMutableArray *screens;
+    NSMutableArray *controllers;
+}
+@end
+
+
+
+@implementation GDMainWindowControllers : NSObject
+
+
++ ( id ) get {
+    static GDMainWindowControllers *sharedController = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once( &onceToken, ^{
+        sharedController = [ [ self alloc ] init ];
+    } );
+    return sharedController;
+}
+
+
+- ( id ) init {
+    self = [ super init ];
+    if ( self ) {
+        windowsVisible = NO;
+        screens = [ [ NSMutableArray alloc ] initWithCapacity: 1 ];
+        controllers = [ [ NSMutableArray alloc ] initWithCapacity: 1 ];
+        [ self updateScreensAndControllers ];
+    }
+    return self;
+}
+
+
+- ( void ) updateScreensAndControllers {
+    NSMutableArray *newScreens;
+    NSMutableArray *rmScreens;
+    [ GDUtils updateCurScreens: screens
+                WithNewScreens: &newScreens
+             AndRemovedScreens: &rmScreens ];
+    
+    // make new controllers for new screens if any
+    if ( newScreens != nil ) {
+        for ( NSUInteger i = 0; i < newScreens.count; i++ ) {
+            GDScreen *newGDScreen = [ newScreens objectAtIndex: i ];
+            GDGrid *newGrid = [ [ GDGrid alloc ] initWithGDScreen: newGDScreen ];
+            GDMainWindowController *newWC = [ [ GDMainWindowController alloc ] initWithGrid: newGrid ];
+            [ controllers addObject: newWC ];
+        }
+    }
+    
+    // remove controllers associate w/ removed screens if any
+    if ( rmScreens != nil ) {
+        for ( NSUInteger i = 0; i < newScreens.count; i++ ) {
+            GDScreen *rmGDScreen = [ newScreens objectAtIndex: i ];
+             for ( NSUInteger j = 0; j < controllers.count; j++ ) {
+                GDMainWindowController *curWC = [ controllers objectAtIndex: j ] ;
+                if ( [ curWC hasSameGDScreen: rmGDScreen ] == YES ) {
+                    [ controllers removeObjectAtIndex: j ];
+                    break;
+                }
+             }
+        }
+    }
+}
+
+
+- ( void ) showWindows {
+    for ( NSUInteger i = 0; i < controllers.count; i++ ) {
+        [ [ controllers objectAtIndex: i ] showWindow: nil ];
+    }
+    windowsVisible = YES;
+}
+
+
+- ( void ) hideWindows {
+    [ [ GDOverlayWindowController get ] hideWindow ];
+    for ( NSUInteger i = 0; i < controllers.count; i++ ) {
+        GDMainWindowController *curWC = [ controllers objectAtIndex: i ];
+        [ curWC hideWindow ];
+    }
+    windowsVisible = NO;
+}
+
+
+- ( void ) toggleWindowState {
+    if ( windowsVisible == YES ) {
+        [ self hideWindows ];
+    } else {
+        [ self showWindows ];
+    }
+}
+
+
+- ( void ) canHide: ( BOOL ) canWindowHide {
+    for ( NSUInteger i = 0; i < controllers.count; i++ ) {
+        [ [ controllers objectAtIndex: i ] canHide: canWindowHide ];
+    }
+}
+
+
+- (void) hideAllUnfocusedWindowsIncluding: ( NSWindow * ) curWindow {
+    NSUInteger numClosed = 0;
+    for ( NSUInteger i = 0; i < controllers.count; i++ ) {
+        GDMainWindowController *curWC = [ controllers objectAtIndex: i ];
+        if ( [ curWC isWindowFocused ] == NO ) {
+            [ curWC hideWindow ];
+            numClosed = numClosed + 1;
+        }
+    }
+    
+    if ( numClosed == controllers.count ) {
+        [ self hideWindows ]; // properly shutdown
+    }
+}
+
+
+- ( void ) hideAllOtherWindowsExcluding: ( NSWindow * ) curWindow {
+    for ( NSUInteger i = 0; i < controllers.count; i++ ) {
+        GDMainWindowController *curWC = [ controllers objectAtIndex: i ];
+        if ( [ curWC window ] != ( GDMainWindow * ) curWindow ) {
+            [ curWC hideWindow ];
+        }
+    }
+}
+
+
+
+@end
+
 
 
 
@@ -33,10 +174,7 @@ extern NSString * const GDMoveMethodChanged;
 
 @property (nonatomic) NSPoint startCell;
 @property (nonatomic) NSPoint curCell;
-@property (nonatomic) NSPoint endCell;
 @property (nonatomic) BOOL isInCell;
-@property (nonatomic) GDAppDelegate *appDelegate;
-@property (nonatomic) BOOL moveMethod;
 
 @end
 
@@ -48,14 +186,10 @@ extern NSString * const GDMoveMethodChanged;
 @synthesize thisGrid = _thisGrid;
 @synthesize startCell = _startCell;
 @synthesize curCell = _curCell;
-@synthesize endCell = _endCell;
-@synthesize appDelegate = _appDelegate;
-@synthesize moveMethod = _moveMethod;
+
 
 - (id) initWithGrid: (GDGrid *) grid {
     _thisGrid = grid;
-    _appDelegate = (GDAppDelegate *)[[NSApplication sharedApplication] delegate];
-    _moveMethod = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMoveMethodKey] integerValue];
     
     GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: grid];
     [thisWindow setWindowController: self];
@@ -110,11 +244,6 @@ extern NSString * const GDMoveMethodChanged;
                       selector: @selector(reinitWindow:)
                           name: GDMainWindowGridUniversalDimensionsChanged
                         object: nil];
-    
-    [defaultCenter addObserver: self
-                      selector: @selector(onMoveMethodChanged:)
-                          name: GDMoveMethodChanged
-                        object: nil];
 }
 
 
@@ -160,13 +289,13 @@ extern NSString * const GDMoveMethodChanged;
 }
 
 
-- (void) preventHideWindow {
-    [self.window setCanHide: NO];
+- ( void ) canHide: ( BOOL ) canWindowHide {
+    self.window.canHide = canWindowHide;
 }
 
 
-- (void) enableHideWindow {
-    [self.window setCanHide: YES];
+- ( BOOL ) hasSameGDScreen: ( GDScreen * ) screen {
+    return [ self.thisGrid.thisGDScreen isSameGDScreen: screen ];
 }
 
 
@@ -175,21 +304,13 @@ extern NSString * const GDMoveMethodChanged;
 
 - (void) windowUnfocused: (NSNotification *)note {
     // close other none focus windows, including one
-    [_appDelegate closeAllUnfocusedWindowsIncluding: self.window];
+    [ [ GDMainWindowControllers get ] hideAllUnfocusedWindowsIncluding: self.window];
 }
 
 
 - (void) windowFocused: (NSNotification *)note {
     // close other windows, except for this one
-    [_appDelegate closeAllOtherWindowsExcluding: self.window];
-}
-
-
-
-#pragma mark - window callbacks
-
-- (NSRunningApplication *) getCurrentApp {
-    return _appDelegate.frontApp;
+    [ [ GDMainWindowControllers get ] hideAllOtherWindowsExcluding: self.window];
 }
 
 
@@ -205,8 +326,7 @@ extern NSString * const GDMoveMethodChanged;
     } else {
         newHoverPos = [_thisGrid getOverlayWindowFrameFromCell1: _curCell];
     }
-    [_appDelegate showHoverWindowWithFrame: newHoverPos
-                          BehindMainWindow: self.window];
+    [ [ GDOverlayWindowController get ] showWindowWithRect: newHoverPos BehindMainWindow: self.window ];
 }
 
 
@@ -222,34 +342,19 @@ extern NSString * const GDMoveMethodChanged;
 
 - (void) clearCurCellPosition {
     _curCell = CGPointZero; // reset
-    [_appDelegate hideHoverWindow];
+    [ [ GDOverlayWindowController get ] hideWindow ];
 }
 
 
 - (void) setEndCellPosition: (NSPoint) pos {
-    // down + up from the same cell, sanity check
     if (NSEqualPoints(pos, _startCell) == YES) {
-        NSLog(@"[START] -- (%d, %d)", (int)_startCell.x, (int)_startCell.y);
-        NSLog(@"[END] -- (%d, %d)", (int)_curCell.x, (int)_curCell.y);
-
-
-        NSRect rect;
-        if (_moveMethod == 0) {
-            rect = [_thisGrid getAppWindowFrameFromCell1: _startCell
-                                                 ToCell2: _curCell];
-            [_appDelegate moveAppWithResultRect: rect];
-
-        } else {
-            rect = [_thisGrid getAppWindowBoundsStringFromCell1: _startCell
-                                                        ToCell2: _curCell];
-            [_appDelegate moveAppWithResultRectForced: rect];
-        }
+        [GDUtils moveFromCell1: _startCell
+                       toCell2: _curCell
+                      withGrid: _thisGrid];
+        [ [ GDMainWindowControllers get ] hideWindows];
     }
 }
 
-- (void) onMoveMethodChanged: (NSNotification *) note {
-    _moveMethod = [[[note userInfo] objectForKey:@"info"] integerValue];
-}
 
 @end
 

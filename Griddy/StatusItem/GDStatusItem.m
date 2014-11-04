@@ -9,14 +9,19 @@
 #import "GDStatusItem.h"
 #import "GDStatusPopoverMenuViewController.h"
 #import "GDStatusPopoverPreferenceViewController.h"
+#import "GDMainWindow.h"
 
 
 
 #define kMinViewWidth 22
-NSString * const StatusItemMenuOpened = @"GDStatusItemMenuOpened";
-NSString * const StatusItemMenuClosed = @"GDStatusItemMenuClosed";
+
+NSString * const GDStatusItemMenuClosed = @"GDStatusItemMenuClosed";
 extern NSString * const GDStatusPopoverSettingsButtonSelected;
 extern NSString * const GDStatusPopoverBackButtonSelected;
+extern NSString * const GDStatusItemVisibilityKey;
+extern NSString * const GDStatusItemVisibilityChanged;
+
+static BOOL isStatusItemVisible;
 
 
 
@@ -38,42 +43,82 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 
 # pragma mark - INIT
 
-- (id) initWithAction: (SEL) action
-            andTarget: (id) target {
-    self = [super init];
-    if (self != nil) {
-        [self notificationSetup];
-        
-        // setup first view controller = menu
-        _curViewTag = 1;
-        NSViewController *newViewController = [self getMenuViewController];
-        _statusItemView = [[GDStatusItemView alloc] initWithViewController: newViewController];
-        
-        // setup statusItemView
-        [_statusItemView setAction: action toTarget: target];
-        
++ ( void ) initialize {
+    isStatusItemVisible = [ [ NSUserDefaults standardUserDefaults ] boolForKey: GDStatusItemVisibilityKey ];
+}
+
+
++ ( id ) get {
+    static GDStatusItemController *sharedController = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once( &onceToken, ^{
+        sharedController = [ [ self alloc ] init ];
+    } );
+    return sharedController;
+}
+
+
+- ( id ) init {
+    self = [ super init ];
+    if ( self != nil ) {
+        [ self notificationSetup ];
+        if ( isStatusItemVisible ) {
+            [ self showStatusItem ];
+        } else {
+            [ self hideStatusItem ];
+        }
     }
     return self;
 }
 
 
-
 # pragma mark - NOTIFICATIONS
 
-- (void) notificationSetup {
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver: self
-           selector: @selector(onStatusItemPreferenceView:)
-               name: GDStatusPopoverSettingsButtonSelected
-             object: nil];
-    [nc addObserver: self
-           selector: @selector(onStatusItemMenuView:)
-               name: GDStatusPopoverBackButtonSelected
-             object: nil];
-    [nc addObserver: self
-           selector: @selector(onStatusItemMenuClosed:)
-               name: StatusItemMenuClosed
-             object: nil];
+- ( void ) notificationSetup {
+    NSNotificationCenter *nc = [ NSNotificationCenter defaultCenter ];
+    [ nc addObserver: self
+            selector: @selector( onStatusItemPreferenceView: )
+                name: GDStatusPopoverSettingsButtonSelected
+              object: nil ];
+    [ nc addObserver: self
+            selector: @selector( onStatusItemMenuView: )
+                name: GDStatusPopoverBackButtonSelected
+              object: nil ];
+    [ nc addObserver: self
+            selector: @selector( onStatusItemMenuClosed: )
+                name: GDStatusItemMenuClosed
+              object: nil ];
+    [ nc addObserver: self
+            selector: @selector( onStatusItemVisibilityChanged: )
+                name: GDStatusItemVisibilityChanged
+              object: nil];
+}
+
+
+- (void) onStatusItemVisibilityChanged: (NSNotification *) note {
+	BOOL shouldShow = [[[note userInfo] objectForKey:@"info"] boolValue];
+    if ( shouldShow ) {
+        [ self showStatusItem ];
+    } else {
+        [ self hideStatusItem ];
+    }
+}
+
+
+- (void) onStatusItemMenuView: (NSNotification *) note {
+    [self changeViewController: 1 ];
+}
+
+
+- (void) onStatusItemPreferenceView: (NSNotification *) note {
+    [self changeViewController: 2 ];
+}
+
+
+- (void) onStatusItemMenuClosed: (NSNotification *) note {
+    _curViewTag = 0;
+    _preferenceViewController = nil;
+    _menuViewController = nil;
 }
 
 
@@ -85,29 +130,27 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 
 # pragma mark - STATUS ITEM
 
-- (BOOL) isStatusItemMenuOpen {
-    return _statusItemView.active;
+- ( void ) toggleStatusItemState {
+    if ( isStatusItemVisible == YES ) {
+        [ self hideStatusItem ];
+    } else {
+        [ self showStatusItem ];
+    }
 }
 
+- (void) showStatusItem {
+    _curViewTag = 1;
+    NSViewController *newViewController = [self getMenuViewController];
+    _statusItemView = [[GDStatusItemView alloc] initWithViewController: newViewController];
+    isStatusItemVisible = YES;
+}
 
 - (void) hideStatusItem {
     [_statusItemView removeStatusItem];
     _statusItemView = nil;
     _preferenceViewController = nil;
     _menuViewController = nil;
-}
-
-- (void) onStatusItemMenuView: (NSNotification *) note {
-    [self changeViewController: 1];
-}
-
-
-- (void) onStatusItemPreferenceView: (NSNotification *) note {
-    [self changeViewController: 2];
-}
-
-- (void) onStatusItemMenuClosed: (NSNotification *) note {
-    _curViewTag = 0;
+    isStatusItemVisible = NO;
 }
 
 
@@ -169,15 +212,13 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
 // ----------------------------------
 
 @interface GDStatusItemView () {
-    NSViewController<GDStatusPopoverViewController> *_menuViewController;
+    NSViewController<GDStatusPopoverViewController> *_popoverViewController;
     NSImageView *_imageView;
     NSImage *_image;
     NSImage *_alternateImage;
     NSStatusItem *_statusItem;
     NSPopover *_popover;
     id _popoverTransiencyMonitor;
-    SEL _actionL;
-    id _targetL;
 }
 @end
 
@@ -195,7 +236,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     
     self = [super initWithFrame: NSMakeRect(0, 0, kMinViewWidth, height)];
     if (self) {
-        _menuViewController = controller;
+        _popoverViewController = controller;
         
         _image = [NSImage imageNamed:@"statusitem-a"];
         [_image setTemplate: YES];
@@ -247,7 +288,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     if (_popover.isShown) {
         [self hidePopover];
     } else {
-        [NSApp sendAction: _actionL to: _targetL from: self];
+        [ [ GDMainWindowControllers get ] toggleWindowState ];
     }
 }
 
@@ -257,13 +298,6 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     } else {
         [self showPopover];
     }
-}
-
-
-- (void) setAction: (SEL) action
-           toTarget: (id) target {
-    _actionL = action;
-    _targetL = target;
 }
 
 
@@ -308,9 +342,9 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
     
     if (!_popover) {
         _popover = [[NSPopover alloc] init];
-        _popover.contentViewController = _menuViewController;
+        _popover.contentViewController = _popoverViewController;
     } else if (!_popover.contentViewController) {
-        _popover.contentViewController = _menuViewController;
+        _popover.contentViewController = _popoverViewController;
     }
     
     if (!_popover.isShown) {
@@ -322,10 +356,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
             [self hidePopover];
         }];
         
-        // post notification
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName: StatusItemMenuOpened
-                          object: self];
+        [ [ GDMainWindowControllers get ] hideWindows ];
     }
 }
 
@@ -349,7 +380,7 @@ extern NSString * const GDStatusPopoverBackButtonSelected;
             
             // post notification
             NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-            [nc postNotificationName: StatusItemMenuClosed
+            [nc postNotificationName: GDStatusItemMenuClosed
                               object: self];
         }
     }

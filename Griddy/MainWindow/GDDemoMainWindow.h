@@ -18,7 +18,6 @@
 @interface GDDemoController : NSObject
 
 - (void) launchWindows;
-- (void) launchWindowsBehindWindowLevel: (NSInteger) windowLevel;
 - (void) hideWindows;
 - (void) enableAllWindowHiding;
 - (void) preventAllWindowHiding;
