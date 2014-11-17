@@ -1,6 +1,6 @@
 # Griddy - OSX's missing window manager
 
-With the lastest changes to OSX Apple did away with the "expand" green button and replaced it with the "full screen" instead. However, for a person with a 4k display and running my rMBP on 2880x1800 this comes as a detriment isn't no app can take advantage nor should they deserve to take up such high resolution screens in their entirely.
+With the lastest changes to OS X Apple did away with the green traffic light's "expand" functionality, and replaced it with  "full screen" instead. However, for a person with a 4k display and a 15" rMBP running at its native 2880x1800 resolution this comes as a detriment since no app can take advantage of, nor should they deserve to take up, such high resolution screens all by themselves.
 
 Enter Griddy.
 
