@@ -95,8 +95,8 @@ static BOOL isStatusItemVisible;
 }
 
 
-- (void) onStatusItemVisibilityChanged: (NSNotification *) note {
-	BOOL shouldShow = [[[note userInfo] objectForKey:@"info"] boolValue];
+- ( void ) onStatusItemVisibilityChanged: ( NSNotification * ) note {
+	BOOL shouldShow = [ [ [ note userInfo ] objectForKey: @"info" ] boolValue ];
     if ( shouldShow ) {
         [ self showStatusItem ];
     } else {
@@ -105,25 +105,25 @@ static BOOL isStatusItemVisible;
 }
 
 
-- (void) onStatusItemMenuView: (NSNotification *) note {
-    [self changeViewController: 1 ];
+- ( void ) onStatusItemMenuView: ( NSNotification * ) note {
+    [ self changeViewController: 1 ];
 }
 
 
-- (void) onStatusItemPreferenceView: (NSNotification *) note {
-    [self changeViewController: 2 ];
+- ( void ) onStatusItemPreferenceView: ( NSNotification * ) note {
+    [ self changeViewController: 2 ];
 }
 
 
-- (void) onStatusItemMenuClosed: (NSNotification *) note {
+- ( void ) onStatusItemMenuClosed: ( NSNotification * ) note {
     _curViewTag = 0;
     _preferenceViewController = nil;
     _menuViewController = nil;
 }
 
 
-- (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
+- ( void ) dealloc {
+    [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
 }
 
 

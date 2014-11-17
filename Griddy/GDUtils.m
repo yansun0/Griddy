@@ -14,156 +14,158 @@
 extern NSString * const GDMoveMethodKey;
 extern NSString * const GDMoveMethodChanged;
 
-static BOOL moveMethod;
-static NSRunningApplication *appToMove;
+static BOOL _moveMethod;
+static AXUIElementRef _frontApp;
+static AXUIElementRef _frontWindow;
 
 
 
 @implementation GDUtils
 
 
-+ (void) initialize {
-    moveMethod = [[[NSUserDefaults standardUserDefaults] objectForKey: GDMoveMethodKey] integerValue];
+#pragma mark - INITIALIZATION
 
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(onMoveMethodChanged:)
-                                                 name: GDMoveMethodChanged
-                                               object: nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
-                                                           selector: @selector(onSomeAppDeactivated:)
-                                                               name: NSWorkspaceDidDeactivateApplicationNotification
-                                                             object: nil];
-}
-
-+ (void) onMoveMethodChanged: (NSNotification *) note {
-    moveMethod = [[[note userInfo] objectForKey:@"info"] integerValue];
++ ( void ) initialize {
+    _moveMethod = [ [ [ NSUserDefaults standardUserDefaults ] objectForKey: GDMoveMethodKey ] integerValue ];
+    [ [ NSNotificationCenter defaultCenter ] addObserver: self
+                                                selector: @selector( onMoveMethodChanged: )
+                                                    name: GDMoveMethodChanged
+                                                  object: nil ];
 }
 
 
-+ (void) onSomeAppDeactivated: (NSNotification *)note {
-    NSRunningApplication *relinquishedApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
-    appToMove = relinquishedApp;
++ ( void ) onMoveMethodChanged: ( NSNotification * ) note {
+    _moveMethod = [ [ [ note userInfo ] objectForKey: @"info" ] integerValue ];
 }
 
 
 
-// return true if has accessibility access, false otherwise
-+ (BOOL) checkAccessibilityAccessAndPromptUser: (BOOL) doPrompt {
-    if (AXIsProcessTrusted() != 0) {
-        return YES;
-    } else if ( doPrompt ) {
-        return AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{ (__bridge NSString *)kAXTrustedCheckOptionPrompt : @YES });
+#pragma mark - MOVE UTILS
+
++ ( BOOL ) setFrontAppAndWindow {
+    if ( [ self checkAccessibilityAccessAndPromptUser: NO ] == NO ) {
+        return NO;
     }
-    return NO;
+    
+    if ( _frontApp ) {
+        CFRelease( _frontApp );
+    }
+    if ( _frontWindow ) {
+        CFRelease( _frontWindow );
+    }
+    
+    AXUIElementRef sysWideEle = AXUIElementCreateSystemWide();
+    CFTypeRef app, window;
+    CFArrayRef windows;
+    AXError result;
+    
+    // step1: get front app
+    if ( ( result = AXUIElementCopyAttributeValue( sysWideEle, kAXFocusedApplicationAttribute, &app ) ) != kAXErrorSuccess ) {
+        NSLog( @"GDUtils | setFrontAppAndWindow -- no front app" );
+        return NO;
+    }
+    _frontApp = app;
+    
+    // step2: get front window
+    if ( ( result = AXUIElementCopyAttributeValue( _frontApp , kAXFocusedWindowAttribute, &window ) ) == kAXErrorSuccess ) {
+        if ( CFGetTypeID( window ) == AXUIElementGetTypeID() ) {
+            _frontWindow = window;
+        }
+        
+    // ok, no focus window grad it from the list of windows
+    } else if ( ( result = AXUIElementCopyAttributeValues( _frontApp, kAXWindowsAttribute, 0, 999, &windows ) ) == kAXErrorSuccess ) {
+        if (windows && CFArrayGetCount( windows ) != 0) {
+            window = CFArrayGetValueAtIndex( windows, 0 );
+            if ( CFGetTypeID( window ) == AXUIElementGetTypeID() ) {
+                _frontWindow = window;
+            }
+            CFRelease( windows );
+        }
+    }
+    
+    return CFGetTypeID( _frontWindow ) != CFNullGetTypeID();
 }
 
 
++ ( NSRunningApplication * ) getFrontApp {
+    NSRunningApplication *retApp;
+    if ( _frontApp ) {
+        pid_t somePid;
+        AXUIElementGetPid( _frontApp, &somePid );
+        retApp = [ NSRunningApplication runningApplicationWithProcessIdentifier: somePid ];
+    }
+    return retApp;
+}
 
-// THE MONEY MAKER
-+ (void) moveFromCell1: (NSPoint) cell1
-               toCell2: (NSPoint) cell2
-              withGrid: (GDGrid *) grid {
+
++ ( void ) moveFromCell1: ( NSPoint ) cell1
+                 toCell2: ( NSPoint ) cell2
+                withGrid: ( GDGrid * ) grid {
     
-    NSLog(@"[START] -- (%d, %d)", (int)cell1.x, (int)cell1.y);
-    NSLog(@"[END] -- (%d, %d)", (int)cell2.x, (int)cell2.y);
+    NSLog( @"GDUtils | moveFromCell1:toCell2:withGrid -- start = (%d, %d)", ( int )cell1.x, ( int )cell1.y );
+    NSLog( @"GDUtils | moveFromCell1:toCell2:withGrid -- end = (%d, %d)", ( int )cell2.x, ( int )cell2.y );
     NSRect newPos;
-    if (moveMethod == 0) {
-        newPos = [grid getAppWindowFrameFromCell1: cell1
-                                          ToCell2: cell2];
-        [self gentleNudge: newPos];
+    if ( _moveMethod == 0 ) {
+        newPos = [ grid getAppWindowFrameFromCell1: cell1
+                                           ToCell2: cell2 ];
+        [ self gentleNudge: newPos ];
         
     } else {
-        newPos = [grid getAppWindowBoundsStringFromCell1: cell1
-                                                 ToCell2: cell2];
-        [self forceMove: newPos];
+        newPos = [ grid getAppWindowBoundsStringFromCell1: cell1
+                                                  ToCell2: cell2 ];
+        [ self forceMove: newPos ];
     }
 }
 
 
-
-+ (void) gentleNudge: (NSRect) rect {   // OPTION 1 -- use accessibility api
-    NSLog(@"NOT FORCED move");
-
-    // TODO: move all this check BEFORE MainWindow appears
-    if ([self checkAccessibilityAccessAndPromptUser: NO] == NO) {
++ ( void ) gentleNudge: ( NSRect ) rect {   // OPTION 1 -- use accessibility api
+    NSLog( @"GDUtils | gentleNudge -- called" );
+    if ( !_frontWindow ) {
+        NSLog( @"GDUtils | gentleNudge -- no front window found" );
         return;
     }
     
     CGSize windowSize;
     CGPoint windowPosition;
-    AXError result;
-    CFTypeRef window;
-    CFArrayRef windows;
-    AXUIElementRef frontMostApp = AXUIElementCreateApplication(appToMove.processIdentifier);
-    AXUIElementRef frontMostWindow;
-    // NSLog(@"%d, \n kAXErrorAttributeUnsupported = %d\n kAXErrorNoValue = %d\n kAXErrorIllegalArgument = %d\n kAXErrorInvalidUIElement = %d\n kAXErrorCannotComplete = %d\n kAXErrorNotImplemented = %d\n", (int)result, kAXErrorAttributeUnsupported, kAXErrorNoValue, kAXErrorIllegalArgument, kAXErrorInvalidUIElement, kAXErrorCannotComplete, kAXErrorNotImplemented);
+    AXValueRef temp;
     
-    // grad the focus window
-    if ((result = AXUIElementCopyAttributeValue(frontMostApp, kAXFocusedWindowAttribute, &window)) == kAXErrorSuccess) {
-        if (CFGetTypeID(window) == AXUIElementGetTypeID()) {
-            frontMostWindow = window;
-        }
-        
-        // ok, no focus window grad it from the list of windows
-    } else if ((result = AXUIElementCopyAttributeValues(frontMostApp, kAXWindowsAttribute, 0, 999, &windows)) == kAXErrorSuccess) {
-        if (windows && CFArrayGetCount(windows) != 0) {
-            window = CFArrayGetValueAtIndex(windows, 0);
-            if (CFGetTypeID(window) == AXUIElementGetTypeID()) {
-                frontMostWindow = window;
-            }
-        }
-    }
+    // 1st find new position
+    AXUIElementCopyAttributeValue( _frontWindow, kAXPositionAttribute, ( CFTypeRef * )&temp );
+    AXValueGetValue( temp, kAXValueCGPointType, &windowPosition );
+    CFRelease( temp );
     
-    if (frontMostWindow) {
-        AXValueRef temp;
-        
-        // 1st find new position
-        AXUIElementCopyAttributeValue(frontMostWindow, kAXPositionAttribute, (CFTypeRef *)&temp);
-        AXValueGetValue(temp, kAXValueCGPointType, &windowPosition);
-        CFRelease(temp);
-        
-        // 2nd find new size
-        AXUIElementCopyAttributeValue(frontMostWindow, kAXSizeAttribute, (CFTypeRef *)&temp);
-        AXValueGetValue(temp, kAXValueCGSizeType, &windowSize);
-        CFRelease(temp);
-        
-        // 1st move
-        windowPosition = rect.origin;
-        temp = AXValueCreate(kAXValueCGPointType, &windowPosition);
-        AXUIElementSetAttributeValue(frontMostWindow, kAXPositionAttribute, temp);
-        CFRelease(temp);
-        
-        // 2nd resize
-        windowSize = rect.size;
-        temp = AXValueCreate(kAXValueCGSizeType, &windowSize);
-        AXUIElementSetAttributeValue(frontMostWindow, kAXSizeAttribute, temp);
-        CFRelease(temp);
-        
-        CFRelease(frontMostWindow);
-        
-    } else {
-        NSLog(@"no front most window");
-    }
+    // 2nd find new size
+    AXUIElementCopyAttributeValue( _frontWindow, kAXSizeAttribute, ( CFTypeRef * )&temp );
+    AXValueGetValue( temp, kAXValueCGSizeType, &windowSize );
+    CFRelease( temp );
     
-    CFRelease(frontMostApp);
-    [self refocusApp];
+    // 3rd move
+    windowPosition = rect.origin;
+    temp = AXValueCreate( kAXValueCGPointType, &windowPosition );
+    AXUIElementSetAttributeValue( _frontWindow, kAXPositionAttribute, temp );
+    CFRelease( temp );
+    
+    // 4th resize
+    windowSize = rect.size;
+    temp = AXValueCreate( kAXValueCGSizeType, &windowSize );
+    AXUIElementSetAttributeValue( _frontWindow, kAXSizeAttribute, temp );
+    CFRelease( temp );
 }
 
 
-+ (void) forceMove: (NSRect) rect {    // OPTION 2 -- use applescript
-
-    // TODO: move all this check BEFORE MainWindow appears
-    if ([self checkAccessibilityAccessAndPromptUser: NO] == NO) {
++ ( void ) forceMove: ( NSRect ) rect {    // OPTION 2 -- use applescript
+    NSLog( @"GDUtils | forceMove -- called" );
+    NSRunningApplication *appToMove = [ self getFrontApp ];
+    if ( !appToMove ) {
+        NSLog( @"GDUtils | forceMove -- no front app found" );
         return;
     }
     
-    NSString *rectStr = [NSString stringWithFormat: @"{%d, %d, %d, %d}",
-                         (int) rect.origin.x, (int) rect.size.width,
-                         (int) rect.origin.y, (int) rect.size.height];
-    
-    NSDictionary* errorDict;
-    NSAppleEventDescriptor* returnDescriptor = NULL;
-    NSString *scriptStr = [NSString stringWithFormat: @"\
+    // construct script
+    NSString *rectStr = [ NSString stringWithFormat: @"{%d, %d, %d, %d}",
+                         ( int ) rect.origin.x, ( int ) rect.size.width,
+                         ( int ) rect.origin.y, ( int ) rect.size.height];
+    NSString *scriptStr = [ NSString stringWithFormat: @"\
                            global theApp, theBounds\n\
                            set theApp to \"%@\"\n\
                            set theBounds to %@\n\
@@ -186,23 +188,30 @@ static NSRunningApplication *appToMove;
                            set size of front window of application process theApp to item 1 of theBounds\n\
                            set position of front window of application process theApp to item 2 of theBounds\n\
                            end tell\n\
-                           end nonScriptableApp", [appToMove localizedName], rectStr];
-    NSAppleScript *AaplScript = [[NSAppleScript alloc] initWithSource: scriptStr];
+                           end nonScriptableApp", [ appToMove localizedName ], rectStr ];
+    NSAppleScript *AaplScript = [ [ NSAppleScript alloc ] initWithSource: scriptStr ];
     
-    returnDescriptor = [AaplScript executeAndReturnError: &errorDict];
-    if (returnDescriptor == NULL) {
-        NSLog(@"error: didn't move %@ to %@", [appToMove localizedName], rectStr);
-        NSLog(@"%@", returnDescriptor);
+    // run script
+    NSDictionary* errorDict;
+    NSAppleEventDescriptor *returnDescriptor = [ AaplScript executeAndReturnError: &errorDict ];
+    if ( returnDescriptor == NULL ) {   // failed
+        NSLog( @"GDUtils | forceMove -- couldn't move to %@ due to %@", rectStr, returnDescriptor );
     }
 }
 
 
-+ (void) refocusApp {
-    [appToMove activateWithOptions: 0]; // default option
++ ( BOOL ) checkAccessibilityAccessAndPromptUser: ( BOOL ) doPrompt {
+    if ( AXIsProcessTrusted() != 0 ) {
+        return YES;
+    } else if ( doPrompt ) {
+        return AXIsProcessTrustedWithOptions( ( __bridge CFDictionaryRef )@{ ( __bridge NSString * )kAXTrustedCheckOptionPrompt : @YES } );
+    }
+    return NO;
 }
 
 
 
+#pragma mark - SCREEN UTILS
 
 + ( void ) updateCurScreens: ( NSMutableArray * ) curScreens
              WithNewScreens: ( NSMutableArray ** ) newScreens

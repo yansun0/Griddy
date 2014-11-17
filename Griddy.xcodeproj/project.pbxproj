@@ -34,6 +34,7 @@
 		2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */; };
 		2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */; };
 		2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */; };
+		2CE803EB1A199967007D8449 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CC766431A0F1DB70000D532 /* Carbon.framework */; };
 		2CEF121419C80C4B00EE8634 /* GDDemoGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CC766451A0F2C600000D532 /* Cocoa.framework in Frameworks */,
+				2CE803EB1A199967007D8449 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

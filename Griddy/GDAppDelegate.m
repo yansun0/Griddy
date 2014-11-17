@@ -24,17 +24,16 @@
 
 
 
+// user default keys
 NSString * const LaunchKeyShortcut = @"GDLaunchShortcut";
 NSString * const DockMenuKeyShortcut = @"GDDockhShortcut";
-
-static BOOL isDockVisible;
-
-// user default keys
 extern NSString * const GDDockIconVisibilityKey;
 
 // notifications names
 extern NSString * const GDDockIconVisibilityChanged;
 extern NSString * const GDAutoLaunchOnLoginChanged;
+
+static BOOL isDockVisible;
 
 
 

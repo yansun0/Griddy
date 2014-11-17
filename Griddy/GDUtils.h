@@ -11,10 +11,15 @@
 
 @interface GDUtils : NSObject
 
-+ (BOOL) checkAccessibilityAccessAndPromptUser: (BOOL) doPrompt;
-+ (void) moveFromCell1: (NSPoint) cell1
-               toCell2: (NSPoint) cell2
-              withGrid: (GDGrid *) grid;
+// move utiles
++ ( BOOL ) setFrontAppAndWindow;
++ ( NSRunningApplication * ) getFrontApp;
++ ( void ) moveFromCell1: ( NSPoint ) cell1
+                 toCell2: ( NSPoint ) cell2
+                withGrid: ( GDGrid * ) grid;
++ ( BOOL ) checkAccessibilityAccessAndPromptUser: ( BOOL ) doPrompt;
+
+// screen utils
 + ( void ) updateCurScreens: ( NSMutableArray * ) curScreens
              WithNewScreens: ( NSMutableArray ** ) newScreens
           AndRemovedScreens: ( NSMutableArray ** ) rmScreens;

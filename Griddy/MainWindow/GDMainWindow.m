@@ -100,10 +100,12 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 
 
 - ( void ) showWindows {
-    for ( NSUInteger i = 0; i < controllers.count; i++ ) {
-        [ [ controllers objectAtIndex: i ] showWindow: nil ];
+    if ( [ GDUtils setFrontAppAndWindow ] ) {
+        for ( NSUInteger i = 0; i < controllers.count; i++ ) {
+            [ [ controllers objectAtIndex: i ] showWindow: nil ];
+        }
+        windowsVisible = YES;        
     }
-    windowsVisible = YES;
 }
 
 
@@ -114,6 +116,7 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
         [ curWC hideWindow ];
     }
     windowsVisible = NO;
+    [ NSApp hide: nil ];
 }
 
 
@@ -348,9 +351,9 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 
 - (void) setEndCellPosition: (NSPoint) pos {
     if (NSEqualPoints(pos, _startCell) == YES) {
-        [GDUtils moveFromCell1: _startCell
-                       toCell2: _curCell
-                      withGrid: _thisGrid];
+        [ GDUtils moveFromCell1: _startCell
+                        toCell2: _curCell
+                       withGrid: _thisGrid ];
         [ [ GDMainWindowControllers get ] hideWindows];
     }
 }

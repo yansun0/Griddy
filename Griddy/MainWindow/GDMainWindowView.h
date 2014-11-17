@@ -17,7 +17,7 @@
 
 @interface GDMainWindowMainView : NSVisualEffectView
 
-- (id) initWithGDGrid: (GDGrid *)grid;
+- ( id ) initWithGDGrid: ( GDGrid * ) grid;
 
 @end
 
@@ -28,15 +28,15 @@
 // ----------------------------------
 @interface GDMainWindowAppInfoViewController : NSViewController
 
-- (id) initWithGDGrid: (GDGrid *)grid;
+- ( id ) initWithGDGrid: ( GDGrid * ) grid;
 
 @end
 
 
 @interface GDMainWindowAppInfoView : NSView
 
-- (id) initWithGDGrid: (GDGrid *)grid;
-- (void) newApp: (NSRunningApplication *) newApp;
+- ( id ) initWithGDGrid: ( GDGrid * ) grid;
+- ( void ) newApp: ( NSRunningApplication * ) newApp;
 
 @end
 

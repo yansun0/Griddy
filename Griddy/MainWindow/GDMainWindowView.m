@@ -8,13 +8,16 @@
 #import "GDMainWindow.h"
 #import "GDMainWindowView.h"
 
+#import "GDUtils.h"
+
 #import "GDScreen.h"
 #import "GDGrid.h"
 #import "GDAssets.h"
 
 
-
 extern NSString * const GDAppearanceModeChanged;
+
+
 
 
 
@@ -32,11 +35,10 @@ extern NSString * const GDAppearanceModeChanged;
 
 @implementation GDMainWindowMainView
 
-
-- (id) initWithGDGrid: (GDGrid *) grid {
-    self = [super initWithFrame: [grid getMainWindowFrame]];
+- ( id ) initWithGDGrid: ( GDGrid * ) grid {
+    self = [ super initWithFrame: [ grid getMainWindowFrame ] ];
     
-    if (self != nil) {
+    if ( self != nil ) {
         // setup self
         self.wantsLayer = YES;
         self.layer.frame = self.frame;
@@ -45,38 +47,39 @@ extern NSString * const GDAppearanceModeChanged;
         
         // setup border
         self.layer.borderWidth = 1.0f;
-        self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+        self.layer.borderColor = [ [ GDAssets getWindowBorder ] CGColor ];
         
         // setup vibrancy
-        self.material = [GDAssets getWindowMaterial];
+        self.material = [ GDAssets getWindowMaterial ];
         self.blendingMode = NSVisualEffectBlendingModeBehindWindow;
         self.state = NSVisualEffectStateActive;
         
         // setup app info view
-        _appInfoViewController = [[GDMainWindowAppInfoViewController alloc] initWithGDGrid: grid];
-        [self addSubview: _appInfoViewController.view];
+        _appInfoViewController = [ [ GDMainWindowAppInfoViewController alloc ] initWithGDGrid: grid ];
+        [ self addSubview: _appInfoViewController.view ];
         
         // setup cell views
-        _cellCollectionView = [[GDMainWindowCellCollectionView alloc] initWithGDGrid: grid];
-        [self addSubview: _cellCollectionView];
+        _cellCollectionView = [ [ GDMainWindowCellCollectionView alloc ] initWithGDGrid: grid ];
+        [ self addSubview: _cellCollectionView ];
 
-        
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(onAppearanceModeChanged:)
-                                                     name: GDAppearanceModeChanged
-                                                   object: nil];
+        [ [ NSNotificationCenter defaultCenter ] addObserver: self
+                                                    selector: @selector( onAppearanceModeChanged: )
+                                                        name: GDAppearanceModeChanged
+                                                      object: nil ];
     }
     
     return self;
 }
 
-- (void) onAppearanceModeChanged: (NSNotification *) note {
-    self.material = [GDAssets getWindowMaterial];
-    self.layer.borderColor = [[GDAssets getWindowBorder] CGColor];
+
+- ( void ) onAppearanceModeChanged: ( NSNotification * ) note {
+    self.material = [ GDAssets getWindowMaterial ];
+    self.layer.borderColor = [ [ GDAssets getWindowBorder ] CGColor ];
 }
 
-- (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
+
+- ( void ) dealloc {
+    [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
 }
 
 @end
@@ -89,40 +92,32 @@ extern NSString * const GDAppearanceModeChanged;
 #pragma mark - GDMainWindowAppInfoView
 // ----------------------------------
 
+// controller
+
 @implementation GDMainWindowAppInfoViewController
 
-
-- (id) initWithGDGrid: (GDGrid *) grid {
-    self = [super initWithNibName: nil bundle: nil];
+- ( id ) initWithGDGrid: ( GDGrid * ) grid {
+    self = [ super initWithNibName: nil
+                            bundle: nil ];
     
-    if (self != nil) {
-        GDMainWindowAppInfoView *appInfoView = [[GDMainWindowAppInfoView alloc] initWithGDGrid: grid];
+    if ( self != nil ) {
+        GDMainWindowAppInfoView *appInfoView = [ [ GDMainWindowAppInfoView alloc ] initWithGDGrid: grid ];
         self.view = appInfoView;
     }
-    // register global notifications
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
-                                                           selector: @selector(setAppInfo:)
-                                                               name: NSWorkspaceDidDeactivateApplicationNotification
-                                                             object: nil];
     return self;
 }
 
 
-- (void) setAppInfo: (NSNotification *) note {
-    GDMainWindowAppInfoView *appInfoView = (GDMainWindowAppInfoView *)self.view;
-    NSRunningApplication *newApp = [[note userInfo] valueForKey: @"NSWorkspaceApplicationKey"];
-    [appInfoView newApp: newApp];
+- ( void ) viewDidAppear {
+    GDMainWindowAppInfoView *appInfoView = ( GDMainWindowAppInfoView * )self.view;
+    [ appInfoView newApp: [ GDUtils getFrontApp ] ];
 }
-
-
-- (void) dealloc {
-    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self];
-}
-
 
 @end
 
 
+
+// view
 
 @interface GDMainWindowAppInfoView() {
     NSImageView *_appIconView;
@@ -132,57 +127,55 @@ extern NSString * const GDAppearanceModeChanged;
 @end
 
 
-
 @implementation GDMainWindowAppInfoView
 
-
-- (id) initWithGDGrid: (GDGrid *) grid {
-    self = [super initWithFrame: [grid getAppInfoFrame]];
+- ( id ) initWithGDGrid: ( GDGrid * ) grid {
+    self = [ super initWithFrame: [ grid getAppInfoFrame ] ];
     
-    if (self != nil) {
-        _appIconView = [[NSImageView alloc] initWithFrame: [grid getAppIconFrame]];
+    if ( self != nil ) {
+        _appIconView = [ [ NSImageView alloc ] initWithFrame: [ grid getAppIconFrame ] ];
         _appIconView.imageScaling = NSImageScaleAxesIndependently;
-        [self addSubview: _appIconView];
+        [ self addSubview: _appIconView ];
         
-        _appNameView = [[NSTextField alloc] initWithFrame: [grid getAppNameFrame]];
+        _appNameView = [ [ NSTextField alloc ] initWithFrame: [ grid getAppNameFrame ] ];
         _appNameView.bezeled = NO;
         _appNameView.drawsBackground = NO;
         _appNameView.editable = NO;
         _appNameView.selectable = NO;
-        _appNameView.textColor = [GDAssets getTextColor];
-        [self addSubview: _appNameView];
+        _appNameView.textColor = [ GDAssets getTextColor ];
+        [ self addSubview: _appNameView ];
     
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(onAppearanceModeChanged:)
-                                                     name: GDAppearanceModeChanged
-                                                   object: nil];
+        [ [ NSNotificationCenter defaultCenter ] addObserver: self
+                                                    selector: @selector( onAppearanceModeChanged: )
+                                                        name: GDAppearanceModeChanged
+                                                      object: nil ];
     }
     
     return self;
 }
 
 
-- (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
+- ( void ) dealloc {
+    [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
 }
 
 
-- (void) newApp: (NSRunningApplication *) newApp {
-    if (![_curApp isEqualTo: newApp]) {
+- ( void ) newApp: ( NSRunningApplication * ) newApp {
+    if ( ![ _curApp isEqualTo: newApp ] ) {
         // icon
         _appIconView.image = newApp.icon;
         
         // name
         _appNameView.stringValue = newApp.localizedName;
-        [_appNameView sizeToFit];
+        [ _appNameView sizeToFit ];
         _curApp = newApp;
     }
 }
 
-- (void) onAppearanceModeChanged: (NSNotification *) note {
-    _appNameView.textColor = [GDAssets getTextColor];
-}
 
+- ( void ) onAppearanceModeChanged: ( NSNotification * ) note {
+    _appNameView.textColor = [ GDAssets getTextColor ];
+}
 
 @end
 
@@ -291,7 +284,6 @@ extern NSString * const GDAppearanceModeChanged;
 
 
 @end
-
 
 
 

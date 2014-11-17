@@ -33,6 +33,7 @@ Griddy is modeled after [Divvy](http://mizage.com/divvy/) with a boatload of add
 * Choose between force/not-forced window movement and resizing
 * Yosemite Styles for the Main Window, and Hover Window
 * Support light/dark modes
+* Support screen changes (add/remove screens, change resolutions)
 
 ### InDev Features
 * open on login
@@ -42,20 +43,27 @@ Griddy is modeled after [Divvy](http://mizage.com/divvy/) with a boatload of add
 * hotkey functionalities (full screen, left 1/2, etc.)
 * width x height label on Hover Window
 * Onboarding for the Accessibility requirement
-* Support screen changes (add/remove screens, change resolutions)
 
 
 
 # Installation
 
-NOTICE: Griddy is pre-alpha, its nowhere near feature complete, nor fully tested. I do not hold any responsibilies for damages to your system this may cause.
+NOTICE: Griddy is barely alpha, its nowhere near feature complete, nor fully tested. I do not hold any responsibilies for damages to your system this may cause.
 
-1. Have a system with the latest `OSX 10.10` build
+Prereq: have a system with the latest `OSX 10.10` build
 
-2. Install `Xcode 6.1`
+### Option 1: build it yourself
+1. Have `Xcode 6.1` installed on your system.
 
-3. Clone this repo and build it
+2. Clone this repo and build it
 
-4. Enable developer mode on your mac if you haven't done so already
+3. Enable developer mode on your mac if you haven't done so already
 
-5. Go into `System Preferences` -> `Security & Privacy` -> `Accessibility` allow `Xcode` and/or `Griddy` depending where you're running it from.
+4. Go into `System Preferences` -> `Security & Privacy` -> `Accessibility` and allow `Xcode` and/or `Griddy` depending where you're running it from.
+
+### Option 2: use the release candidate
+1. Clone this repo
+
+2. copy Griddy/Griddy.app into your /Application folder
+
+3. Go into `System Preferences` -> `Security & Privacy` -> `Accessibility` and and `Griddy`.
