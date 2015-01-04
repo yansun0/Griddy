@@ -67,7 +67,7 @@ static AXUIElementRef _frontWindow;
     _frontApp = app;
     
     // step2: get front window
-    if ( ( result = AXUIElementCopyAttributeValue( _frontApp , kAXFocusedWindowAttribute, &window ) ) == kAXErrorSuccess ) {
+    if ( ( result = AXUIElementCopyAttributeValue( _frontApp, kAXFocusedWindowAttribute, &window ) ) == kAXErrorSuccess ) {
         if ( CFGetTypeID( window ) == AXUIElementGetTypeID() ) {
             _frontWindow = window;
         }

@@ -30,6 +30,10 @@
 + (NSColor *) getDividerColor;
 
 
+#pragma mark - FONTS
++ ( float ) getAppNameMinFont;
+
+
 #pragma mark - ICONS
 // Default size: 64x64
 

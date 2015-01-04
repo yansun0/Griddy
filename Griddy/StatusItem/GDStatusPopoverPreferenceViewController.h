@@ -70,3 +70,8 @@
 - (void) hideDemoWindows;
 
 @end
+
+
+@interface GDStatusPopoverPreferenceView : NSView
+
+@end

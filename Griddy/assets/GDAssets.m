@@ -88,6 +88,13 @@ static BOOL isDarkMode;
 
 
 
+#pragma mark - FONTS
+
+// font: window
++ ( float ) getAppNameMinFont {
+    return 64.0f;
+}
+
 
 
 #pragma mark - ICONS

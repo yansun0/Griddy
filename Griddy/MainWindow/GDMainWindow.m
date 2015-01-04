@@ -175,9 +175,9 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 
 @interface GDMainWindowController ()
 
-@property (nonatomic) NSPoint startCell;
-@property (nonatomic) NSPoint curCell;
-@property (nonatomic) BOOL isInCell;
+@property ( nonatomic ) NSPoint startCell;
+@property ( nonatomic ) NSPoint curCell;
+@property ( nonatomic ) BOOL isInCell;
 
 @end
 
@@ -191,20 +191,20 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 @synthesize curCell = _curCell;
 
 
-- (id) initWithGrid: (GDGrid *) grid {
+- ( id ) initWithGrid: ( GDGrid * ) grid {
     _thisGrid = grid;
     
-    GDMainWindow *thisWindow = [[GDMainWindow alloc] initWithGDGrid: grid];
-    [thisWindow setWindowController: self];
-    self = [super initWithWindow: thisWindow];
-    if (self != nil) {
-        [self listenToNotifications];
+    GDMainWindow *thisWindow = [ [ GDMainWindow alloc ] initWithGDGrid: grid ];
+    [ thisWindow setWindowController: self ];
+    self = [ super initWithWindow: thisWindow ];
+    if ( self != nil ) {
+        [ self listenToNotifications ];
     }
     return self;
 }
 
 
-- (void) reinitWindow: (NSNotification *) note {
+- ( void ) reinitWindow: ( NSNotification * ) note {
     // destroy previous window
     NSInteger prevWindowLevel = self.window.level;
     self.window = nil;
@@ -372,40 +372,40 @@ extern NSString * const GDMainWindowGridUniversalDimensionsChanged;
 @implementation GDMainWindow
 
 
-- (id) initWithGDGrid: (GDGrid *)grid {
+- ( id ) initWithGDGrid: ( GDGrid * )grid {
     
-    NSRect contentFrame = [grid getMainWindowFrame];
+    NSRect contentFrame = [ grid getMainWindowFrame ];
 
-    self = [super initWithContentRect: contentFrame
-                            styleMask: NSBorderlessWindowMask
-                              backing: NSBackingStoreBuffered
-                                defer: NO];
-    if (self != nil) {
+    self = [ super initWithContentRect: contentFrame
+                             styleMask: NSBorderlessWindowMask
+                               backing: NSBackingStoreBuffered
+                                 defer: NO ];
+    if ( self != nil ) {
         // window setup
         self.styleMask = NSBorderlessWindowMask;
         self.hasShadow = YES;
         self.opaque = NO;
         self.backgroundColor = [NSColor clearColor];
         self.level = NSFloatingWindowLevel;
-
-        [self setContentView: [[GDMainWindowMainView alloc] initWithGDGrid: grid]];
+        self.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces;
+        self.contentView = [ [ GDMainWindowMainView alloc ] initWithGDGrid: grid ];
     }
 
     return self;
 }
 
 
-- (void) mouseDown: (NSEvent *) theEvent {
-    [self.windowController windowFocused: nil];
+- ( void ) mouseDown: ( NSEvent * ) theEvent {
+    [ self.windowController windowFocused: nil ];
 }
 
 
-- (BOOL) canBecomeKeyWindow {
+- ( BOOL ) canBecomeKeyWindow {
     return YES;
 }
 
 
-- (BOOL) canBecomeMainWindow {
+- ( BOOL ) canBecomeMainWindow {
     return YES;
 }
 

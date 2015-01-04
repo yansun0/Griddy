@@ -549,3 +549,22 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 @end
+
+
+
+
+
+@implementation GDStatusPopoverPreferenceView
+
+- ( BOOL ) acceptsFirstMouse: ( NSEvent * ) theEvent {
+    return YES;
+}
+
+- ( BOOL ) acceptsFirstResponder {
+    return YES;
+}
+
+@end
+
+
+

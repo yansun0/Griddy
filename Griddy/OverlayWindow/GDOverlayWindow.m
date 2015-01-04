@@ -50,7 +50,7 @@ static NSRect defaultOverlayFrame;
            BehindMainWindow: ( NSWindow * ) mainWindow {
     [ self.window setFrame: newFrame
                    display: YES
-                   animate: YES ];
+                   animate: NO ];
     [ self.window orderWindow: NSWindowBelow
                    relativeTo: mainWindow.windowNumber ];
     [ NSApp activateIgnoringOtherApps: YES ];
@@ -96,7 +96,8 @@ static NSRect defaultOverlayFrame;
         self.opaque = NO;
         self.hasShadow = NO;
         self.backgroundColor = [ NSColor clearColor ];
-        [ self setContentView: [ [ GDOverlayWindowViewWrapper alloc ] initWithFrame: contentRect ] ];
+        self.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces;
+        self.contentView = [ [ GDOverlayWindowViewWrapper alloc ] initWithFrame: contentRect ];
     }
     return self;
 }

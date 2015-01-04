@@ -237,11 +237,7 @@ extern NSString * const GDAppearanceModeChanged;
 
 
 - (void) mouseExited: (NSEvent *) theEvent {
-    NSPoint mousePos = [NSEvent mouseLocation];
-    
-    NSRect frameRelativeToWindow = [self convertRect: self.bounds toView: nil];
-    NSRect frameRelativeToScreen = [self.window convertRectToScreen: frameRelativeToWindow];
-    if (CGRectContainsPoint(frameRelativeToScreen, mousePos) == NO) {
+    if ( isMouseDown == NO ) {
         [[self.window windowController] clearCurCellPosition];
     }
 }
@@ -378,10 +374,6 @@ extern NSString * const GDAppearanceModeChanged;
     [super mouseUp: theEvent];
 }
 
-
-- (void) mouseExited: (NSEvent *)theEvent {
-    [super mouseExited: theEvent];
-}
 
 
 - (BOOL) acceptsFirstMouse: (NSEvent *)theEvent {
