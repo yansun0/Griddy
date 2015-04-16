@@ -8,14 +8,8 @@
 #import "GDMainWindow.h"
 #import "GDMainWindowView.h"
 
-#import "GDUtils.h"
-
-#import "GDScreen.h"
 #import "GDGrid.h"
-#import "GDAssets.h"
-
-
-extern NSString * const GDAppearanceModeChanged;
+#import "GDUtils.h"
 
 
 
@@ -25,62 +19,31 @@ extern NSString * const GDAppearanceModeChanged;
 #pragma mark - GDMainWindowMainView
 // ----------------------------------
 
-@interface GDMainWindowMainView() {
-    GDMainWindowAppInfoViewController *_appInfoViewController;
-    GDMainWindowCellCollectionView *_cellCollectionView;
-}
+@interface GDMainWindowView()
+
+@property ( strong, nonatomic ) GDMainWindowAppInfoViewController *appInfo;
+@property ( strong, nonatomic ) GDMainWindowCellCollectionView *cellCollection;
+
 @end
 
 
+@implementation GDMainWindowView
 
-@implementation GDMainWindowMainView
-
-- ( id ) initWithGDGrid: ( GDGrid * ) grid {
-    self = [ super initWithFrame: [ grid getMainWindowFrame ] ];
+- ( id ) initWithGrid: ( GDGrid * ) grid {
+    self = [ super initWithGrid: grid ];
     
     if ( self != nil ) {
-        // setup self
-        self.wantsLayer = YES;
-        self.layer.frame = self.frame;
-        self.layer.cornerRadius = 15.0;
-        self.layer.masksToBounds = YES;
-        
-        // setup border
-        self.layer.borderWidth = 1.0f;
-        self.layer.borderColor = [ [ GDAssets getWindowBorder ] CGColor ];
-        
-        // setup vibrancy
-        self.material = [ GDAssets getWindowMaterial ];
-        self.blendingMode = NSVisualEffectBlendingModeBehindWindow;
-        self.state = NSVisualEffectStateActive;
-        
-        // setup app info view
-        _appInfoViewController = [ [ GDMainWindowAppInfoViewController alloc ] initWithGDGrid: grid ];
-        [ self addSubview: _appInfoViewController.view ];
+        self.appInfo = [ [ GDMainWindowAppInfoViewController alloc ] initWithGrid: grid ];
+        [ self addSubview: self.appInfo.view ];
         
         // setup cell views
-        _cellCollectionView = [ [ GDMainWindowCellCollectionView alloc ] initWithGDGrid: grid ];
-        [ self addSubview: _cellCollectionView ];
-
-        [ [ NSNotificationCenter defaultCenter ] addObserver: self
-                                                    selector: @selector( onAppearanceModeChanged: )
-                                                        name: GDAppearanceModeChanged
-                                                      object: nil ];
+        self.cellCollection = [ [ GDMainWindowCellCollectionView alloc ] initWithGrid: grid ];
+        [ self addSubview: self.cellCollection ];
     }
     
     return self;
 }
 
-
-- ( void ) onAppearanceModeChanged: ( NSNotification * ) note {
-    self.material = [ GDAssets getWindowMaterial ];
-    self.layer.borderColor = [ [ GDAssets getWindowBorder ] CGColor ];
-}
-
-
-- ( void ) dealloc {
-    [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
-}
 
 @end
 
@@ -96,12 +59,12 @@ extern NSString * const GDAppearanceModeChanged;
 
 @implementation GDMainWindowAppInfoViewController
 
-- ( id ) initWithGDGrid: ( GDGrid * ) grid {
+- ( id ) initWithGrid: ( GDGrid * ) grid {
     self = [ super initWithNibName: nil
                             bundle: nil ];
     
     if ( self != nil ) {
-        GDMainWindowAppInfoView *appInfoView = [ [ GDMainWindowAppInfoView alloc ] initWithGDGrid: grid ];
+        GDMainWindowAppInfoView *appInfoView = [ [ GDMainWindowAppInfoView alloc ] initWithGrid: grid ];
         self.view = appInfoView;
     }
     return self;
@@ -116,65 +79,19 @@ extern NSString * const GDAppearanceModeChanged;
 @end
 
 
-
 // view
-
-@interface GDMainWindowAppInfoView() {
-    NSImageView *_appIconView;
-    NSTextField *_appNameView;
-    NSRunningApplication *_curApp;
-}
-@end
-
 
 @implementation GDMainWindowAppInfoView
 
-- ( id ) initWithGDGrid: ( GDGrid * ) grid {
-    self = [ super initWithFrame: [ grid getAppInfoFrame ] ];
-    
-    if ( self != nil ) {
-        _appIconView = [ [ NSImageView alloc ] initWithFrame: [ grid getAppIconFrame ] ];
-        _appIconView.imageScaling = NSImageScaleAxesIndependently;
-        [ self addSubview: _appIconView ];
-        
-        _appNameView = [ [ NSTextField alloc ] initWithFrame: [ grid getAppNameFrame ] ];
-        _appNameView.bezeled = NO;
-        _appNameView.drawsBackground = NO;
-        _appNameView.editable = NO;
-        _appNameView.selectable = NO;
-        _appNameView.textColor = [ GDAssets getTextColor ];
-        [ self addSubview: _appNameView ];
-    
-        [ [ NSNotificationCenter defaultCenter ] addObserver: self
-                                                    selector: @selector( onAppearanceModeChanged: )
-                                                        name: GDAppearanceModeChanged
-                                                      object: nil ];
-    }
-    
-    return self;
-}
-
-
-- ( void ) dealloc {
-    [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
-}
-
-
 - ( void ) newApp: ( NSRunningApplication * ) newApp {
-    if ( ![ _curApp isEqualTo: newApp ] ) {
-        // icon
-        _appIconView.image = newApp.icon;
+    if ( ![ self.curApp isEqualTo: newApp ] ) {
+        self.appIcon.image = newApp.icon;
         
-        // name
-        _appNameView.stringValue = newApp.localizedName;
-        [ _appNameView sizeToFit ];
-        _curApp = newApp;
+        self.appName.stringValue = newApp.localizedName;
+        [ self.appName sizeToFit ];
+        
+        self.curApp = newApp;
     }
-}
-
-
-- ( void ) onAppearanceModeChanged: ( NSNotification * ) note {
-    _appNameView.textColor = [ GDAssets getTextColor ];
 }
 
 @end
@@ -187,33 +104,25 @@ extern NSString * const GDAppearanceModeChanged;
 #pragma mark - GDMainWindowCellCollectionView
 // ----------------------------------
 
-@interface GDMainWindowCellCollectionView() {
-    BOOL isMouseDown;
-    NSTrackingArea *_trackingArea;
-}
-@end
-
-
-
 @implementation GDMainWindowCellCollectionView
 
 
 #pragma mark - INITIALIZATION
 
-- (id) initWithGDGrid: (GDGrid *) grid {
-    self = [super initWithFrame: [grid getCellCollectionRectFrame]];
+- ( id ) initWithGrid: ( GDGrid * ) grid {
+    self = [ super initWithFrame: [ grid getCellCollectionRectFrame ] ];
     
-    if (self != nil) {
-        isMouseDown = NO;
+    if ( self != nil ) {
+        self.isMouseDown = NO;
 
         // setup cells views
-        for (NSInteger i = 0; i < (NSUInteger)grid.numCell.width; i++) {
-            for (NSInteger j = 0; j < (NSUInteger)grid.numCell.height; j++) {
-                NSRect cellFrame = [grid getCellViewFrameForCellX:i Y:j];
-                NSView *cellFrameView = [[GDCellView alloc] initWithFrame: cellFrame
-                                                             andPositionX: i
-                                                             andPositionY: j];
-                [self addSubview: cellFrameView];
+        for ( NSInteger i = 0; i < ( NSUInteger ) grid.numCell.width; i++ ) {
+            for ( NSInteger j = 0; j < ( NSUInteger ) grid.numCell.height; j++ ) {
+                NSRect cellFrame = [ grid getCellViewFrameForCellX: i Y: j ];
+                NSView *cellFrameView = [ [ GDCellView alloc ] initWithFrame: cellFrame
+                                                                andPositionX: i
+                                                                andPositionY: j ];
+                [ self addSubview: cellFrameView ];
             }
         }
     }
@@ -225,57 +134,58 @@ extern NSString * const GDAppearanceModeChanged;
 
 #pragma mark - EVENTS
 
-- (void) mouseDown: (NSEvent *) theEvent {
-    isMouseDown = YES;
+- ( void ) mouseDown: ( NSEvent *) theEvent {
+    self.isMouseDown = YES;
     [self.window mouseDown: theEvent];
 }
 
 
-- (void) mouseUp: (NSEvent *) theEvent {
-    isMouseDown = NO;
+- ( void ) mouseUp: ( NSEvent * ) theEvent {
+    self.isMouseDown = NO;
 }
 
 
-- (void) mouseExited: (NSEvent *) theEvent {
-    if ( isMouseDown == NO ) {
-        [[self.window windowController] clearCurCellPosition];
+- ( void ) mouseExited: ( NSEvent * ) theEvent {
+    if ( self.isMouseDown == NO ) {
+        [ [ self.window windowController ] clearCurCellPosition ];
     }
 }
 
 
-- (void) mouseDragged: (NSEvent *) theEvent {
-    if (isMouseDown == NO) {    // don't care if mouse didn't come down
-        return;                 // on one of this view's subviews
+- ( void ) mouseDragged: ( NSEvent * ) theEvent {
+    if ( self.isMouseDown == NO ) {    // don't care if mouse didn't come down
+        return;                        // on one of this view's subviews
     }
     
-    NSPoint mousePos = [NSEvent mouseLocation];
-    NSRect frameRelativeToWindow = [self convertRect:self.bounds toView: nil];
-    NSRect frameRelativeToScreen = [self.window convertRectToScreen: frameRelativeToWindow];
-    if (CGRectContainsPoint(frameRelativeToScreen, mousePos)) {
+    NSPoint mousePos = [ NSEvent mouseLocation ];
+    NSRect frameRelativeToWindow = [ self convertRect: self.bounds toView: nil ];
+    NSRect frameRelativeToScreen = [ self.window convertRectToScreen: frameRelativeToWindow ];
+    if ( CGRectContainsPoint( frameRelativeToScreen, mousePos ) ) {
         return;
     }
     
-    NSArray *cellSubViews = [self subviews];
+    NSArray *cellSubViews = [ self subviews ];
     GDCellView *curClosestCellView;
     CGFloat closestDistance = CGFLOAT_MAX;
-    for (NSInteger i = 0; i < [cellSubViews count]; i++) {
-        GDCellView *curView = [cellSubViews objectAtIndex: i];
-        if ([curView isKindOfClass: [GDCellView class]] == NO) {
+    for ( NSInteger i = 0; i < [ cellSubViews count ]; i++ ) {
+        GDCellView *curView = [ cellSubViews objectAtIndex: i ];
+        if ( [ curView isKindOfClass: [GDCellView class ] ] == NO ) {
             continue;
         }
         
-        CGRect frameRelativeToScreen = [[curView window] convertRectToScreen: [curView frame]];
-        CGPoint curViewCenter = CGPointMake(CGRectGetMidX(frameRelativeToScreen), CGRectGetMidY(frameRelativeToScreen));
-        CGFloat xDist = (curViewCenter.x - mousePos.x);
-        CGFloat yDist = (curViewCenter.y - mousePos.y);
-        CGFloat distance = sqrt((xDist * xDist) + (yDist * yDist));
+        CGRect frameRelativeToScreen = [ [ curView window ] convertRectToScreen: [ curView frame ] ];
+        CGPoint curViewCenter = CGPointMake( CGRectGetMidX( frameRelativeToScreen ), CGRectGetMidY( frameRelativeToScreen ) );
+        CGFloat xDist = ( curViewCenter.x - mousePos.x );
+        CGFloat yDist = ( curViewCenter.y - mousePos.y );
+        CGFloat distance = sqrt( ( xDist * xDist ) + ( yDist * yDist ) );
         
-        if (distance < closestDistance) {
+        if ( distance < closestDistance ) {
             closestDistance = distance;
             curClosestCellView = curView;
         }
     }
-    [curClosestCellView mouseEntered: theEvent];
+    
+    [ curClosestCellView mouseEntered: theEvent ];
 }
 
 
@@ -285,98 +195,63 @@ extern NSString * const GDAppearanceModeChanged;
 
 
 
-// ----------------------------------
+// -----------------------
 #pragma mark - GDCellView
-// ----------------------------------
-
+// -----------------------
 
 @implementation GDCellView
 
 
-@synthesize viewPosition = _viewPosition;
-
-
-- (id) initWithFrame: (NSRect) frame
-        andPositionX: (NSInteger) x
-        andPositionY: (NSInteger) y {
-    _viewPosition = NSMakePoint(x, y);
-    return [self initWithFrame: frame];
+- ( id ) initWithFrame: ( NSRect ) frame
+          andPositionX: ( NSInteger ) x
+          andPositionY: ( NSInteger ) y {
+    self.viewPosition = NSMakePoint( x, y );
+    return [ self initWithFrame: frame ];
 }
 
 
-- (id) initWithFrame: (NSRect) frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        NSTrackingArea* trackingArea = [[NSTrackingArea alloc] initWithRect: [self bounds]
-                                                                    options: (NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingEnabledDuringMouseDrag)
+- ( id ) initWithFrame: ( NSRect ) frame {
+    self = [ super initWithFrame: frame ];
+    
+    if ( self ) {
+        NSTrackingArea* trackingArea = [ [ NSTrackingArea alloc ] initWithRect: [ self bounds ]
+                                                                    options: ( NSTrackingMouseEnteredAndExited |
+                                                                               NSTrackingActiveAlways |
+                                                                               NSTrackingEnabledDuringMouseDrag )
                                                                       owner: self
-                                                                   userInfo: nil];
-        [self addTrackingArea: trackingArea];
-        
-        self.wantsLayer = YES;
-        self.layer.frame = self.frame;
-        
-        // setup rounded corners
-        self.layer.cornerRadius = 3.0f;
-        self.layer.masksToBounds = YES;
-        
-        // setup border
-        self.layer.borderWidth = 1.0f;
-        self.layer.borderColor = [[GDAssets getCellBorderBackground] CGColor];
-
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(onAppearanceModeChanged:)
-                                                     name: GDAppearanceModeChanged
-                                                   object: nil];
+                                                                   userInfo: nil ];
+        [ self addTrackingArea: trackingArea ];
     }
     
     return self;
 }
 
 
-- (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
-
-- (void) onAppearanceModeChanged: (NSNotification *) note {
-    self.layer.borderColor = [[GDAssets getCellBorderBackground] CGColor];
-}
-
-
-- (void) drawRect: (NSRect) dirtyRect {
-    [[GDAssets getCellBackground] set];
-    NSRectFill(dirtyRect);
-}
-
-
-
 #pragma mark - EVENTS
 
-- (void) mouseEntered: (NSEvent *) theEvent {
-    [[self.window windowController] setCurCellPosition: _viewPosition];
+- ( void ) mouseEntered: ( NSEvent * ) evt {
+    [ [ self.window windowController ] setCurCellPosition: self.viewPosition ];
     
     // show the hover window
-    BOOL leftMouseDown = (([NSEvent pressedMouseButtons] & (1 << 0))) != 0;
-    [[self.window windowController] setHoverCellPosition: _viewPosition
-                                           WithMouseDown: leftMouseDown];
+    BOOL leftMouseDown = ( ( [ NSEvent pressedMouseButtons ] & ( 1 << 0 ) ) ) != 0;
+    [ [ self.window windowController ] setHoverCellPosition: self.viewPosition
+                                              WithMouseDown: leftMouseDown ];
 }
 
 
-- (void) mouseDown: (NSEvent *) theEvent {
-    [[self.window windowController] setStartCellPosition: _viewPosition];
-    [super mouseDown: theEvent];
+- ( void ) mouseDown: ( NSEvent * ) evt {
+    [ [ self.window windowController ] setStartCellPosition: self.viewPosition ];
+    [ super mouseDown: evt ];
 }
 
 
-- (void) mouseUp: (NSEvent *) theEvent {
-    [[self.window windowController] setEndCellPosition: _viewPosition];
-    [super mouseUp: theEvent];
+- ( void ) mouseUp: ( NSEvent * ) evt {
+    [ [ self.window windowController ] setEndCellPosition: self.viewPosition ];
+    [ super mouseUp: evt ];
 }
 
 
-
-- (BOOL) acceptsFirstMouse: (NSEvent *)theEvent {
+- ( BOOL ) acceptsFirstMouse: ( NSEvent * ) evt {
     return YES;
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "GDAppDelegate.h"
+#import "GDApp.h"
 
 #import "GDMainWindow.h"
 #import "GDOverlayWindow.h"
@@ -60,7 +61,7 @@ static BOOL isDockVisible;
 
 
 - (void) applicationWillTerminate: (NSNotification *) note {
-    [ [ GDMainWindowControllers get ] hideWindows ];
+    [ [ GDApp get ] hideWindows ];
     [ [ GDStatusItemController get ] hideStatusItem ];
 }
 
@@ -84,7 +85,7 @@ static BOOL isDockVisible;
 
 
 - ( void ) applicationDidChangeScreenParameters: ( NSNotification * ) note {
-    [ [ GDMainWindowControllers get ] updateScreensAndControllers ];
+    [ [ GDApp get ] updateScreensAndControllers ];
 }
 
 
@@ -99,7 +100,7 @@ static BOOL isDockVisible;
 // started from the dock and now i'm here
 - ( BOOL ) applicationShouldHandleReopen: ( NSApplication * ) sender
                     hasVisibleWindows: ( BOOL ) flag {
-    [ [ GDMainWindowControllers get ] toggleWindowState ];
+    [ [ GDApp get ] toggleWindowState ];
     return NO;
 }
 
@@ -136,7 +137,7 @@ static BOOL isDockVisible;
 
 
 - ( void ) setAllWindowHiding: ( BOOL ) canHide {
-    [ [ GDMainWindowControllers get ] canHide: canHide ];
+    [ [ GDApp get ] canHide: canHide ];
     [ [ GDOverlayWindowController get ] canHide: canHide ];
 }
 
@@ -152,7 +153,7 @@ static BOOL isDockVisible;
     [ MASShortcut setGlobalShortcut: shortcut1
                  forUserDefaultsKey: LaunchKeyShortcut ];
     [ MASShortcut registerGlobalShortcutWithUserDefaultsKey: LaunchKeyShortcut
-                                                    handler: ^{ [ [ GDMainWindowControllers get ] toggleWindowState ]; }
+                                                    handler: ^{ [ [ GDApp get ] toggleWindowState ]; }
     ];
 
     // Cmd + H to force show dock and status item
@@ -170,7 +171,7 @@ static BOOL isDockVisible;
     [ NSEvent addLocalMonitorForEventsMatchingMask: NSKeyDownMask
                                            handler: ^NSEvent *( NSEvent *event ) {
                                                if ( event.keyCode == 53 ) {
-                                                   [ [ GDMainWindowControllers get ] hideWindows ];
+                                                   [ [ GDApp get ] hideWindows ];
                                                }
                                                return event;
                                            }

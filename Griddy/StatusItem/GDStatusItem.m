@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Sunnay. All rights reserved.
 //
 
+#import "GDApp.h"
 #import "GDStatusItem.h"
 #import "GDStatusPopoverMenuViewController.h"
 #import "GDStatusPopoverPreferenceViewController.h"
@@ -288,7 +289,7 @@ static BOOL isStatusItemVisible;
     if (_popover.isShown) {
         [self hidePopover];
     } else {
-        [ [ GDMainWindowControllers get ] toggleWindowState ];
+        [ [ GDApp get ] toggleWindowState ];
     }
 }
 
@@ -356,7 +357,7 @@ static BOOL isStatusItemVisible;
             [self hidePopover];
         }];
         
-        [ [ GDMainWindowControllers get ] hideWindows ];
+        [ [ GDApp get ] hideWindows ];
     }
 }
 

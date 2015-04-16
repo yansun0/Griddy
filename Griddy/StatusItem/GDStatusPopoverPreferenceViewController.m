@@ -10,7 +10,8 @@
 
 #import "GDStatusPopoverPreferenceViewController.h"
 #import "GDPreferences.h"
-#import "GDDemoMainWindow.h"
+#import "GDAppDemo.h"
+
 
 
 // preference keys
@@ -57,7 +58,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
     NSSize _GRID_DIM_SIZE;
 }
 
-@property (nonatomic) GDDemoController *demoController;
+@property (nonatomic) GDAppDemo *appDemo;
 @property (nonatomic) GDPreferencesChangesController *prefState;
 
 - (NSView *) viewForTag: (NSUInteger) tag;
@@ -69,7 +70,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 @implementation GDStatusPopoverPreferenceViewController
 
 
-@synthesize demoController = _demoController;
+@synthesize appDemo = _appDemo;
 @synthesize prefState = _prefState;
 
 
@@ -91,7 +92,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 
 
 - (void) cleanUp {
-    [self.demoController hideWindows];
+    [self.appDemo hideWindows];
 }
 
 
@@ -128,11 +129,11 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 }
 
 
-- (GDDemoController *) demoController {
-    if (_demoController == nil) {
-        _demoController = [[GDDemoController alloc] init];
+- (GDAppDemo *) appDemo {
+    if (_appDemo == nil) {
+        _appDemo = [[GDAppDemo alloc] init];
     }
-    return _demoController;
+    return _appDemo;
 }
 
 
@@ -157,15 +158,15 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 - (void) shouldShowDemoWindowsByTag: (NSUInteger) tag {
     BOOL showWindow = (tag == 1 || tag == 2);
     if (showWindow == YES) {
-        [self.demoController launchWindows];
+        [self.appDemo launchWindows];
     } else {
-        [self.demoController hideWindows];
+        [self.appDemo hideWindows];
     }
 }
 
 
 - (void) hideDemoWindows {
-    [self.demoController hideWindows];
+    [self.appDemo hideWindows];
 }
 
 
@@ -191,7 +192,7 @@ NSString * const GDStatusPopoverPreferenceViewChange = @"GDStatusPopoverPreferen
 - (IBAction) cancelChanges: (id) sender {
     // destory any unsaved changes
     [self.prefState clearChanges];
-    self.demoController = nil; // destory b/c grid might be dirty
+    self.appDemo = nil; // destory b/c grid might be dirty
     
     // re-get data, and setup ui
     [self setupDataFromUserDefaults];

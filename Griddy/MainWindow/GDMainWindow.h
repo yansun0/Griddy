@@ -7,72 +7,50 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class GDMainWindow;
+#import "GDMainWindowBase.h"
+
 @class GDGrid;
 @class GDScreen;
 
 
-// ----------------------------------
-#pragma mark - GDMainWindowControllers
-// ----------------------------------
 
-@interface GDMainWindowControllers : NSObject
-
-+ ( id ) get;
-
-- ( void ) showWindows;
-- ( void ) hideWindows;
-- ( void ) hideAllUnfocusedWindowsIncluding: ( NSWindow * ) curWindow;
-- ( void ) hideAllOtherWindowsExcluding: ( NSWindow * ) curWindow;
-- ( void ) toggleWindowState;
-
-- ( void ) updateScreensAndControllers;
-- ( void ) canHide: ( BOOL ) canWindowHide;
-
-@end
-
-
-
-// ----------------------------------
+// -----------------------------------
 #pragma mark - GDMainWindowController
-// ----------------------------------
+// -----------------------------------
 
-@interface GDMainWindowController : NSWindowController
+@interface GDMainWindowController : GDMainWindowBaseController
 
-@property (strong, nonatomic) GDGrid *thisGrid;
+@property ( strong, nonatomic ) GDGrid *grid;
+@property ( nonatomic ) NSPoint startCell;
+@property ( nonatomic ) NSPoint curCell;
+@property ( nonatomic ) BOOL isInCell;
 
-- (id) initWithGrid: (GDGrid *)grid;
+- ( id ) initWithGrid: ( GDGrid * ) grid;
 
-// app delegate callbacks
-- (void) showWindow: (id) sender;
-- (void) showWindow: (id) sender
-  BehindWindowLevel: (NSInteger) topWindowNumber;
-- (void) hideWindow;
-- (BOOL) isWindowFocused;
-- ( void ) canHide: ( BOOL ) canWindowHide;
+- ( void ) showWindow: ( id ) sender;
+- ( BOOL ) isWindowFocused;
 - ( BOOL ) hasSameGDScreen: ( GDScreen * ) screen;
 
-// window callbacks
-- (void) windowFocused: (NSNotification *)note;
-- (void) windowUnfocused: (NSNotification *)note;
+- ( void ) windowFocused: ( NSNotification * ) note;
+- ( void ) windowUnfocused: ( NSNotification * ) note;
 
-// cell view callbacks
-- (void) setStartCellPosition: (NSPoint)pos;
-- (void) setCurCellPosition: (NSPoint)pos;
-- (void) clearCurCellPosition;
-- (void) setEndCellPosition: (NSPoint)pos;
-- (void) setHoverCellPosition: (NSPoint)pos
-                WithMouseDown: (BOOL)isDown;
+- ( void ) setStartCellPosition: ( NSPoint ) pos;
+- ( void ) setCurCellPosition: ( NSPoint ) pos;
+- ( void ) clearCurCellPosition;
+- ( void ) setEndCellPosition: ( NSPoint ) pos;
+- ( void ) setHoverCellPosition: ( NSPoint ) pos
+                  WithMouseDown: ( BOOL ) isDown;
+
 @end
 
 
 
-// ----------------------------------
+// -------------------------
 #pragma mark - GDMainWindow
-// ----------------------------------
+// -------------------------
 
-@interface GDMainWindow : NSWindow
+@interface GDMainWindow : GDMainWindowBase
 
-- (id) initWithGDGrid: (GDGrid *)grid;
+- (id) initWithGrid: ( GDGrid * )grid;
 
 @end
