@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GDStatusPopoverPreferenceViewController">
@@ -90,7 +90,7 @@
             </subviews>
             <point key="canvasLocation" x="437" y="359"/>
         </customView>
-        <customView id="TuJ-70-68I" userLabel="windowsView">
+        <customView id="TuJ-70-68I" userLabel="windowsView" customClass="GDStatusPopoverPreferenceView">
             <rect key="frame" x="0.0" y="0.0" width="370" height="220"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -202,7 +202,7 @@
             </subviews>
             <point key="canvasLocation" x="0.0" y="-38.5"/>
         </customView>
-        <customView id="ZwU-to-T61" userLabel="gridVIew">
+        <customView id="ZwU-to-T61" userLabel="gridVIew" customClass="GDStatusPopoverPreferenceView">
             <rect key="frame" x="0.0" y="0.0" width="370" height="220"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -260,7 +260,7 @@
             </subviews>
             <point key="canvasLocation" x="0.0" y="316"/>
         </customView>
-        <customView id="uSB-O0-q9K" userLabel="miscView">
+        <customView id="uSB-O0-q9K" userLabel="miscView" customClass="GDStatusPopoverPreferenceView">
             <rect key="frame" x="0.0" y="-1" width="370" height="220"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>

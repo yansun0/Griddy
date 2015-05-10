@@ -7,17 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GDMainWindowBaseView.h"
+
 @class GDGrid;
 
 
 
 // ----------------------------------
-#pragma mark - GDMainWindowMainView
+#pragma mark - GDMainWindowView
 // ----------------------------------
 
-@interface GDMainWindowMainView : NSVisualEffectView
+@interface GDMainWindowView : GDMainWindowBaseView
 
-- ( id ) initWithGDGrid: ( GDGrid * ) grid;
+- ( id ) initWithGrid: ( GDGrid * ) grid;
 
 @end
 
@@ -28,14 +30,15 @@
 // ----------------------------------
 @interface GDMainWindowAppInfoViewController : NSViewController
 
-- ( id ) initWithGDGrid: ( GDGrid * ) grid;
+- ( id ) initWithGrid: ( GDGrid * ) grid;
 
 @end
 
 
-@interface GDMainWindowAppInfoView : NSView
+@interface GDMainWindowAppInfoView : GDMainWindowBaseAppInfoView
 
-- ( id ) initWithGDGrid: ( GDGrid * ) grid;
+@property ( strong, nonatomic ) NSRunningApplication *curApp;
+
 - ( void ) newApp: ( NSRunningApplication * ) newApp;
 
 @end
@@ -48,7 +51,10 @@
 
 @interface GDMainWindowCellCollectionView : NSView
 
-- (id) initWithGDGrid: (GDGrid *)grid;
+@property ( strong, nonatomic ) NSTrackingArea *trackingArea;
+@property ( nonatomic ) BOOL isMouseDown;
+
+- ( id ) initWithGrid: ( GDGrid * ) grid;
 
 @end
 
@@ -58,10 +64,12 @@
 #pragma mark - GDCellView
 // ----------------------------------
 
-@interface GDCellView : NSView
+@interface GDCellView : GDCellViewBase
 
 @property NSPoint viewPosition;
-- (id)initWithFrame: (NSRect)frame
-       andPositionX: (NSInteger)x
-       andPositionY: (NSInteger)y;
+
+- ( id ) initWithFrame: ( NSRect ) frame
+          andPositionX: ( NSInteger ) x
+          andPositionY: ( NSInteger ) y;
+
 @end

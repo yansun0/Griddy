@@ -7,31 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GDGridBase.h"
 @class GDScreen;
 
-@interface GDGrid : NSObject
 
-@property (nonatomic) GDScreen *thisGDScreen;
-@property (nonatomic) NSSize numCell;
-@property (nonatomic) NSRect gridInfo;
-@property (nonatomic) NSSize cellSize;
+@interface GDGrid : GDGridBase
 
-- (id) initWithGDScreen: (GDScreen *)screen;
-- (void) reinitWithGDScreen: (GDScreen *)newScreen;
-- (void) setupGridParams;
-
-- (NSRect) getMainWindowFrame;
-- (NSRect) getAppInfoFrame;
-- (NSRect) getAppIconFrame;
-- (NSRect) getAppNameFrame;
-- (NSRect) getCellCollectionRectFrame;
-- (NSRect) getCellViewFrameForCellX: (NSInteger)x
-                                  Y: (NSInteger)y;
-- (NSRect) getAppWindowBoundsStringFromCell1: (NSPoint)cell1
-                                     ToCell2: (NSPoint)cell2;
-- (NSRect) getAppWindowFrameFromCell1: (NSPoint)cell1
-                              ToCell2: (NSPoint)cell2;
-- (NSRect) getOverlayWindowFrameFromCell1: (NSPoint)cell1;
-- (NSRect) getOverlayWindowFrameFromCell1: (NSPoint)cell1
-                                  ToCell2: (NSPoint)cell2;
+- ( NSRect ) getAppWindowBoundsStringFromCell1: ( NSPoint ) cell1
+                                       ToCell2: ( NSPoint ) cell2;
+- ( NSRect ) getAppWindowFrameFromCell1: ( NSPoint ) cell1
+                                ToCell2: ( NSPoint ) cell2;
+- ( NSRect ) getOverlayWindowFrameFromCell1: ( NSPoint ) cell1;
+- ( NSRect ) getOverlayWindowFrameFromCell1: ( NSPoint ) cell1
+                                    ToCell2: ( NSPoint ) cell2;
 @end

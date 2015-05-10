@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C1710D91AAC12B7005A1FC5 /* GDGridBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1710D81AAC12B7005A1FC5 /* GDGridBase.m */; };
 		2C1BC28619689B2100125DAB /* GDScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BC28519689B2100125DAB /* GDScreen.m */; };
 		2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */; };
+		2C4271D01AFF13D900832F62 /* GDMainWindowDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4271CF1AFF13D900832F62 /* GDMainWindowDemo.m */; };
+		2C4271D31AFF169300832F62 /* GDMainWindowDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4271D21AFF169300832F62 /* GDMainWindowDemoView.m */; };
+		2C4271D61AFF373300832F62 /* GDMainWindowBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4271D51AFF373300832F62 /* GDMainWindowBase.m */; };
+		2C4271D91AFFE85C00832F62 /* GDMainWindowBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4271D81AFFE85C00832F62 /* GDMainWindowBaseView.m */; };
 		2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C49CDF719A8780D003E0FB6 /* GDPreferences.m */; };
 		2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8B1966553D001398D9 /* GDMainWindow.m */; };
 		2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B5E8E19665662001398D9 /* GDGrid.m */; };
 		2C68D96619A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C68D96519A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m */; };
 		2C68D97019A471850095C7D8 /* GDStatusPopoverMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C68D96F19A471850095C7D8 /* GDStatusPopoverMenuView.xib */; };
-		2C879FD019C6834D00EA9E60 /* GDDemoMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */; };
 		2C9D55FF195A5FAB00588507 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D55FD195A5FAB00588507 /* InfoPlist.strings */; };
 		2C9D5601195A5FAB00588507 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D5600195A5FAB00588507 /* main.m */; };
 		2C9D5605195A5FAB00588507 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D5603195A5FAB00588507 /* Credits.rtf */; };
@@ -29,13 +33,15 @@
 		2CB4E00E19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CB4E00D19C2C06800A52E54 /* GDStatusPopoverPreferenceView.xib */; };
 		2CC766421A0F17610000D532 /* GDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC766411A0F17610000D532 /* GDUtils.m */; };
 		2CC766451A0F2C600000D532 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C9D55F4195A5FAB00588507 /* Cocoa.framework */; };
+		2CD2815C1ADF7A48007F68D0 /* GDGridDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2815B1ADF7A48007F68D0 /* GDGridDemo.m */; };
 		2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4C55519A3046700A0528D /* GDStatusItem.m */; };
 		2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08E6199F138C00433AF3 /* MASShortcut.m */; };
 		2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */; };
 		2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */; };
+		2CDF6FEA1AF86BC3008BC430 /* GDApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF6FE91AF86BC3008BC430 /* GDApp.m */; };
+		2CDF6FF01AF86E77008BC430 /* GDAppDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF6FEF1AF86E77008BC430 /* GDAppDemo.m */; };
 		2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */; };
 		2CE803EB1A199967007D8449 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CC766431A0F1DB70000D532 /* Carbon.framework */; };
-		2CEF121419C80C4B00EE8634 /* GDDemoGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,10 +55,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C1710D71AAC12B7005A1FC5 /* GDGridBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDGridBase.h; path = Models/GDGridBase.h; sourceTree = "<group>"; };
+		2C1710D81AAC12B7005A1FC5 /* GDGridBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDGridBase.m; path = Models/GDGridBase.m; sourceTree = "<group>"; };
 		2C1BC28419689B2100125DAB /* GDScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDScreen.h; path = Models/GDScreen.h; sourceTree = "<group>"; };
 		2C1BC28519689B2100125DAB /* GDScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDScreen.m; path = Models/GDScreen.m; sourceTree = "<group>"; };
 		2C3E4A0D198DA35F00489600 /* GDOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDOverlayWindow.h; path = OverlayWindow/GDOverlayWindow.h; sourceTree = "<group>"; };
 		2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDOverlayWindow.m; path = OverlayWindow/GDOverlayWindow.m; sourceTree = "<group>"; };
+		2C4271CE1AFF13D800832F62 /* GDMainWindowDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowDemo.h; path = MainWindow/GDMainWindowDemo.h; sourceTree = "<group>"; };
+		2C4271CF1AFF13D900832F62 /* GDMainWindowDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowDemo.m; path = MainWindow/GDMainWindowDemo.m; sourceTree = "<group>"; };
+		2C4271D11AFF169300832F62 /* GDMainWindowDemoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowDemoView.h; path = MainWindow/GDMainWindowDemoView.h; sourceTree = "<group>"; };
+		2C4271D21AFF169300832F62 /* GDMainWindowDemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowDemoView.m; path = MainWindow/GDMainWindowDemoView.m; sourceTree = "<group>"; };
+		2C4271D41AFF373300832F62 /* GDMainWindowBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowBase.h; path = MainWindow/GDMainWindowBase.h; sourceTree = "<group>"; };
+		2C4271D51AFF373300832F62 /* GDMainWindowBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowBase.m; path = MainWindow/GDMainWindowBase.m; sourceTree = "<group>"; };
+		2C4271D71AFFE85C00832F62 /* GDMainWindowBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowBaseView.h; path = MainWindow/GDMainWindowBaseView.h; sourceTree = "<group>"; };
+		2C4271D81AFFE85C00832F62 /* GDMainWindowBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowBaseView.m; path = MainWindow/GDMainWindowBaseView.m; sourceTree = "<group>"; };
 		2C49CDF619A8780D003E0FB6 /* GDPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDPreferences.h; path = StatusItem/GDPreferences.h; sourceTree = "<group>"; };
 		2C49CDF719A8780D003E0FB6 /* GDPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDPreferences.m; path = StatusItem/GDPreferences.m; sourceTree = "<group>"; };
 		2C4B5E8A1966553D001398D9 /* GDMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindow.h; path = MainWindow/GDMainWindow.h; sourceTree = "<group>"; };
@@ -62,8 +78,6 @@
 		2C68D96419A419BC0095C7D8 /* GDStatusPopoverMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusPopoverMenuViewController.h; path = StatusItem/GDStatusPopoverMenuViewController.h; sourceTree = "<group>"; };
 		2C68D96519A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusPopoverMenuViewController.m; path = StatusItem/GDStatusPopoverMenuViewController.m; sourceTree = "<group>"; };
 		2C68D96F19A471850095C7D8 /* GDStatusPopoverMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDStatusPopoverMenuView.xib; sourceTree = "<group>"; };
-		2C879FCE19C6834D00EA9E60 /* GDDemoMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDDemoMainWindow.h; path = MainWindow/GDDemoMainWindow.h; sourceTree = "<group>"; };
-		2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDDemoMainWindow.m; path = MainWindow/GDDemoMainWindow.m; sourceTree = "<group>"; };
 		2C9D55F1195A5FAB00588507 /* Griddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Griddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9D55F4195A5FAB00588507 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2C9D55F7195A5FAB00588507 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -90,6 +104,8 @@
 		2CC766401A0F17610000D532 /* GDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDUtils.h; sourceTree = "<group>"; };
 		2CC766411A0F17610000D532 /* GDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDUtils.m; sourceTree = "<group>"; };
 		2CC766431A0F1DB70000D532 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		2CD2815A1ADF7A48007F68D0 /* GDGridDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDGridDemo.h; path = Models/GDGridDemo.h; sourceTree = "<group>"; };
+		2CD2815B1ADF7A48007F68D0 /* GDGridDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDGridDemo.m; path = Models/GDGridDemo.m; sourceTree = "<group>"; };
 		2CD4C55419A3046700A0528D /* GDStatusItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDStatusItem.h; path = StatusItem/GDStatusItem.h; sourceTree = "<group>"; };
 		2CD4C55519A3046700A0528D /* GDStatusItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDStatusItem.m; path = StatusItem/GDStatusItem.m; sourceTree = "<group>"; };
 		2CDA08E5199F138C00433AF3 /* MASShortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASShortcut.h; path = MASShortcut/MASShortcut.h; sourceTree = "<group>"; };
@@ -98,10 +114,12 @@
 		2CDA08EA199F138C00433AF3 /* MASShortcut+UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+UserDefaults.m"; path = "MASShortcut/MASShortcut+UserDefaults.m"; sourceTree = "<group>"; };
 		2CDA08F5199F184B00433AF3 /* MASShortcut+Monitoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MASShortcut+Monitoring.h"; path = "MASShortcut/MASShortcut+Monitoring.h"; sourceTree = "<group>"; };
 		2CDA08F6199F184B00433AF3 /* MASShortcut+Monitoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MASShortcut+Monitoring.m"; path = "MASShortcut/MASShortcut+Monitoring.m"; sourceTree = "<group>"; };
+		2CDF6FE81AF86BC3008BC430 /* GDApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDApp.h; sourceTree = "<group>"; };
+		2CDF6FE91AF86BC3008BC430 /* GDApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDApp.m; sourceTree = "<group>"; };
+		2CDF6FEE1AF86E77008BC430 /* GDAppDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAppDemo.h; sourceTree = "<group>"; };
+		2CDF6FEF1AF86E77008BC430 /* GDAppDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDAppDemo.m; sourceTree = "<group>"; };
 		2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDMainWindowView.h; path = MainWindow/GDMainWindowView.h; sourceTree = "<group>"; };
 		2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDMainWindowView.m; path = MainWindow/GDMainWindowView.m; sourceTree = "<group>"; };
-		2CEF121219C80C4B00EE8634 /* GDDemoGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDDemoGrid.h; path = Models/GDDemoGrid.h; sourceTree = "<group>"; };
-		2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDDemoGrid.m; path = Models/GDDemoGrid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,10 +147,12 @@
 		2C1BC28719689B8A00125DAB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2C1710D71AAC12B7005A1FC5 /* GDGridBase.h */,
+				2C1710D81AAC12B7005A1FC5 /* GDGridBase.m */,
+				2CD2815A1ADF7A48007F68D0 /* GDGridDemo.h */,
+				2CD2815B1ADF7A48007F68D0 /* GDGridDemo.m */,
 				2C4B5E8D19665662001398D9 /* GDGrid.h */,
 				2C4B5E8E19665662001398D9 /* GDGrid.m */,
-				2CEF121219C80C4B00EE8634 /* GDDemoGrid.h */,
-				2CEF121319C80C4B00EE8634 /* GDDemoGrid.m */,
 				2C1BC28419689B2100125DAB /* GDScreen.h */,
 				2C1BC28519689B2100125DAB /* GDScreen.m */,
 			);
@@ -144,6 +164,10 @@
 			children = (
 				2CE63BD91972552B003A1EF2 /* GDMainWindowView.h */,
 				2CE63BDA1972552B003A1EF2 /* GDMainWindowView.m */,
+				2C4271D11AFF169300832F62 /* GDMainWindowDemoView.h */,
+				2C4271D21AFF169300832F62 /* GDMainWindowDemoView.m */,
+				2C4271D71AFFE85C00832F62 /* GDMainWindowBaseView.h */,
+				2C4271D81AFFE85C00832F62 /* GDMainWindowBaseView.m */,
 				2C3E4A0D198DA35F00489600 /* GDOverlayWindow.h */,
 				2C3E4A0E198DA35F00489600 /* GDOverlayWindow.m */,
 			);
@@ -289,10 +313,16 @@
 			children = (
 				2C9D5606195A5FAB00588507 /* GDAppDelegate.h */,
 				2C9D5607195A5FAB00588507 /* GDAppDelegate.m */,
+				2CDF6FE81AF86BC3008BC430 /* GDApp.h */,
+				2CDF6FE91AF86BC3008BC430 /* GDApp.m */,
+				2CDF6FEE1AF86E77008BC430 /* GDAppDemo.h */,
+				2CDF6FEF1AF86E77008BC430 /* GDAppDemo.m */,
 				2C4B5E8A1966553D001398D9 /* GDMainWindow.h */,
+				2C4271D41AFF373300832F62 /* GDMainWindowBase.h */,
+				2C4271D51AFF373300832F62 /* GDMainWindowBase.m */,
 				2C4B5E8B1966553D001398D9 /* GDMainWindow.m */,
-				2C879FCE19C6834D00EA9E60 /* GDDemoMainWindow.h */,
-				2C879FCF19C6834D00EA9E60 /* GDDemoMainWindow.m */,
+				2C4271CE1AFF13D800832F62 /* GDMainWindowDemo.h */,
+				2C4271CF1AFF13D900832F62 /* GDMainWindowDemo.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -406,23 +436,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CDA08F1199F138C00433AF3 /* MASShortcut+UserDefaults.m in Sources */,
+				2C1710D91AAC12B7005A1FC5 /* GDGridBase.m in Sources */,
 				2C4B5E8F19665662001398D9 /* GDGrid.m in Sources */,
+				2CD2815C1ADF7A48007F68D0 /* GDGridDemo.m in Sources */,
 				2CDA08EF199F138C00433AF3 /* MASShortcut.m in Sources */,
+				2C4271D31AFF169300832F62 /* GDMainWindowDemoView.m in Sources */,
 				2C9D5601195A5FAB00588507 /* main.m in Sources */,
+				2C4271D01AFF13D900832F62 /* GDMainWindowDemo.m in Sources */,
 				2C1BC28619689B2100125DAB /* GDScreen.m in Sources */,
 				2CD4C55619A3046700A0528D /* GDStatusItem.m in Sources */,
 				2CC766421A0F17610000D532 /* GDUtils.m in Sources */,
 				2CDA08F7199F184B00433AF3 /* MASShortcut+Monitoring.m in Sources */,
+				2CDF6FF01AF86E77008BC430 /* GDAppDemo.m in Sources */,
+				2CDF6FEA1AF86BC3008BC430 /* GDApp.m in Sources */,
 				2C49CDF819A8780D003E0FB6 /* GDPreferences.m in Sources */,
 				2C9D5608195A5FAB00588507 /* GDAppDelegate.m in Sources */,
 				2C4B5E8C1966553D001398D9 /* GDMainWindow.m in Sources */,
 				2C3E4A0F198DA35F00489600 /* GDOverlayWindow.m in Sources */,
-				2C879FD019C6834D00EA9E60 /* GDDemoMainWindow.m in Sources */,
 				2CB4E00A19C2939A00A52E54 /* GDStatusPopoverPreferenceViewController.m in Sources */,
 				2CE63BDB1972552B003A1EF2 /* GDMainWindowView.m in Sources */,
+				2C4271D61AFF373300832F62 /* GDMainWindowBase.m in Sources */,
 				2CA9765219A5B2EB000AA486 /* GDAssets.m in Sources */,
 				2C68D96619A419BC0095C7D8 /* GDStatusPopoverMenuViewController.m in Sources */,
-				2CEF121419C80C4B00EE8634 /* GDDemoGrid.m in Sources */,
+				2C4271D91AFFE85C00832F62 /* GDMainWindowBaseView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
